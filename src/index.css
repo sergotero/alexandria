@@ -1,0 +1,25 @@
+:root {
+  /* Fonts */
+  font-family: "Lato", sans-serif;;
+  line-height: 1.5;
+  font-weight: 400;
+
+    /* Dark theme */
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--smoke-grey);
+  
+  /* Colore scheme */
+  --chalk-grey: #1A1A1A;
+  --smoke-grey: #333333;
+  --light-grey: #B3B3B3;
+  --white: #FFFFFF;
+  --green: #00A99D;
+  --aubergine: #9E005D;
+  --gold-yellow: #FBB03B;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
