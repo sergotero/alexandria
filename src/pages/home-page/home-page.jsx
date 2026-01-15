@@ -1,10 +1,18 @@
+import "./home-page.css";
 import { MainLayout } from "../../components/layouts";
 import { TopBooksList } from "../../components/ui";
-import "./home-page.css";
+import * as BooksServices from "../../services/books-services";
 
 function HomePage() {
 
-  const topBooks = [];
+  const allBooks = BooksServices.getBooks();
+  
+  let randomNumbers = [];
+  for (let i = 0; i < 5; i++) {
+    const num = Math.floor(Math.random() * (1451 - 1) + 1);
+    randomNumbers.push(num);
+  }
+  let topBooks = allBooks.filter((b) => randomNumbers.includes(b.id_libro));
 
   return (
     <MainLayout>
