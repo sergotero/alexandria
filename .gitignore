@@ -26,4 +26,5 @@ dist-ssr
 # Temporal
 /public/alexandria.json
 /public/alexandria_full.json
+/public/alexandria_full_V1.json
 /public/complete-books.js

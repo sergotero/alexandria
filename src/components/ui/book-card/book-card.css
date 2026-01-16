@@ -1,0 +1,10 @@
+.BookCard.image-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.BookCard.image-wrapper > img{
+  width: 250px;
+}

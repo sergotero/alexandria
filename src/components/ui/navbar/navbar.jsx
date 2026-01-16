@@ -10,6 +10,9 @@ function Navbar() {
       </div>
       <ul>
         <li>
+          <Link to="/catalogue">Catalogue</Link>
+        </li>
+        <li>
           <Link to="/login">Login</Link>
         </li>
         <li>

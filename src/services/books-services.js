@@ -5,15 +5,12 @@ const http = axios.create({
   baseURL: "https://apibooks.com"
 });
 
-//Intercept the response from Open Library API and only returns the items (books)
-// http.interceptors.response.use(
-//   (response) => response.data,
-//   (error) => Promise.reject(error)
-// );
+//Intercept the responses from any API and only returns only the data
+http.interceptors.response.use(
+  (response) => response.data,
+  (error) => Promise.reject(error)
+);
 
-export const getBooks = async () => {
-  //The param projection is used to restrict the data of each Volume
-  const response = await http.get(`/all`);
-  const books = response.data;
-  return books;
-}
+export const getBooks = () => http.get(`/all`);
+
+export const getDetails = (id) => http.get(`/details/${id}`);

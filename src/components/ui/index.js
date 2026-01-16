@@ -1,2 +1,6 @@
 export { default as Navbar } from "./navbar/navbar";
-export {default as TopBooksList} from "./lists/top-books-list/top-books-list";
+export { default as BooksList } from "./books-list/books-list";
+export { default as BookCard } from "./book-card/book-card";
+export { default as LoginForm } from "./forms/login-form";
+export { default as RegisterForm } from "./forms/register-form";
+export { default as ReviewForm } from "./forms/review-form";
