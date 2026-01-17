@@ -6,9 +6,9 @@ function BooksList({ books }) {
 
   return (
     <div className="BookList covers">
-      {books.map((book)=> (
-        <div key={book.id_libro} className="BookList image-wrapper" onClick={() => navigate(`/details/${book.id_libro}`)}>
-          <img src={book.portada_url} alt={book.titulo} />
+      {books.map((book, index)=> (
+        <div key={index} className="BookList image-wrapper" onClick={() => navigate(`/details/${book.id_libro}`)}>
+          <img src={book.portada_url} alt={book.titulo} title={book.titulo}/>
         </div>
       ))}
     </div>

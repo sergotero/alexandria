@@ -1,4 +1,4 @@
-.BookList.covers {
+.HomePage .BookList.covers {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -9,16 +9,54 @@
 .HomePage .BookList.image-wrapper{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
+
+  overflow: hidden;
+  height: 300px;
+  width: 200px;
+  transition: transform 0.2s
+}
+
+.HomePage .BookList.image-wrapper:hover{
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .HomePage .BookList.image-wrapper img{
-  max-height: 300px;
+  max-height: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .HomePage .BookList.image-wrapper p{
   font-size: 1rem;
   text-align: center;
+}
+
+.CataloguePage .BookList.covers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; 
+  gap: 2rem;
+  padding: 2%;
+}
+
+/* Contenedor individual de cada libro */
+.CataloguePage .BookList.image-wrapper {
+  width: 120px;  /* Ancho fijo para todos */
+  height: 180px; /* Alto fijo para todos */
+  overflow: hidden; 
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.CataloguePage .BookList.image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+/* La imagen dentro del contenedor */
+.CataloguePage .BookList.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
 }

@@ -1,22 +1,25 @@
+.BookCard{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+}
+
 .DetailPage .BookCard{
   display: flex;
   padding: 5% 15%;
   gap: 5rem;
 } 
 
-.DetailPage .BookCard .image-wrapper{
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-
 .DetailPage .BookCard .image-wrapper img{
   max-height: 600px;
+  object-fit: contain;
 }
 
 .DetailPage .BookCard .book-info h1{
   text-transform: uppercase;
   font-size: 4rem;
+  width: 100%;
 }
 
 .DetailPage .BookCard .book-info h6{

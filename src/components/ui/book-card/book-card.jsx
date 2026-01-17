@@ -2,7 +2,7 @@ import Tag from "../tag/tag";
 import "./book-card.css";
 
 function BookCard({ book }){
-  const { titulo, autor, descripcion, coleccion, portada_url: url } = book;
+  const { titulo, autor, descripcion, coleccion, portada_url: url, generos_api: tags } = book;
   return (
     <div className="BookCard">
       <div className="image-wrapper">
@@ -12,6 +12,7 @@ function BookCard({ book }){
         <h1>{titulo}</h1>
         <h6>{autor}</h6>
         <p>{descripcion}</p>
+        {tags && tags.map((t) => <Tag>{t}</Tag>)}
         <Tag>{coleccion}</Tag>
       </div>
     </div>

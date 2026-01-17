@@ -12,7 +12,7 @@ function DetailsPage() {
     const handleDetails = async () => {
       try {
         const details = await BookServices.getDetails(id);
-        setBook(details[0]); 
+        setBook(details); 
       } catch (error) {
         console.error("Error:", error);
       }

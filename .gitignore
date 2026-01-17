@@ -26,6 +26,8 @@ dist-ssr
 # Temporal
 /public/alexandria.json
 /public/alexandria_full.json
-/public/alexandria_full_V1.json
+/public/alexandria_final.json
+/public/limpiador2.py
+/public/limpiador.py
 /public/complete-books.js
 /src/data/alexandria_full.json

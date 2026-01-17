@@ -14,3 +14,5 @@ http.interceptors.response.use(
 export const getBooks = () => http.get(`/all`);
 
 export const getDetails = (id) => http.get(`/details/${id}`);
+
+// export const getSearch = (params) => http.get(`/search?${params}`);

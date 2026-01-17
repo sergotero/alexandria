@@ -1,2 +1,2 @@
-export { default as LibraryContextProvider } from "./library-context/library-context";
-export { useLibrary } from "./library-context/library-context";
+export { default as AuthContextProvider } from "./auth-context/auth-context";
+export { useAuth } from "./auth-context/auth-context";
