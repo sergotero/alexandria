@@ -10,7 +10,6 @@ function HomePage() {
   useEffect(() => {
     const handleBooks = async () => {
       const response = await BooksServices.getBooks();
-      
       let randomNumbers = [];
       for (let i = 0; i < 5; i++) {
         const num = Math.floor(Math.random() * (1451 - 1) + 1);

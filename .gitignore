@@ -28,3 +28,4 @@ dist-ssr
 /public/alexandria_full.json
 /public/alexandria_full_V1.json
 /public/complete-books.js
+/src/data/alexandria_full.json

@@ -4,10 +4,12 @@ import "./navbar.css";
 function Navbar() {
   return (
     <nav className="Navbar">
-      <div id="logo">
-        {/* <img src="#" alt="Alexandria logo" /> */}
-        <h3 style={{color: "white"}}>ALEXANDRIA</h3>
-      </div>
+      <Link to="/" className="logo-anchor">
+        <div id="logo">
+          {/* <img src="#" alt="Alexandria logo" /> */}
+          <h3 style={{color: "white"}}>ALEXANDRIA</h3>
+        </div>
+      </Link>
       <ul>
         <li>
           <Link to="/catalogue">Catalogue</Link>

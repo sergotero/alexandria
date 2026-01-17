@@ -9,6 +9,7 @@ export const handleBooks = [
   }),
   http.get(`${baseAPI}/details/:id`, async ({ params }) => {
     const { id } = params;
-    return HttpResponse.json(data.filter((b) => b.id === id), { status: 201 });
+    const book = data.filter((b) => b.id_libro === +id);
+    return HttpResponse.json(book, { status: 201 });
   })
 ];

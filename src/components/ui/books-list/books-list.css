@@ -5,3 +5,20 @@
   gap: 2rem;
   padding: 2%;
 }
+
+.HomePage .BookList.image-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.HomePage .BookList.image-wrapper img{
+  max-height: 300px;
+}
+
+.HomePage .BookList.image-wrapper p{
+  font-size: 1rem;
+  text-align: center;
+}

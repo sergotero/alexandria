@@ -1,8 +1,9 @@
+import './index.css';       
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router';
+import { LibraryContextProvider } from './components/context';
 import worker from './mock/browser.js';
-import './index.css';
 import App from './App.jsx';
 
 worker.start({ onUnhandledRequest: "bypass"})
@@ -10,7 +11,9 @@ worker.start({ onUnhandledRequest: "bypass"})
     createRoot(document.getElementById('root')).render(
       <StrictMode>
         <Router>
-          <App />
+          <LibraryContextProvider>
+            <App />
+          </LibraryContextProvider>
         </Router>
       </StrictMode>,
     );

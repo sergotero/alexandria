@@ -4,3 +4,4 @@ export { default as BookCard } from "./book-card/book-card";
 export { default as LoginForm } from "./forms/login-form";
 export { default as RegisterForm } from "./forms/register-form";
 export { default as ReviewForm } from "./forms/review-form";
+export { default as Tag } from "./tag/tag";
