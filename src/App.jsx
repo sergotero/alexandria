@@ -1,13 +1,12 @@
 import { Navbar } from "./components/ui";
 import { Routes, Route } from "react-router";
 import { HomePage, DetailsPage, CataloguePage, LoginPage, ProfilePage, RegisterPage } from "./pages/index";
-import { useAuth } from "./components/context";
+import { AuthContextProvider } from "./components/context";
 
 function App() {
-  const {user, setUser} = useAuth();
-  
+
   return (
-    <>
+    <AuthContextProvider>
       <header>
         <Navbar />
       </header>
@@ -19,7 +18,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/register" element={< RegisterPage />} />
         </Routes>
-    </>
+    </AuthContextProvider>
   )
 }
 

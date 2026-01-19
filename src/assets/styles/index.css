@@ -31,6 +31,8 @@
   --turquoise: #3bbba8; 
   --light-green: #6de6d3; 
 
+  /* Colors for errors */
+  --error: #b10707;
 }
 
 *{

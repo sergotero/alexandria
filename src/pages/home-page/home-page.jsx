@@ -10,12 +10,18 @@ function HomePage() {
   useEffect(() => {
     const handleBooks = async () => {
       const response = await BooksServices.getBooks();
-      let randomNumbers = [];
-      for (let i = 0; i < 5; i++) {
-        const num = Math.floor(Math.random() * (1451 - 1) + 1);
-        randomNumbers.push(num);
-      }
-      const top5 = response.filter((b) => randomNumbers.includes(b.id_libro));
+      // let randomNumbers = [];
+      // for (let i = 0; i < 5; i++) {
+      //   const num = Math.floor(Math.random() * response.length + 1);
+      //   randomNumbers.push(num);
+      // }
+      // console.log("RandomNumbers: ", randomNumbers);
+      
+      // const top5 = response.filter((b) => randomNumbers.includes(b.id_libro));
+      // setTopBooks(top5);
+
+      //Al haber hecho la modificación del json, ahora hay IDs que no existen (con el código antiguo muchos libros no se mostraban porque ya no estaban)
+      const top5 = response.slice(0,5);
       setTopBooks(top5);
     }
     handleBooks();
