@@ -1,8 +1,10 @@
 import { LoginForm } from "../../components/ui";
+import styles from "./login-page.module.css";
 
 function LoginPage() {
   return (
-    <section className="LoginPage">
+    <section className={styles.section}>
+      <h1>Login form</h1>
       <LoginForm />
     </section>
   );

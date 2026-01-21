@@ -1,9 +1,9 @@
 import { http, HttpResponse } from "msw";
-import data from "../../public/alexandria_final.json";
+import data from "../data/alexandria_final.json";
 
 const baseAPI = "https://apibooks.com";
 
-export const handleBooks = [
+export const bookHandlers = [
   http.get(`${baseAPI}/all`, async (params) => {
     // const queryString = new URL(params.request.url).search
     // const qp = new URLSearchParams(queryString)

@@ -1,6 +1,8 @@
-.Tag{
+.tag{
+  display: inline-block;
   padding: 0.2rem  0.75rem 0.35rem 0.75rem;
   border-radius: 35pt;
   color: var(--white);
   margin-right: 1rem;
+  margin-bottom: 1rem;
 }

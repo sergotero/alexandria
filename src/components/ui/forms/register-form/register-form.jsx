@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import styles from "./register-form.module.css";
 import { useNavigate } from "react-router";
+import * as AuthServices from "../../../../services/auth-services";
 
 const defaultValues = {
   defaultValues: {
@@ -20,17 +21,24 @@ function RegisterForm(){
     register,
     handleSubmit,
     formState: { errors, isValid },
+    setError,
     reset
   } = useForm(defaultValues);
 
-  const onRegisterUser = (user) => {
-    console.log(user);
-    if (user.password === user.confirm_pass) {
-      const key = "db_user";
-      localStorage.setItem(key, JSON.stringify(user));
+  const onRegisterUser = async (user) => {
+    try {
+      user = await AuthServices.register(user);
+      reset();
+      navigate("/login");
+    } catch (error) {
+      const { status } = error;
+      if (status === 400) {
+        const { errors } = error.response?.data || {};
+        Object.keys(errors).forEach((inputName) => {
+          setError(inputName, {type: "custom", message: errors[inputName]});
+        });
+      }
     }
-    reset();
-    navigate("/login");
   }
 
   return (

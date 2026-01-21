@@ -16,6 +16,7 @@ function App() {
           <Route path="/catalogue" element={<CataloguePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          {/* <Route path="/favorites" element={<ProfilePage />} /> */}
           <Route path="/register" element={< RegisterPage />} />
         </Routes>
     </AuthContextProvider>
