@@ -8,7 +8,7 @@ const users = localStorage.getItem(AUTH_KEY) ? JSON.parse(localStorage.getItem(A
 const storeUsers = () => localStorage.setItem(AUTH_KEY, JSON.stringify(users));
 
 export const authHandlers = [
-  http.post(`${baseAPI}/auth`, async ({ request }) => {
+  http.post(`${baseAPI}/auth/login`, async ({ request }) => {
     const user = await request.json();
     const existingUser = users.filter((u) => u.email.toLowerCase() === user.email.toLowerCase());
     

@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router";
-import "./books-list.css";
+import styles from "./books-list.module.css";
 
-function BooksList({ books }) {
+function booksList({ books }) {
   const navigate = useNavigate();
-
+  
   return (
-    <div className="BookList covers">
+    <div className={`${styles.covers}`}>
       {books.map((book, index)=> (
-        <div key={index} className="BookList image-wrapper" onClick={() => navigate(`/details/${book.id_libro}`)}>
+        <div key={index} className={`${styles["image-wrapper"]}`} onClick={() => navigate(`/details/${book.id_libro}`)}>
           <img src={book.portada_url} alt={book.titulo} title={book.titulo}/>
         </div>
       ))}
@@ -15,4 +15,4 @@ function BooksList({ books }) {
   );
 }
 
-export default BooksList;
+export default booksList;

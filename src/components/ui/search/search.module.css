@@ -1,10 +1,10 @@
-.Search {
+.search {
   display: flex;
   align-items: stretch; /* Estira los hijos para que midan lo mismo */
   justify-content: center;
 }
 
-.Search input {
+.search input {
   border: none;
   border-radius: 250px 0px 0px 250px;
   width: 90rem;
@@ -16,7 +16,7 @@
   height: 40px; /* Definir una altura fija asegura la simetría */
 }
 
-.Search .fas.fa-search {
+.search i {
   color: var(--white);
   background-color: var(--chalk-grey);
   border-radius: 0px 250px 250px 0px;

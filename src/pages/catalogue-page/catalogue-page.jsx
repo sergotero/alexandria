@@ -1,4 +1,4 @@
-import "./catalogue-page.css";
+import styles from "./catalogue-page.module.css";
 import { MainLayout } from "../../components/layouts";
 import { BooksList, Search } from "../../components/ui";
 import { useState, useEffect } from "react";
@@ -34,9 +34,9 @@ function CataloguePage() {
   
   return (
     <MainLayout>
-      <section className="CataloguePage">
+      <section className={styles["catalogue-page"]}>
         <Search value={search} handleOnChange={handleOnChange}/>
-        <BooksList books={catalogue} />
+        <BooksList books={catalogue}/>
       </section>
     </MainLayout>
   );

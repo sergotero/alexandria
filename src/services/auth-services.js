@@ -9,8 +9,6 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const logout = () => http.post("/auth", null);
-
-export const login = (user) => http.post("/auth", user);
-
 export const register = (user) => http.post("/users", user);
+
+export const login = (user) => http.post("/auth/login", user);

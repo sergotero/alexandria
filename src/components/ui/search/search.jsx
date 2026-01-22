@@ -1,9 +1,9 @@
-import "./search.css";
+import styles from "./search.module.css";
 
 function Search({ search, handleOnChange }) {
   return (
-    <div className="Search">
-      <input type="text" name="search" id="search" placeholder="Buscar..." onChange={handleOnChange} value={search}/>
+    <div className={styles.search}>
+      <input type="text" name="search" placeholder="Buscar..." onChange={handleOnChange} value={search}/>
       <i className="fas fa-search"></i>
     </div>
   );

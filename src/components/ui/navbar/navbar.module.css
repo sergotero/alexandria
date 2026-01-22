@@ -25,3 +25,9 @@
 .logo-anchor{
   text-decoration: none;
 }
+
+
+.logout i{
+  color: var(--white);
+  cursor: pointer;
+}
