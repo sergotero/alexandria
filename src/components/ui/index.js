@@ -7,3 +7,5 @@ export { default as ReviewForm } from "./forms/review-form/review-form";
 export { default as Tag } from "./tag/tag";
 export { default as Search } from "./search/search";
 export { default as SideNav } from "./sidenav/sidenav";
+export { default as BookData } from "./book-data/book-data";
+export { default as BookScore } from "./book-score/book-score";

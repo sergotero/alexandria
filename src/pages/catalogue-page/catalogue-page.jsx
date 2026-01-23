@@ -8,25 +8,23 @@ function CataloguePage() {
   const [catalogue, setCatalogue] = useState([]);
   const [search, setSearch] = useState("");
   
-  //Loads the full catalogue
   useEffect(() => {
-    const handleCatalogue = async () => {
-      const books = await BookServices.getBooks();
-      setCatalogue(books);
-    }
-    handleCatalogue();
-  }, []);
-
-  //Loads the search
-  useEffect(() =>{
-    if(search != ""){
+    //Loads the full catalogue
+    if(search === "") {
+      const handleCatalogue = async () => {
+        const books = await BookServices.getBooks();
+        setCatalogue(books);
+      }
+      handleCatalogue();
+      //Loads the search
+    } else if(search !== ""){
       const handleSearch = async () => {
-        const books = await BookServices.getSearch(encodeURIComponent("titulo="+search));
+        const books = await BookServices.getSearch("titulo=" + encodeURIComponent(search));
         setCatalogue(books);
       }
       handleSearch();
     }
-  },[search]);
+  }, [search]);
 
   const handleOnChange = (event) => {
     setSearch(event.target.value);

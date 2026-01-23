@@ -11,8 +11,8 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const getBooks = () => http.get(`/all`);
+export const getBooks = (page, limit, offset) => http.get(`/books?page=${page}&limit=${limit}&offset=${offset}`);
 
 export const getDetails = (id) => http.get(`/details/${id}`);
 
-// export const getSearch = (params) => http.get(`/search?${params}`);
+export const getSearch = (params) => http.get(`/books/search?${params}`);

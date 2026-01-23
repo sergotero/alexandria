@@ -1,0 +1,14 @@
+.score{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./../../../assets/images/gold-star.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: var(--dark-gold-yellow);
+  min-width: 15%;
+  max-width: 30%;
+  font-size: 25px;
+  font-weight: 800;
+}

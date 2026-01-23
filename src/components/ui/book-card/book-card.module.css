@@ -3,13 +3,14 @@
   align-items: start;
   justify-content: center;
   width: 100%;
-}
-
-.book-card{
-  display: flex;
   padding: 5% 15%;
   gap: 5rem;
-} 
+}
+
+.book-card .card-wrapper{
+  display: flex;
+  flex-direction: column;
+}
 
 .book-card .image-wrapper img{
   max-height: 600px;
@@ -31,4 +32,13 @@
 
 .book-card .book-info p{
   text-align: justify;
+}
+
+.book-info .score-wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.score-wrapper > div{
+  max-width: 70%;
 }
