@@ -3,10 +3,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router';
 import { AuthContextProvider } from './components/context';
-import worker from './mock/browser.js';
+import worker from './mock';
 import App from './App.jsx';
 
-worker.start({ onUnhandledRequest: "bypass"})
+worker.start({ onUnhandledRequest: "warn"})
   .then(() => {
     createRoot(document.getElementById('root')).render(
       <StrictMode>

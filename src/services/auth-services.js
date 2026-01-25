@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "https://apibooks.com"
+  baseURL: ""
 });
 
 http.interceptors.response.use(
@@ -9,6 +9,6 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const register = (user) => http.post("/users", user);
+export const register = (user) => http.post("/auth/register", user);
 
 export const login = (user) => http.post("/auth/login", user);

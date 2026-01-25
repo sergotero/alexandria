@@ -42,3 +42,22 @@
 .score-wrapper > div{
   max-width: 70%;
 }
+
+.review-card{
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 5%;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+
+.review-card p {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.card-wrapper hr {
+  border-top: 1px dotted var(--green);
+  border-bottom: none;
+  width: 100%;
+  opacity: 1;
+}

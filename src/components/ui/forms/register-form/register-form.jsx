@@ -27,7 +27,7 @@ function RegisterForm(){
 
   const onRegisterUser = async (user) => {
     try {
-      user = await AuthServices.register(user);
+      await AuthServices.register(user);
       reset();
       navigate("/login");
     } catch (error) {

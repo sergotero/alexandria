@@ -5,3 +5,26 @@
   justify-content: start;
   padding: 2% 5%;
 }
+
+.buttons{
+  display: flex;
+  gap: 2rem;
+}
+
+.buttons button{
+  border: none;
+  background-color: var(--green);
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 5px;
+  min-width: 10rem;
+}
+
+.buttons button:hover{
+  background-color: var(--light-green);
+}
+
+.buttons button:disabled{
+  background-color: var(--light-grey);
+}

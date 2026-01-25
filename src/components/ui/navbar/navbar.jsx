@@ -19,7 +19,7 @@ function Navbar() {
         </Link>
         <ul>
           <li>
-            <Link to="/catalogue">Catalogue</Link>
+            <Link to="/books">Catalogue</Link>
           </li>
           {!user ? (
             <>
@@ -32,9 +32,6 @@ function Navbar() {
             </>
             ) : (
             <>
-              <li>
-                <Link to="/favorites"><i className="fa-regular fa-bookmark"></i></Link>
-              </li>
               <li className={styles.logout} onClick={() => {setIsOpen(!isOpen)}}>
                 <i className="fa-solid fa-user"></i>
               </li>

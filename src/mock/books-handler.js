@@ -1,10 +1,20 @@
 import { http, HttpResponse } from "msw";
 import data from "../data/alexandria_final.json";
 
-const baseAPI = "https://apibooks.com";
+// const baseAPI = "https://alexandriabooks.com";
 
 export const bookHandlers = [
-  http.get(`${baseAPI}/books`, async (params) => {
+  http.get(`/books`, async ({ request }) => {
+    const url = new URL(request.url);
+    const params = new URLSearchParams(url.search);
+    const title = params.get("title");
+    if (!title || title.trim() === "") {
+      return HttpResponse.json(data, { status: 201 });
+    } else {
+      const books = data.filter((b) => b.titulo.toLowerCase().includes(title.toLowerCase()));
+      return HttpResponse.json(books, { status: 200 });
+    }
+    //Paginación
     // const queryString = new URL(params.request.url).search
     // const qp = new URLSearchParams(queryString)
     // const page = +qp.get("page") || 0
@@ -14,19 +24,10 @@ export const bookHandlers = [
     //   page * offset,
     //   page * offset + offset
     // )
-  
-    return HttpResponse.json(data, { status: 201 });
-  }),
-  http.get(`${baseAPI}/details/:id`, async ({ params }) => {
+    }),
+  http.get(`/books/:id`, ({ params }) => {
     const { id } = params;
     const book = data.filter((b) => b.id_libro === +id);
-    return HttpResponse.json(book[0], { status: 201 });
-  }),
-  http.get(`${baseAPI}/books/search`, async ({ request }) => {
-    const url = new URL(request.url);
-    const params = new URLSearchParams(url.search);
-    const titulo = params.get("titulo");
-    const book = data.filter((b) => b.titulo.toLowerCase().includes(titulo.toLowerCase()));
-    return HttpResponse.json(book, { status: 201 });
+    return HttpResponse.json(book[0], { status: 200 });
   })
 ];

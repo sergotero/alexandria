@@ -5,20 +5,20 @@ import { useEffect, useState } from "react";
 import * as BookServices from "./../../services/books-services";
 
 function DetailsPage() {
-  const [book, setBook] = useState({});
+  const [book, setBook] = useState();
   const { id } = useParams();
   
   useEffect(() => {
     const handleDetails = async () => {
       try {
-        const details = await BookServices.getDetails(id);
-        setBook(details); 
+        const book = await BookServices.getDetails(id);
+        setBook(book); 
       } catch (error) {
         console.error("Error:", error);
       }
     }
     handleDetails();
-  },[]);
+  },[id]);
   
   return (
     <MainLayout>

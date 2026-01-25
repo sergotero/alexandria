@@ -4,6 +4,10 @@
   align-items: stretch;
 }
 
+.hidden form{
+  display: none;
+}
+
 .fieldset{
   display: flex;
   flex-direction: column;

@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import * as ReviewServices from "../../../../services/review-services";
 import styles from "./review-form.module.css";
-import { useAuth } from "../../../context";
+import { useParams } from "react-router";
+import { useState } from "react";
 
 const defaultValues = {
   defaultValues: {
@@ -13,13 +14,13 @@ const defaultValues = {
 };
 
 function ReviewForm(){
-  const { user } = useAuth();
-  
+  const [ visible, setVisible ] = useState(true)
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
-    reset, 
-    formState: { errors, isValid }
+    reset,
+    formState: { errors }
   } = useForm(defaultValues);
 
   const date = ((new Date()).toLocaleDateString()).split("/");
@@ -27,13 +28,13 @@ function ReviewForm(){
 
 
   const handleReview = async (review) => {
-    const response = await ReviewServices.setReview({ review, user });
-    console.log(response);
-    
+    const response = await ReviewServices.setReview(review, id);
+    reset();
+    setVisible(!visible);
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(handleReview)}>
+    <form className={`${visible? styles.form: styles.hidden}`} onSubmit={handleSubmit(handleReview)}>
       <fieldset className={styles.fieldset}>
         <div className={styles.inputGroup}>
           <label className={styles.label} htmlFor="date">Finishing date</label>

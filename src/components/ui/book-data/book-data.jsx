@@ -14,47 +14,47 @@ function BookData({ book }) {
           )}
           {formato && (
             <tr>
-              <td><i class="fa-solid fa-book"></i> Formato:</td>
+              <td><i className="fa-solid fa-book"></i> Formato:</td>
               <td>{formato}</td>
             </tr>
           )}
           {paginas && (
             <tr>
-              <td><i class="fa-solid fa-book-open"></i> Páginas:</td>
+              <td><i className="fa-solid fa-book-open"></i> Páginas:</td>
               <td>{paginas}</td>
             </tr>
           )}
           <tr>
-            <td><i class="fa-solid fa-layer-group"></i> Colección:</td>
+            <td><i className="fa-solid fa-layer-group"></i> Colección:</td>
             <td>{coleccion}</td>
           </tr>
           {serie && (
             <tr>
-              <td><i class="fa-solid fa-circle-nodes"></i> Serie:</td>
+              <td><i className="fa-solid fa-circle-nodes"></i> Serie:</td>
               <td>{serie}</td>
             </tr>
           )}
           {total_vol && (
             <tr>
-              <td><i class="fa-solid fa-book"></i> Volúmenes:</td>
+              <td><i className="fa-solid fa-book"></i> Volúmenes:</td>
               <td>{total_vol}</td>
             </tr>
           )}
           {num_vol && (
             <tr>
-              <td><i class="fa-solid fa-hashtag"></i> Volumen:</td>
+              <td><i className="fa-solid fa-hashtag"></i> Volumen:</td>
               <td>{num_vol}</td>
             </tr>
           )}
           {isbn && (
             <tr>
-              <td><i class="fa-solid fa-barcode"></i> ISBN:</td>
+              <td><i className="fa-solid fa-barcode"></i> ISBN:</td>
               <td>{isbn}</td>
             </tr>
           )}
           {editorial && (
             <tr>
-              <td><i class="fa-regular fa-building"></i> Editorial:</td>
+              <td><i className="fa-regular fa-building"></i> Editorial:</td>
               <td>{editorial}</td>
             </tr>
           )}

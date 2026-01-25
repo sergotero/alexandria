@@ -31,3 +31,14 @@
   color: var(--white);
   cursor: pointer;
 }
+
+.navbar i{
+  border: 1px solid var(--white);
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.navbar ul {
+  display: flex;
+  align-items: center;
+}

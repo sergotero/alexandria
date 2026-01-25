@@ -7,27 +7,20 @@ import * as BookServices from "../../services/books-services";
 function CataloguePage() {
   const [catalogue, setCatalogue] = useState([]);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+
   
   useEffect(() => {
-    //Loads the full catalogue
-    if(search === "") {
-      const handleCatalogue = async () => {
-        const books = await BookServices.getBooks();
-        setCatalogue(books);
-      }
-      handleCatalogue();
-      //Loads the search
-    } else if(search !== ""){
-      const handleSearch = async () => {
-        const books = await BookServices.getSearch("titulo=" + encodeURIComponent(search));
-        setCatalogue(books);
-      }
-      handleSearch();
+    const handleCatalogue = async () => {
+      const books = await BookServices.getBooks(search);
+      setCatalogue(books);
     }
+    handleCatalogue();
   }, [search]);
 
   const handleOnChange = (event) => {
-    setSearch(event.target.value);
+    const { value: search } = event.target;
+    setSearch(search);
   }
   
   return (
@@ -35,6 +28,10 @@ function CataloguePage() {
       <section className={styles["catalogue-page"]}>
         <Search value={search} handleOnChange={handleOnChange}/>
         <BooksList books={catalogue}/>
+        <div className={styles.buttons}>
+          <button type="button" onClick={() => setPage((prev)=> prev - 1)} disabled={page === 0}><i class="fa-solid fa-arrow-left"></i> Previous</button>
+          <button type="button" onClick={() => setPage((prev)=> prev + 1)}>Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
       </section>
     </MainLayout>
   );

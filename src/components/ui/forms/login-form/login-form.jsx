@@ -17,7 +17,7 @@ const defaultValues = {
 
 function LoginForm(){
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { login } = useAuth();
 
   const {
     register,
@@ -29,10 +29,13 @@ function LoginForm(){
 
   const onLoginUser = async (loginData) => {
     try {
-      const user = await AuthService.login(loginData);
-      setUser(user);
+      const verification = await AuthService.login(loginData);
+      if (verification) {
+        //Login within AuthContext
+        login();
+      }
       reset();
-      navigate("/catalogue");
+      navigate("/books");
     } catch (error) {
       const { status } = error;
       if (status === 400) {
