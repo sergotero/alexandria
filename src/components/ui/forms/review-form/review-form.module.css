@@ -2,10 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-}
-
-.hidden form{
-  display: none;
+  margin-top: 1.5rem;
 }
 
 .fieldset{

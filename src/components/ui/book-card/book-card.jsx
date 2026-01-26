@@ -6,6 +6,8 @@ import BookScore from "../book-score/book-score";
 import * as ReviewServices from "./../../../services/review-services";
 import { useAuth } from "../../context";
 import { useEffect, useState } from "react";
+import BookRating from "../book-rating/book-rating";
+import { Link } from "react-router";
 
 function BookCard({ book }) {
   const { user } = useAuth();
@@ -33,8 +35,7 @@ function BookCard({ book }) {
       }
     }
     handleReviews();
-  }, []);
-  console.log(reviews);
+  }, [reviews]);
 
   return (
     <div className={styles["book-card"]}>
@@ -60,22 +61,34 @@ function BookCard({ book }) {
           <p>{descripcion}</p>
 
           {/*TAGS*/}
-          <hr />
+          {/* <hr /> */}
           {tags && tags.map((t, i) => <Tag key={i}>{`#${t}`}</Tag>)}
 
           {/*FORM*/}
-          <hr />
-          {user && reviews && (
+          {/* <hr /> */}
+          {user && reviews.length !== 0 && (
             <div className={styles["review-card"]}>
-              <h5>Valoración personal</h5>
-              {reviews.map((review) => { 
+              {reviews.map((review) => {
                 return (
-                  <p>{review.review}</p>
+                  <>
+                    <div className={styles["review-header"]}>
+                      <h5>Valoración personal <span>{review.date}</span></h5>
+                      <BookRating>{review.rate}</BookRating>
+                    </div>
+                    <div className={styles["review-body"]}>
+                      <p key={review.id_review}>{review.review}</p>
+                    </div>
+                  </>
                 );
               })}
             </div>
           )}
-          {reviews.length < 0 && (<ReviewForm />)}
+          {!user && (
+            <div className={styles["review-card"]}>
+              <p>Para dejar tu reseña, debes estar <Link to="/register">registrado</Link> en la página. Si tienes cuenta, <Link to="/login">accede</Link>.</p>
+            </div>
+          )}
+          {user && reviews.length <= 0 && (<ReviewForm />)}
 
         </div>
       </div>

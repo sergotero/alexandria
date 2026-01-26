@@ -9,7 +9,7 @@ function Navbar() {
   const [ isOpen, setIsOpen ] = useState(false);
 
   return (
-    <>
+    <header>
       <nav className={styles.navbar}>
         <Link to="/" className={styles["logo-anchor"]}>
           <div id="logo">
@@ -40,7 +40,7 @@ function Navbar() {
         </ul>
       </nav>
       <SideNav open={isOpen} setIsOpen={setIsOpen} />
-    </>
+    </header>
   );
 }
 

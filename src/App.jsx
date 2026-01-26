@@ -7,16 +7,14 @@ function App() {
 
   return (
     <AuthContextProvider>
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/books/:id" element={<DetailsPage />} />
         <Route path="/books" element={<CataloguePage />} />
+        <Route path="/register" element={< RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/register" element={< RegisterPage />} />
       </Routes>
     </AuthContextProvider>
   )

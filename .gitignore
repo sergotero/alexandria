@@ -30,4 +30,5 @@ dist-ssr
 /public/limpiador2.py
 /public/limpiador.py
 /public/complete-books.js
-/src/env
+/public/alexandria_enriquecido.json
+/public/request.py

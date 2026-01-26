@@ -9,3 +9,5 @@ export { default as Search } from "./search/search";
 export { default as SideNav } from "./sidenav/sidenav";
 export { default as BookData } from "./book-data/book-data";
 export { default as BookScore } from "./book-score/book-score";
+export { default as BookRating } from "./book-rating/book-rating";
+export { default as Jumbotron } from "./jumbotron/jumbotron";

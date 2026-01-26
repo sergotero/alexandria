@@ -4,26 +4,25 @@ import data from "../data/alexandria_final.json";
 // const baseAPI = "https://alexandriabooks.com";
 
 export const bookHandlers = [
-  http.get(`/books`, async ({ request }) => {
+  http.get(`/books`, ({ request }) => {
+
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
     const title = params.get("title");
+    const page = params.get("page");
+    const limit = params.get("limit");
+    
     if (!title || title.trim() === "") {
-      return HttpResponse.json(data, { status: 201 });
+
+      const offset = (+page * +limit) + +limit;
+      const partial = data.slice((page * +limit), offset);
+      return HttpResponse.json(partial, { status: 201 });
+
     } else {
+      
       const books = data.filter((b) => b.titulo.toLowerCase().includes(title.toLowerCase()));
       return HttpResponse.json(books, { status: 200 });
     }
-    //Paginación
-    // const queryString = new URL(params.request.url).search
-    // const qp = new URLSearchParams(queryString)
-    // const page = +qp.get("page") || 0
-    // const offset = 5
-
-    // const partial = data.slice(
-    //   page * offset,
-    //   page * offset + offset
-    // )
     }),
   http.get(`/books/:id`, ({ params }) => {
     const { id } = params;
