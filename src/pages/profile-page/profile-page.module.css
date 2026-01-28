@@ -15,9 +15,12 @@
   flex-direction: column;
 }
 
-.barchart {
-  width: 100%;
-  max-width: 700px;
-  max-height: 600px;
-  margin: 5px, 0px;
+.charts{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.charts div{
+  
 }

@@ -25,5 +25,5 @@ export const setReview = (review, id) => http.post(`/books/${id}/reviews`, { rev
 
 export const getReviews = (id) => http.get(`/books/${id}/reviews`);
 
-export const countReviewsByYear = (start, end) => http.get(`/user/reviews`, {params: {start, end}});
+export const getUserReviews = (start, end) => http.get(`/user/reviews`, {params: {start, end}});
 
