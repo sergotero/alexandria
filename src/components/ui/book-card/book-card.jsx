@@ -12,6 +12,7 @@ import { Link } from "react-router";
 function BookCard({ book }) {
   const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   const {
     titulo,
@@ -27,15 +28,19 @@ function BookCard({ book }) {
     const handleReviews = async () => {
       if (user) {
         try {
-          const reviews = await ReviewServices.getReviews(id);
-          setReviews(reviews);
+          const storedReviews = await ReviewServices.getReviews(id);
+          setReviews(storedReviews);
         } catch (error) {
           console.error(error);
         }
       }
     }
     handleReviews();
-  }, [reviews]);
+  }, [update]);
+
+  const handleOnSubmit = () => {
+    setUpdate(!update);
+  }
 
   return (
     <div className={styles["book-card"]}>
@@ -88,7 +93,7 @@ function BookCard({ book }) {
               <p>Para dejar tu reseña, debes estar <Link to="/register">registrado</Link> en la página. Si tienes cuenta, <Link to="/login">accede</Link>.</p>
             </div>
           )}
-          {user && reviews.length <= 0 && (<ReviewForm />)}
+          {user && reviews.length <= 0 && (<ReviewForm onSubmit={handleOnSubmit} />)}
 
         </div>
       </div>

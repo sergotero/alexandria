@@ -1,0 +1,23 @@
+.section{
+  padding: 2% 5%;
+  background-color: var(--smoke-grey);
+}
+
+.section h1{
+  color: var(--white);
+  font-weight: 700;
+  text-align: center;
+  padding: 1%;
+}
+
+.statistics{
+  display: flex;
+  flex-direction: column;
+}
+
+.barchart {
+  width: 100%;
+  max-width: 700px;
+  max-height: 600px;
+  margin: 5px, 0px;
+}

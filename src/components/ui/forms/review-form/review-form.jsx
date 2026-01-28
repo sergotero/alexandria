@@ -12,7 +12,7 @@ const defaultValues = {
   mode: "all",
 };
 
-function ReviewForm(){
+function ReviewForm({ onSubmit }){
 
   const { id } = useParams();
   const {
@@ -29,6 +29,7 @@ function ReviewForm(){
     try {
       const response = await ReviewServices.setReview(review, id);
       reset();
+      onSubmit();
     } catch (error) {
       console.error(error);
     }

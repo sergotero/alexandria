@@ -32,3 +32,4 @@ dist-ssr
 /public/complete-books.js
 /public/alexandria_enriquecido.json
 /public/request.py
+/data/reviews.json

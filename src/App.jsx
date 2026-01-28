@@ -2,6 +2,7 @@ import { Navbar } from "./components/ui";
 import { Routes, Route } from "react-router";
 import { HomePage, DetailsPage, CataloguePage, LoginPage, ProfilePage, RegisterPage } from "./pages/index";
 import { AuthContextProvider } from "./components/context";
+import { PrivateRoute } from "./components/guards";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
         <Route path="/books" element={<CataloguePage />} />
         <Route path="/register" element={< RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
       </Routes>
     </AuthContextProvider>
   )

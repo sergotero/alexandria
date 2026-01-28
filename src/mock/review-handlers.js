@@ -23,5 +23,16 @@ export const reviewHandlers = [
     const userId = request.headers.get("x-user-id");
     const review = reviews.filter((rev) => rev.id_libro === id && rev.id_autor === userId );
     return HttpResponse.json(review, { status: 200 });
+  }),
+  http.get(`/user/reviews`, ({ request }) => {
+    const url = new URL(request.url);
+    const params = new URLSearchParams(url.search);
+    const start = params.get("start");
+    const end = params.get("end");
+
+    const filteredReviews = reviews.filter((rev) => rev.date >= start && rev.date <= end);
+    
+    //.toSorted((a, b) => a.date.localeCompare() > b.date.localeCompare());
+    return HttpResponse.json(filteredReviews.length, { status: 200 });
   })
 ];

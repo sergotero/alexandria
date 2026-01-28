@@ -1,0 +1,314 @@
+[
+  {
+    "date": "2025-01-05",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "134",
+    "id_review": "7a85d341-3b21-4f10-9e12-b5289f32d441",
+    "rate": "9.5",
+    "review": "Espectacular. Diario de Ana Frank me ha dejado sin palabras. Sin duda, una lectura que invita a la reflexión profunda."
+  },
+  {
+    "date": "2025-01-12",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "217",
+    "id_review": "3f12a9c2-b82d-4191-8dc3-71f2a32b4321",
+    "rate": "3.2",
+    "review": "Esperaba más de 3001: Odisea final. Se me ha hecho lento y pesado. No es el mejor exponente de la ciencia ficción."
+  },
+  {
+    "date": "2025-01-22",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "97",
+    "id_review": "9d23f1a4-c5e6-4b7c-8d9e-0f1a2b3c4d5e",
+    "rate": "8.8",
+    "review": "La trama de La tierra en llamas es envolvente y muy bien ejecutada. Hacía tiempo que no disfrutaba tanto de un libro."
+  },
+  {
+    "date": "2025-02-04",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "337",
+    "id_review": "b3b3b3b3-3b3b-4b3b-b3b3-b3b3b3b3b3b3",
+    "rate": "7.5",
+    "review": "No es un mal libro, pero su antecesor lo supera. El hecho de que se volviese un fenómeno de masas le resta un poco de encanto."
+  },
+  {
+    "date": "2025-02-15",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "148",
+    "id_review": "a2b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d",
+    "rate": "9.1",
+    "review": "Un clásico de la fantasía que todo el mundo debería leer. Andrzej Sapkowski nunca falla en su narrativa."
+  },
+  {
+    "date": "2025-03-02",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "112",
+    "id_review": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "rate": "9.8",
+    "review": "Espectacular. El Conde de Montecristo me ha dejado sin palabras. Una joya absoluta de la literatura clásica."
+  },
+  {
+    "date": "2025-03-18",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "601",
+    "id_review": "f1a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+    "rate": "4.5",
+    "review": "Bastante decepcionante. El libro prometía más pero la ejecución en este género de fantasía ha sido fallida."
+  },
+  {
+    "date": "2025-04-05",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "131",
+    "id_review": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "rate": "8.4",
+    "review": "Me ha encantado este título. Personajes redondos y un ritmo increíble que te mantiene pegado a las páginas."
+  },
+  {
+    "date": "2025-04-22",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "258",
+    "id_review": "b9c0d1e2-f3a4-4b5c-6d7e-8f9a0b1c2d3e",
+    "rate": "2.8",
+    "review": "Sinceramente, hay opciones mejores dentro de la fantasía. Se me hizo pesado y difícil de terminar."
+  },
+  {
+    "date": "2025-05-10",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1098",
+    "id_review": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    "rate": "7.2",
+    "review": "Totalmente recomendable si te gusta la literatura contemporánea. Una lectura muy amena para una tarde libre."
+  },
+  {
+    "date": "2025-08-14",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "522",
+    "id_review": "8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+    "rate": "8.9",
+    "review": "La profundidad de los personajes es asombrosa. Un clásico instantáneo dentro de su colección."
+  },
+  {
+    "date": "2025-09-02",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "100",
+    "id_review": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+    "rate": "6.1",
+    "review": "La premisa era buena, pero la ejecución ha sido algo irregular. Aun así, ofrece una reflexión profunda."
+  },
+  {
+    "date": "2025-09-28",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1111",
+    "id_review": "5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+    "rate": "9.3",
+    "review": "Espectacular. Me ha dejado sin palabras. Hacía tiempo que no disfrutaba tanto de un libro de este género."
+  },
+  {
+    "date": "2025-10-15",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "439",
+    "id_review": "d1e2f3a4-b5c6-d7e8-f9a0-b1c2d3e4f5a6",
+    "rate": "3.5",
+    "review": "Bastante mediocre. No aporta nada nuevo y resulta predecible desde el segundo capítulo."
+  },
+  {
+    "date": "2025-11-20",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "771",
+    "id_review": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "rate": "7.8",
+    "review": "Un enfoque fresco a un tema muy trillado. Me sorprendió gratamente la pluma del autor."
+  },
+  {
+    "date": "2025-12-05",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1289",
+    "id_review": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    "rate": "8.5",
+    "review": "Una joya oculta que merece mucha más atención. La narrativa es envolvente y técnica."
+  },
+  {
+    "date": "2025-12-28",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "125",
+    "id_review": "8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+    "rate": "4.2",
+    "review": "No he conectado con la pluma del autor en este libro. Se me ha hecho cuesta arriba terminarlo."
+  },
+  {
+    "date": "2026-01-12",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "552",
+    "id_review": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+    "rate": "8.0",
+    "review": "Totalmente recomendable. Una de las lecturas más interesantes que he tenido últimamente."
+  },
+  {
+    "date": "2026-01-27",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1291",
+    "id_review": "5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+    "rate": "5.4",
+    "review": "Le sobran páginas. La premisa era buena pero se diluye en una trama demasiado extensa."
+  },
+  {
+    "date": "2025-01-08",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "242",
+    "id_review": "a7b8c9d0-e1f2-4a3b-b4c5-d6e7f8a9b0c1",
+    "rate": "8.7",
+    "review": "Hacía tiempo que no disfrutaba tanto de un libro. El autor de este título nunca falla en crear atmósferas únicas."
+  },
+  {
+    "date": "2025-01-25",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "213",
+    "id_review": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "rate": "4.2",
+    "review": "No he conectado con la pluma del autor en este libro. Se me ha hecho cuesta arriba terminarlo a pesar de su buena fama."
+  },
+  {
+    "date": "2025-02-12",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "192",
+    "id_review": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "rate": "9.4",
+    "review": "Espectacular. Este título me ha dejado sin palabras por su técnica narrativa. Sin duda, una lectura que invita a la reflexión."
+  },
+  {
+    "date": "2025-03-05",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "111",
+    "id_review": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+    "rate": "5.8",
+    "review": "La premisa era buena, pero la ejecución ha sido algo fallida. Le sobran páginas para contar lo que realmente importa."
+  },
+  {
+    "date": "2025-03-20",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "287",
+    "id_review": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "rate": "7.9",
+    "review": "Un clásico de su colección que todo el mundo debería leer al menos una vez. Personajes redondos y un ritmo increíble."
+  },
+  {
+    "date": "2025-04-14",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "392",
+    "id_review": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+    "rate": "3.1",
+    "review": "Bastante decepcionante. No es el mejor exponente de su género y la trama se vuelve predecible a mitad de camino."
+  },
+  {
+    "date": "2025-05-02",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "456",
+    "id_review": "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+    "rate": "8.2",
+    "review": "La trama es envolvente y muy bien ejecutada. Un enfoque fresco a un tema que suele estar muy trillado."
+  },
+  {
+    "date": "2025-05-18",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "584",
+    "id_review": "1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+    "rate": "6.5",
+    "review": "Una joya oculta que merece mucha más atención de la que tiene actualmente en los catálogos."
+  },
+  {
+    "date": "2025-06-10",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "713",
+    "id_review": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+    "rate": "9.0",
+    "review": "Me ha encantado. Los temas tratados son valientes y están manejados con gran tacto por parte del autor."
+  },
+  {
+    "date": "2025-07-01",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1238",
+    "id_review": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+    "rate": "4.8",
+    "review": "Esperaba algo más dinámico, pero la prosa resulta un tanto artificial en algunos pasajes descriptivos."
+  },
+  {
+    "date": "2025-07-22",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1041",
+    "id_review": "4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+    "rate": "9.7",
+    "review": "Simplemente brillante. Una de las mejores lecturas de lo que va de año, técnica impecable y final sorprendente."
+  },
+  {
+    "date": "2025-08-05",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "872",
+    "id_review": "5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+    "rate": "3.9",
+    "review": "Bastante mediocre. No aporta nada nuevo y los diálogos se sienten forzados en gran parte de la obra."
+  },
+  {
+    "date": "2025-08-30",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "642",
+    "id_review": "6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
+    "rate": "7.1",
+    "review": "Ideal para una tarde de lectura tranquila. Entretenido pero quizás poco memorable a largo plazo."
+  },
+  {
+    "date": "2025-09-14",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "312",
+    "id_review": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+    "rate": "8.5",
+    "review": "La profundidad de los personajes es asombrosa. Logra que empatices incluso con los antagonistas."
+  },
+  {
+    "date": "2025-10-02",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1283",
+    "id_review": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+    "rate": "5.2",
+    "review": "No es para todos los gustos. La narrativa es lenta y la recompensa final tarda demasiado en llegar."
+  },
+  {
+    "date": "2025-10-25",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "934",
+    "id_review": "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a",
+    "rate": "6.8",
+    "review": "Una sorpresa grata. No esperaba mucho pero me ha dejado con ganas de explorar más obras del autor."
+  },
+  {
+    "date": "2025-11-11",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1205",
+    "id_review": "0e1f2a3b-4c5d-6e7f-8a9b-0c1d2e3f4a5b",
+    "rate": "9.2",
+    "review": "Un viaje literario fascinante. No pude soltarlo hasta terminarlo, ritmo frenético y muy bien escrito."
+  },
+  {
+    "date": "2025-12-03",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "1318",
+    "id_review": "1f2a3b4c-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+    "rate": "4.4",
+    "review": "Sinceramente, no entiendo el éxito que ha tenido. Me aburrió profundamente en los capítulos centrales."
+  },
+  {
+    "date": "2025-12-20",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "412",
+    "id_review": "2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+    "rate": "7.5",
+    "review": "Totalmente recomendable si te gusta el género. Una joya que combina bien el suspense con la emoción."
+  },
+  {
+    "date": "2026-01-15",
+    "id_autor": "1b1eb20e-82ff-4346-8cdf-abc31327f613",
+    "id_libro": "957",
+    "id_review": "3b4c5d6e-7f8a-9b0c-1d2e-3f4a5b6c7d8e",
+    "rate": "8.1",
+    "review": "Un enfoque muy valiente. El autor maneja temas complejos con una sensibilidad admirable."
+  }
+]
