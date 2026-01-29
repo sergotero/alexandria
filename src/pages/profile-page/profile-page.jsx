@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./profile-page.module.css";
-import { BarChart, Bar, CartesianGrid, Tooltip, XAxis, YAxis, Legend } from "recharts";
+import { BarChart, Bar, CartesianGrid, Tooltip, XAxis, YAxis, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 import * as BookServices from "../../services/books-services";
 import * as ReviewServices from "../../services/review-services";
 
@@ -23,6 +23,7 @@ function ProfilePage() {
       setBooks(filteredBooks);
     }
     handleBooksByReviews();
+
     const handleReviews = async () => {
       const storedReviews = await ReviewServices.getUserReviews("2025-01-01", "2025-12-31");
       setReviews(storedReviews);
@@ -49,7 +50,9 @@ function ProfilePage() {
       }
       data.push(object);
     }
-    setBooksByCollection(data);
+    const sortedData = data.toSorted((a,b) => a.cat.toLowerCase().localeCompare(b.cat.toLowerCase()));
+    
+    setBooksByCollection(sortedData);
     
 
     const monthNames = {
@@ -66,13 +69,29 @@ function ProfilePage() {
       }
 
       return counter;
-    },{});
-    const bpm = Object.entries(counts).map(([month, number]) => ({month, number}))
+    },{
+      Enero: undefined,
+      Febrero: undefined,
+      Marzo: undefined,
+      Abril: undefined,
+      Mayo: undefined,
+      Junio: undefined,
+      Julio: undefined,
+      Agosto: undefined,
+      Septiembre: undefined,
+      Octubre: undefined,
+      Noviembre: undefined,
+      Diciembre: undefined
+    });
+
+    const bpm = Object.entries(counts).map(([month, number]) => ({month, number}));
     setBooksPerMonth(bpm);
   },[books, reviews]);
 
-  console.log("Books Month", booksPerMonth);
-  console.log("Books Colection ", booksByCollection);
+  // console.log("Books Month", booksPerMonth);
+  // console.log("Books Colection ", booksByCollection);
+  const sortedBooks = booksByCollection.toSorted((book1, book2) => book2.amount - book1.amount);
+  const top6 = sortedBooks.slice(0,6);
   
   
   return (
@@ -84,10 +103,11 @@ function ProfilePage() {
         <h1>Favorites</h1>
       </div>
       <div className={styles.statistics}>
-        <h1>Statistics</h1>
+        <h1>Estadísticas</h1>
         <div className={styles.charts}>
-          <div>
-            {/* Libros por mes */}
+          <div className={styles.chart}>
+            <h2>Libros por mes</h2>
+            <p>Estos son los libros que has leído en el último año agrupados por mes.</p>
             <BarChart 
               width={`100%`}
               height={600}
@@ -115,12 +135,30 @@ function ProfilePage() {
                 activeBar={{ fill: "#9E005D" }}
                 fill="#00A99D"
               />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1A1A1A',
+                  border: '1px solid white',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '12px 16px',
+                  fontSize: 14,
+                }}
+                labelStyle={{
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}
+                itemStyle={{
+                  color: '#00A99D',
+                }}
+                cursor={{ fill: 'transparent' }}
+              />
               <Legend />
             </BarChart>
           </div>
-          <div>
-            {/* Libros por colección */}
+          <div className={styles.chart}>
+            <h2>Libros por colección</h2>
+            <p>Estos son los libros que has leído en el último año agrupados por colecciones.</p>
             <BarChart 
               width={`100%`}
               height={600}
@@ -142,21 +180,85 @@ function ProfilePage() {
               <YAxis />
               <Bar 
                 dataKey="amount"
-                name="cantidad"
+                name="libros"
                 animationBegin={500}
                 animationDuration={2000}
                 activeBar={{ fill: "#9E005D" }}
                 fill="#00A99D"
               />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1A1A1A',
+                  border: '1px solid white',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '12px 16px',
+                  fontSize: 14,
+                }}
+                labelStyle={{
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}
+                itemStyle={{
+                  color: '#00A99D',
+                }}
+                cursor={{ fill: 'transparent' }}
+              />
               <Legend />
             </BarChart>
 
           </div>
-          <div>
-
+          <div className={styles.chart}>
+            <h2>Top géneros literarios</h2>
+            <p>Estos son los 6 géneros literarios más leídos en tu último año.</p>
+            <RadarChart
+              width={`100%`}
+              height={600}
+              responsive
+              outerRadius="80%"
+              data={top6}
+              margin={{
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: 20,
+              }}
+            >
+              <PolarGrid />
+              <PolarAngleAxis
+                dataKey="cat"
+              />
+              <PolarRadiusAxis />
+              <Radar
+                dataKey="amount"
+                name="libros"
+                stroke="#00A99D"
+                fill="#00A99D"
+                fillOpacity={0.6}
+                animationBegin={500}
+                animationDuration={2000}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1A1A1A',
+                  border: '1px solid white',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '12px 16px',
+                  fontSize: 14,
+                }}
+                labelStyle={{
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}
+                itemStyle={{
+                  color: '#00A99D',
+                }}
+                cursor={{ fill: 'transparent' }}
+              />
+            </RadarChart>
           </div>
-          <div>
+          <div className={styles.chart}>
 
           </div>
         </div>
