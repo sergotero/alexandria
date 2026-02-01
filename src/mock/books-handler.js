@@ -13,18 +13,16 @@ export const bookHandlers = [
     const url = new URL(request.url);
     const params = new URLSearchParams(url.search);
     const title = params.get("title");
+    const filter = params.get("filter");
     const page = params.get("page");
     const limit = params.get("limit");
     
     if (!title || title.trim() === "") {
-
       const offset = (+page * +limit) + +limit;
-      const partial = data.slice((+page * +limit), +offset);
+      const partial = data.filter((fil) => fil.coleccion === filter || filter === "all").slice((+page * +limit), +offset);
       return HttpResponse.json(partial, { status: 201 });
-
     } else {
-      
-      const books = data.filter((b) => b.titulo.toLowerCase().includes(title.toLowerCase()));
+      const books = data.filter((b) => b.titulo.toLowerCase().includes(title.toLowerCase() || title === ""));
       return HttpResponse.json(books, { status: 200 });
     }
   }),
@@ -50,29 +48,37 @@ export const bookHandlers = [
     }
     return HttpResponse.json(filteredBooks, {status: 200});
   }),
+  http.get(`/books/categories`, () => {
+    const colections = data.map((d) => d.coleccion);
+    const categories = colections.reduce((accumulator, colection) => {
+      if(accumulator.includes(colection)) {
+        return accumulator;
+      } else {
+        accumulator.push(colection);
+        return accumulator;
+      }
+    }, []);
+    return HttpResponse.json(categories, { status: 200 });
+  }),
   http.get(`/books/:id`, ({ params }) => {
     const { id } = params;
     const book = data.filter((b) => b.id_libro === +id);
     return HttpResponse.json(book[0], { status: 200 });
   }),
   http.get(`/user/favorites`, () => {
-    const favorites = localStorage.getItem(FAVORITES_KEY)? JSON.parse(localStorage.getItem(FAVORITES_KEY)) : [];
-    console.log("Handler favs",favorites);
-    
+    const favorites = localStorage.getItem(FAVORITES_KEY)? JSON.parse(localStorage.getItem(FAVORITES_KEY)) : [];    
     return HttpResponse.json(favorites[0].books, { status: 200 });
   }),
   http.post(`/user/favorites`, async ({ request }) => {
     const req = await request.json();
     const userId = request.headers.get("x-user-id");
     const { books } = req;
-    console.log("Req books", books);
     
     const favs = {
       "user": userId,
       "books": books
     };
     storeFavorites([favs]);
-    
     return HttpResponse.json(favs, { status: 201 });
   }),
 ];

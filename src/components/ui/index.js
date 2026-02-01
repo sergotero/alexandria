@@ -12,3 +12,4 @@ export { default as BookScore } from "./book-score/book-score";
 export { default as BookRating } from "./book-rating/book-rating";
 export { default as Jumbotron } from "./jumbotron/jumbotron";
 export { default as Bookmark } from "./bookmark/bookmark";
+export { default as Filter } from "./filter/filter";

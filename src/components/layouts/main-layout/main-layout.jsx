@@ -1,8 +1,8 @@
-import "./main-layout.css";
+import styles from "./main-layout.module.css";
 
 function MainLayout({ children }) {
   return (
-    <main className="MainLayout">
+    <main className={styles["main-layout"]}>
       {children}
     </main>
   );

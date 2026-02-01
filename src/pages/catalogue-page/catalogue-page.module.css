@@ -5,3 +5,12 @@
   justify-content: start;
   padding: 2% 5%;
 }
+
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 0.5rem;
+  margin-top: 1.5rem;
+}

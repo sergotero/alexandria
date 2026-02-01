@@ -1,3 +1,4 @@
+import styles from "./details-page.module.css";
 import { MainLayout } from "../../components/layouts";
 import { BookCard } from "../../components/ui";
 import { useParams } from "react-router";
@@ -22,7 +23,7 @@ function DetailsPage() {
   
   return (
     <MainLayout>
-      <section className="DetailPage">
+      <section className={styles.details}>
         {book && (<BookCard book={book} />)}
       </section>
     </MainLayout>

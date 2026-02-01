@@ -8,14 +8,11 @@ const setReviews = (reviews) => localStorage.setItem(REVIEWS_KEY, JSON.stringify
 export const reviewHandlers = [
   http.post(`/books/:id/reviews`, async ({ request }) => {
     const { review, id } = await request.json();
-    
     review.id_review = window.crypto.randomUUID().toString();
     review.id_autor = request.headers.get("x-user-id");
     review.id_libro = id;
-    
     reviews.push(review);
     setReviews(reviews);
-    
     return HttpResponse.json(review, { status: 201 });
   }),
   http.get(`/books/:id/reviews`, async ({ request, params }) => {
@@ -29,10 +26,7 @@ export const reviewHandlers = [
     const params = new URLSearchParams(url.search);
     const start = params.get("start");
     const end = params.get("end");
-
     const filteredReviews = reviews.filter((rev) => rev.date >= start && rev.date <= end);
-    console.log("Filtered reviews: ", filteredReviews);
-    
     return HttpResponse.json(filteredReviews, { status: 200 });
   }),
 ];

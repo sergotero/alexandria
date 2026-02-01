@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import styles from "./profile-page.module.css";
+import { useEffect, useState } from "react";
+import { BookList } from "../../components/ui";
+import { useNavigate } from "react-router";
 import { BarChart, Bar, CartesianGrid, Tooltip, XAxis, YAxis, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 import * as BookServices from "../../services/books-services";
 import * as ReviewServices from "../../services/review-services";
 import bestRated from "../../assets/images/best-rated.svg";
-import { useNavigate } from "react-router";
-import { BookList } from "../../components/ui";
 // import data from "../../data/reviews.json";
 
 function ProfilePage() {
@@ -109,8 +109,6 @@ function ProfilePage() {
     setBooksPerMonth(bpm);
   }, [books, reviews]);
 
-  // console.log("Books Month", booksPerMonth);
-  // console.log("Books Colection ", booksByCollection);
   const sortedBooks = booksByCollection.toSorted((book1, book2) => book2.amount - book1.amount);
   const top6 = sortedBooks.slice(0, 6);
 
@@ -119,15 +117,12 @@ function ProfilePage() {
 
   return (
     <section className={styles.section}>
-      <div>
-        <h1>Sobre mi</h1>
-      </div>
       <div className={styles.favorites}>
-        <h1>Favoritos</h1>
-        <BookList books={favorites} />
+        <h1><i class="fa-solid fa-bookmark"></i> Favoritos</h1>
+        <BookList books={favorites} favList={true} />
       </div>
       <div className={styles.statistics}>
-        <h1>Estadísticas</h1>
+        <h1><i class="fa-solid fa-chart-simple"></i> Estadísticas</h1>
         <div className={styles.charts}>
           <div className={styles.chart}>
             <h2>Libros por mes</h2>

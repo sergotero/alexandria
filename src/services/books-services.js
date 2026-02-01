@@ -22,9 +22,11 @@ http.interceptors.request.use((config) => {
 
 export const getDetails = (id) => http.get(`/books/${id}`);
 
-export const getBooks = (title, page = 0, limit = 33) => http.get(`/books`, {params: { title, page, limit }});
+export const getBooks = (title, filter, page = 0, limit = 33) => http.get(`/books`, {params: { title, filter, page, limit }});
 
 export const getBooksByYear = (start, end) => http.get(`/books/years`, {params: {start, end}});
+
+export const getCategories = () => http.get(`/books/categories`);
 
 export const getFavorites = () => http.get(`/user/favorites`);
 

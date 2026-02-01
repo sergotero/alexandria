@@ -92,7 +92,7 @@ function BookCard({ book }) {
           )}
           {!user && (
             <div className={styles["review-card"]}>
-              <p>Para dejar tu reseña, debes estar <Link to="/register">registrado</Link> en la página. Si tienes cuenta, <Link to="/login">accede</Link>.</p>
+              <p>Para dejar tu reseña, debes estar <Link to="/register">registrado</Link> o disponer de una <Link to="/login">cuenta</Link>.</p>
             </div>
           )}
           {user && reviews.length == 0 && (<ReviewForm onSubmit={handleOnSubmit} />)}

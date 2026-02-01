@@ -38,7 +38,7 @@
 .button{
   align-self: center;
   background-color: var(--green);
-  color: var(--chalk-grey);
+  color: var(--white);
   border: none;
   border-radius: 3px;
   font-weight: 600;
