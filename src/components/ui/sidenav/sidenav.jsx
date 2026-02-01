@@ -13,8 +13,8 @@ function SideNav({ open, setIsOpen }) {
   return (
     <div className={`${styles.sidenav} ${open ? styles.open : ""}`}>
       <button className={styles.closebtn} onClick={() => setIsOpen(!open)} id="close" >×</button>
-      <Link to="/profile"><i className="fa-solid fa-user"></i> Profile</Link>
-      <a href="" onClick={handleLogOut}><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+      <Link to="/profile" onClick={() => setIsOpen(!open)}><i className="fa-solid fa-user"></i> Perfil</Link>
+      <a href="" onClick={handleLogOut}><i className="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a>
     </div>
   );
 }

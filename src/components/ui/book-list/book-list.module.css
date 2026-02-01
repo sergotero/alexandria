@@ -1,0 +1,72 @@
+/* CATALOGUE */
+.covers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; 
+  gap: 1.5rem;
+  padding: 2%;
+  margin: 2%;
+  background-color: var(--chalk-grey);
+  border-radius: 15px;
+}
+
+/* Contenedor individual de cada libro */
+.covers .image-wrapper {
+  width: 120px;  /* Ancho fijo para todos */
+  height: 180px; /* Alto fijo para todos */
+  overflow: hidden; 
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.covers .image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+/* La imagen dentro del contenedor */
+.covers .image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.list{
+  position: relative;
+}
+
+.empty{
+  position: absolute;
+  background-color: rgba(0,0,0,0.5);
+  width: 120px;  /* Ancho fijo para todos */
+  height: 180px; /* Alto fijo para todos */
+  top: 0;
+  transition: background-color 0.5s;
+}
+
+.empty:hover{
+  background-color: rgba(0,0,0,0.0);
+  cursor: pointer;
+}
+
+.buttons{
+  display: flex;
+  gap: 2rem;
+}
+
+.buttons button{
+  border: none;
+  background-color: var(--green);
+  color: var(--white);
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 5px;
+  min-width: 10rem;
+}
+
+.buttons button:hover{
+  background-color: var(--light-green);
+}
+
+.buttons button:disabled{
+  background-color: var(--light-grey);
+}

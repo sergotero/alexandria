@@ -42,3 +42,27 @@
   column-width: auto;
   padding: 0px;
 }
+
+.quote{
+  text-align: center;
+  /* background-color: var(--green); */
+  font-size: 3rem;
+  font-weight: 500;
+  font-style: italic;
+  margin-bottom: 0px;
+  padding: 1%;
+  width: 60%;
+}
+
+.author{
+  display: block;
+  text-align: center;
+}
+
+.author::after{
+  content: " - ";
+}
+
+.author::before{
+  content: " - ";
+}

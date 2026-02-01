@@ -41,3 +41,38 @@
 .chart h2, p{
   color: var(--white);
 }
+
+.medal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.medal:hover{
+  cursor: pointer;
+}
+
+.medal img {
+  max-width: 400px;
+  object-fit: cover;
+}
+
+.medal img:first-child {
+  opacity: 0.2;
+}
+
+.medal img:first-child:hover {
+  opacity: 1;
+}
+
+.sign {
+  position: absolute;
+  z-index: 5;
+}
+
+.favorites div{
+  margin: 0;
+}

@@ -3,19 +3,34 @@ import styles from "./profile-page.module.css";
 import { BarChart, Bar, CartesianGrid, Tooltip, XAxis, YAxis, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 import * as BookServices from "../../services/books-services";
 import * as ReviewServices from "../../services/review-services";
+import bestRated from "../../assets/images/best-rated.svg";
+import { useNavigate } from "react-router";
+import { BookList } from "../../components/ui";
+// import data from "../../data/reviews.json";
 
 function ProfilePage() {
-  // console.log(data);
-  // const aaa = (localStorage.getItem("db_reviews"))? localStorage.getItem("db_reviews"): [];
-  // data.forEach((d) => aaa.push(d));
-  // localStorage.setItem("db_reviews", JSON.stringify(aaa))
 
+  const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [booksByCollection, setBooksByCollection] = useState([]);
   const [booksPerMonth, setBooksPerMonth] = useState([]);
-  
+  const [favorites, setFavorites] =useState([])
+
   useEffect(() => {
+    // //Cargar las reseñas prediseñadas
+    // const aaa = (localStorage.getItem("db_reviews")) ? JSON.parse(localStorage.getItem("db_reviews")) : [];
+    // console.log("Vacío: ", aaa);
+    // if(aaa.length < 1) {
+
+    //   for (let i = 0; i < data.length; i++) {
+    //     const libro = data[i];
+    //     aaa.push(libro);
+    //   }
+    //   localStorage.setItem("db_reviews", JSON.stringify(aaa))
+    //   console.log(aaa);
+    // }
+
     const handleBooksByReviews = async () => {
       // const date = ((new Date()).toLocaleDateString()).split("/");
       // const today = `${date[2]}-${date[1]}-${date[0]}`;
@@ -29,18 +44,24 @@ function ProfilePage() {
       setReviews(storedReviews);
     }
     handleReviews();
-  },[]);
 
-  useEffect(()=> {
+    const handleFavorites = async () => {
+      const storedFavorites = await BookServices.getFavorites();
+      setFavorites(storedFavorites);
+    }
+    handleFavorites();
+  }, []);
+
+  useEffect(() => {
     const groupedBooks = books.reduce((counter, book) => {
       const collection = book.coleccion;
       if (counter[collection] === undefined) {
         counter[collection] = 1;
       } else {
-        counter[collection]  = counter[collection] + 1;
+        counter[collection] = counter[collection] + 1;
       }
       return counter;
-    },{});
+    }, {});
 
     const data = [];
     for (const key in groupedBooks) {
@@ -50,10 +71,10 @@ function ProfilePage() {
       }
       data.push(object);
     }
-    const sortedData = data.toSorted((a,b) => a.cat.toLowerCase().localeCompare(b.cat.toLowerCase()));
-    
+    const sortedData = data.toSorted((a, b) => a.cat.toLowerCase().localeCompare(b.cat.toLowerCase()));
+
     setBooksByCollection(sortedData);
-    
+
 
     const monthNames = {
       "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril", "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto", "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
@@ -69,7 +90,7 @@ function ProfilePage() {
       }
 
       return counter;
-    },{
+    }, {
       Enero: undefined,
       Febrero: undefined,
       Marzo: undefined,
@@ -84,23 +105,26 @@ function ProfilePage() {
       Diciembre: undefined
     });
 
-    const bpm = Object.entries(counts).map(([month, number]) => ({month, number}));
+    const bpm = Object.entries(counts).map(([month, number]) => ({ month, number }));
     setBooksPerMonth(bpm);
-  },[books, reviews]);
+  }, [books, reviews]);
 
   // console.log("Books Month", booksPerMonth);
   // console.log("Books Colection ", booksByCollection);
   const sortedBooks = booksByCollection.toSorted((book1, book2) => book2.amount - book1.amount);
-  const top6 = sortedBooks.slice(0,6);
-  
-  
+  const top6 = sortedBooks.slice(0, 6);
+
+  const bestReview = reviews.toSorted((a, b) => +b.rate - +a.rate)[0];
+  const bestBook = books.filter((b) => +b.id_libro === +bestReview.id_libro)[0];
+
   return (
     <section className={styles.section}>
       <div>
-        <h1>About me</h1>
+        <h1>Sobre mi</h1>
       </div>
-      <div>
-        <h1>Favorites</h1>
+      <div className={styles.favorites}>
+        <h1>Favoritos</h1>
+        <BookList books={favorites} />
       </div>
       <div className={styles.statistics}>
         <h1>Estadísticas</h1>
@@ -108,26 +132,26 @@ function ProfilePage() {
           <div className={styles.chart}>
             <h2>Libros por mes</h2>
             <p>Estos son los libros que has leído en el último año agrupados por mes.</p>
-            <BarChart 
+            <BarChart
               width={`100%`}
               height={600}
               maxBarSize={100}
               data={booksPerMonth}
               responsive
             >
-              <CartesianGrid 
+              <CartesianGrid
                 vertical={false}
               />
-              <XAxis 
+              <XAxis
                 dataKey="month"
-                tick={{fontSize: 12, fontWeight: 'bold',}}
+                tick={{ fontSize: 12, fontWeight: 'bold', }}
                 angle={90}
                 textAnchor="end"
                 height={120}
                 tickMargin={50}
               />
               <YAxis />
-              <Bar 
+              <Bar
                 dataKey="number"
                 name="libros"
                 animationBegin={500}
@@ -159,7 +183,7 @@ function ProfilePage() {
           <div className={styles.chart}>
             <h2>Libros por colección</h2>
             <p>Estos son los libros que has leído en el último año agrupados por colecciones.</p>
-            <BarChart 
+            <BarChart
               width={`100%`}
               height={600}
               maxBarSize={100}
@@ -171,14 +195,14 @@ function ProfilePage() {
               />
               <XAxis
                 dataKey="cat"
-                tick={{fontSize: 12, fontWeight: 'bold',}}
+                tick={{ fontSize: 12, fontWeight: 'bold', }}
                 angle={90}
                 textAnchor="end"
                 height={120}
                 tickMargin={50}
               />
               <YAxis />
-              <Bar 
+              <Bar
                 dataKey="amount"
                 name="libros"
                 animationBegin={500}
@@ -259,7 +283,16 @@ function ProfilePage() {
             </RadarChart>
           </div>
           <div className={styles.chart}>
-
+            <h2>El mejor valorado</h2>
+            <p>¡Este es el libro que se lleva la palma!</p>
+            {bestBook && (
+              <>
+                <div className={styles.medal}>
+                  <img src={bestBook.portada_url} alt={bestBook.titulo} title={bestBook.titulo} onClick={() => navigate(`/books/${bestBook.id_libro}`)} />
+                  <img src={bestRated} alt="Medalla al libro mejor valorado" className={styles.sign} />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

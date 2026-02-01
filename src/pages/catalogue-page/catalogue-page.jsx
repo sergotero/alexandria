@@ -1,6 +1,6 @@
 import styles from "./catalogue-page.module.css";
 import { MainLayout } from "../../components/layouts";
-import { BooksList, Search } from "../../components/ui";
+import { BookList, Search } from "../../components/ui";
 import { useState, useEffect } from "react";
 import * as BookServices from "../../services/books-services";
 import { useSearchParams } from "react-router";
@@ -34,11 +34,11 @@ function CataloguePage() {
     <MainLayout>
       <section className={styles["catalogue-page"]}>
         <Search value={search} handleOnChange={handleOnChange}/>
-        <BooksList books={catalogue}/>
-        <div className={styles.buttons}>
-          <button type="button" onClick={() => setPage((prev)=> prev - 1)} disabled={page === 0}><i className="fa-solid fa-arrow-left"></i> Previous</button>
-          <button type="button" onClick={() => setPage((prev)=> prev + 1)}>Next <i className="fa-solid fa-arrow-right"></i></button>
-        </div>
+        <BookList search={search} hasButtons={true}/>
+        {/* <div className={styles.buttons}>
+          <button type="button" onClick={() => setPage((prev)=> prev - 1)} disabled={page === 0}><i className="fa-solid fa-arrow-left"></i> Anterior</button>
+          <button type="button" onClick={() => setPage((prev)=> prev + 1)}>Siguiente <i className="fa-solid fa-arrow-right"></i></button>
+        </div> */}
       </section>
     </MainLayout>
   );

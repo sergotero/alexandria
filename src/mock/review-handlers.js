@@ -18,7 +18,7 @@ export const reviewHandlers = [
     
     return HttpResponse.json(review, { status: 201 });
   }),
-  http.get(`/books/:id/reviews`, async ({ params, request }) => {
+  http.get(`/books/:id/reviews`, async ({ request, params }) => {
     const { id } = params;
     const userId = request.headers.get("x-user-id");
     const review = reviews.filter((rev) => rev.id_libro === id && rev.id_autor === userId );
@@ -31,6 +31,8 @@ export const reviewHandlers = [
     const end = params.get("end");
 
     const filteredReviews = reviews.filter((rev) => rev.date >= start && rev.date <= end);
+    console.log("Filtered reviews: ", filteredReviews);
+    
     return HttpResponse.json(filteredReviews, { status: 200 });
   }),
 ];

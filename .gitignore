@@ -29,6 +29,7 @@ dist-ssr
 /public/alexandria_final.json
 /public/limpiador2.py
 /public/limpiador.py
+/public/favorites.py
 /public/complete-books.js
 /public/alexandria_enriquecido.json
 /public/request.py

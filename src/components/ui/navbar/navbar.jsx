@@ -19,15 +19,15 @@ function Navbar() {
         </Link>
         <ul>
           <li>
-            <Link to="/books">Catalogue</Link>
+            <Link to="/books">Catálogo</Link>
           </li>
           {!user ? (
             <>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login">Acceso</Link>
               </li>
               <li>
-                <Link to="/register">Register</Link>
+                <Link to="/register">Registro</Link>
               </li>
             </>
             ) : (

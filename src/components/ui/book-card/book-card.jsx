@@ -30,6 +30,8 @@ function BookCard({ book }) {
         try {
           const storedReviews = await ReviewServices.getReviews(id);
           setReviews(storedReviews);
+          console.log(reviews);
+          
         } catch (error) {
           console.error(error);
         }
@@ -93,7 +95,7 @@ function BookCard({ book }) {
               <p>Para dejar tu reseña, debes estar <Link to="/register">registrado</Link> en la página. Si tienes cuenta, <Link to="/login">accede</Link>.</p>
             </div>
           )}
-          {user && reviews.length <= 0 && (<ReviewForm onSubmit={handleOnSubmit} />)}
+          {user && reviews.length == 0 && (<ReviewForm onSubmit={handleOnSubmit} />)}
 
         </div>
       </div>
