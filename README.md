@@ -1,16 +1,11 @@
-# React + Vite
+# ALEXANDRIA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Alexandria's Library was a very well-known and highly documented library located in Egypt, which was burned around the 48 b.C. (event attributed to Julius Caesar). It was said to contain a huge amount of ancient knowledge (now lost forever).
 
-Currently, two official plugins are available:
+So, to honor the loss of such humanity's jewel, we decided to name this app after the famous library, because our goal was always the same: to keep record of the books we all love.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Alexandria is, therefore, a web application developed with React that allows us to keep track of the books we have read (and/or own), rate them and add write our opinion.
 
-## React Compiler
+For the time being, the app is very simple as it is only a MVP, but, in time, we will continue to develop it and add new features to make it more interesting.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Think of it as a seed that will soon grow to become a tree. A tree full of knowledge.

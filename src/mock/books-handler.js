@@ -19,7 +19,7 @@ export const bookHandlers = [
     
     if (!title || title.trim() === "") {
       const offset = (+page * +limit) + +limit;
-      const partial = data.filter((fil) => fil.coleccion === filter || filter === "all").slice((+page * +limit), +offset);
+      const partial = data.filter((fil) => fil.coleccion === filter || filter === "Todos").slice((+page * +limit), +offset);
       return HttpResponse.json(partial, { status: 201 });
     } else {
       const books = data.filter((b) => b.titulo.toLowerCase().includes(title.toLowerCase() || title === ""));
@@ -58,6 +58,8 @@ export const bookHandlers = [
         return accumulator;
       }
     }, []);
+    categories.sort((a,b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    categories.unshift("Todos");
     return HttpResponse.json(categories, { status: 200 });
   }),
   http.get(`/books/:id`, ({ params }) => {

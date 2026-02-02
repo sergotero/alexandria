@@ -32,4 +32,4 @@ export const getFavorites = () => http.get(`/user/favorites`);
 
 export const setFavorites = (books) => http.post(`/user/favorites`, { books });
 
-export const getRandomQuote = () => http.get("https://dummyjson.com/quotes/1");
+export const getRandomQuote = () => http.get("https://dummyjson.com/quotes/random");

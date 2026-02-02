@@ -15,7 +15,7 @@ function ProfilePage() {
   const [reviews, setReviews] = useState([]);
   const [booksByCollection, setBooksByCollection] = useState([]);
   const [booksPerMonth, setBooksPerMonth] = useState([]);
-  const [favorites, setFavorites] =useState([])
+  const [favorites, setFavorites] = useState([])
 
   useEffect(() => {
     // //Cargar las reseñas prediseñadas
@@ -127,25 +127,26 @@ function ProfilePage() {
           <div className={styles.chart}>
             <h2>Libros por mes</h2>
             <p>Estos son los libros que has leído en el último año agrupados por mes.</p>
+
             <BarChart
-              width={`100%`}
+              width={700}
               height={600}
               maxBarSize={100}
               data={booksPerMonth}
-              responsive
             >
-              <CartesianGrid
-                vertical={false}
-              />
+              <CartesianGrid vertical={false} />
+
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: 12, fontWeight: 'bold', }}
+                tick={{ fontSize: 12, fontWeight: 'bold' }}
                 angle={90}
                 textAnchor="end"
                 height={120}
                 tickMargin={50}
               />
+
               <YAxis />
+
               <Bar
                 dataKey="number"
                 name="libros"
@@ -154,6 +155,7 @@ function ProfilePage() {
                 activeBar={{ fill: "#9E005D" }}
                 fill="#00A99D"
               />
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#1A1A1A',
@@ -172,31 +174,34 @@ function ProfilePage() {
                 }}
                 cursor={{ fill: 'transparent' }}
               />
+
               <Legend />
             </BarChart>
           </div>
+
           <div className={styles.chart}>
             <h2>Libros por colección</h2>
             <p>Estos son los libros que has leído en el último año agrupados por colecciones.</p>
+
             <BarChart
-              width={`100%`}
+              width={700}
               height={600}
               maxBarSize={100}
               data={booksByCollection}
-              responsive
             >
-              <CartesianGrid
-                vertical={false}
-              />
+              <CartesianGrid vertical={false} />
+
               <XAxis
                 dataKey="cat"
-                tick={{ fontSize: 12, fontWeight: 'bold', }}
+                tick={{ fontSize: 12, fontWeight: 'bold' }}
                 angle={90}
                 textAnchor="end"
                 height={120}
                 tickMargin={50}
               />
+
               <YAxis />
+
               <Bar
                 dataKey="amount"
                 name="libros"
@@ -205,6 +210,7 @@ function ProfilePage() {
                 activeBar={{ fill: "#9E005D" }}
                 fill="#00A99D"
               />
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#1A1A1A',
@@ -223,18 +229,19 @@ function ProfilePage() {
                 }}
                 cursor={{ fill: 'transparent' }}
               />
+
               <Legend />
             </BarChart>
-
           </div>
+
           <div className={styles.chart}>
             <h2>Top géneros literarios</h2>
             <p>Estos son los 6 géneros literarios más leídos en tu último año.</p>
+
             <RadarChart
-              width={`100%`}
+              width={600}
               height={600}
-              responsive
-              outerRadius="80%"
+              outerRadius={250}
               data={top6}
               margin={{
                 top: 20,
@@ -244,10 +251,9 @@ function ProfilePage() {
               }}
             >
               <PolarGrid />
-              <PolarAngleAxis
-                dataKey="cat"
-              />
+              <PolarAngleAxis dataKey="cat" />
               <PolarRadiusAxis />
+
               <Radar
                 dataKey="amount"
                 name="libros"
@@ -257,6 +263,7 @@ function ProfilePage() {
                 animationBegin={500}
                 animationDuration={2000}
               />
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#1A1A1A',
@@ -277,19 +284,29 @@ function ProfilePage() {
               />
             </RadarChart>
           </div>
+
           <div className={styles.chart}>
             <h2>El mejor valorado</h2>
             <p>¡Este es el libro que se lleva la palma!</p>
+
             {bestBook && (
-              <>
-                <div className={styles.medal}>
-                  <img src={bestBook.portada_url} alt={bestBook.titulo} title={bestBook.titulo} onClick={() => navigate(`/books/${bestBook.id_libro}`)} />
-                  <img src={bestRated} alt="Medalla al libro mejor valorado" className={styles.sign} />
-                </div>
-              </>
+              <div className={styles.medal}>
+                <img
+                  src={bestBook.portada_url}
+                  alt={bestBook.titulo}
+                  title={bestBook.titulo}
+                  onClick={() => navigate(`/books/${bestBook.id_libro}`)}
+                />
+                <img
+                  src={bestRated}
+                  alt="Medalla al libro mejor valorado"
+                  className={styles.sign}
+                />
+              </div>
             )}
           </div>
         </div>
+
       </div>
     </section>
   );

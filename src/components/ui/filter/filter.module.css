@@ -13,3 +13,7 @@
   background-color: var(--purple);
   cursor: pointer;
 }
+
+.active{
+  background-color: var(--purple);
+}

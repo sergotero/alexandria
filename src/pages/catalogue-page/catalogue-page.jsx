@@ -10,7 +10,7 @@ function CataloguePage() {
 
   const [ search, setSearch ] = useState("");
   const [ filters, setFilters ] = useState([]);
-  const [ currentFilter, setCurrentFilter ] = useState("all");
+  const [ currentFilter, setCurrentFilter ] = useState("Todos");
   const [ params, setParams ] = useSearchParams("");
   
   useEffect(() => {
@@ -34,13 +34,17 @@ function CataloguePage() {
   const handleFilter = (filter) => {
     setCurrentFilter(filter);
   }
+
+  const handleSelection = (filter) => {
+    handleFilter(filter);
+  }
   
   return (
     <MainLayout>
       <section className={styles["catalogue-page"]}>
         <Search value={search} handleOnChange={handleOnChange}/>
         <div className={styles.filters}>
-          {filters.map((fil, index) => <Filter key={index} handleFilter={handleFilter}>{fil}</Filter>)}
+          {filters.map((fil, index) => <Filter key={index} filter={currentFilter} handleSelection={handleSelection}>{fil}</Filter>)}
         </div>
         <BookList search={search} hasButtons={true} currentFilter={currentFilter}/>
       </section>

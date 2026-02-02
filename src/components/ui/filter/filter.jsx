@@ -1,8 +1,9 @@
 import styles from "./filter.module.css";
 
-function Filter({ handleFilter, children }) {
+function Filter({ handleSelection, filter, children }) {
+
   return (
-    <span className={styles.filter} onClick={() => handleFilter(children)}>{ children }</span>
+    <span className={`${styles.filter} ${filter === children ? styles.active : ""}`} onClick={() => handleSelection(children)}>{ children }</span>
   );
 }
 

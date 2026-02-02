@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { Bookmark } from "../index";
 import * as BookServices from "../../../services/books-services";
 
-function BookList({ isShort = false, hasButtons = false, favList = false, search, currentFilter = "all" }) {
+function BookList({ isShort = false, hasButtons = false, favList = false, search, currentFilter = "Todos" }) {
   const { user } = useAuth();
   const [ books, setBooks ] = useState([]);
   const [ favorites, setFavorites ] = useState([]);
