@@ -34,3 +34,5 @@ dist-ssr
 /public/alexandria_enriquecido.json
 /public/request.py
 /data/reviews.json
+# Local Netlify folder
+.netlify
