@@ -2,10 +2,10 @@ class Author{
   
   private _id?: number;
   private _name: string;
-  private _lastName1?: string | undefined;
-  private _lastName2?: string | undefined;
-  private _lastName3?: string | undefined;
-  private _alias: string;
+  private _lastName1?: string;
+  private _lastName2?: string;
+  private _lastName3?: string;
+  private _alias: string = "";
 
   constructor(name: string, lastName1?: string, lastName2?: string, lastName3?: string) {
     this._name = name.trim();
@@ -22,10 +22,13 @@ class Author{
       this._lastName3 = lastName3.trim();
     }
 
-    this._alias = this.alias;
+    this.alias = this.createAlias();
   }
 
   //Getters
+  get id(): number | undefined {
+    return this._id;
+  }
 
   get name(): string {
     return this._name;
@@ -43,8 +46,8 @@ class Author{
     return this._lastName3;
   }
 
-  get alias(): string{
-    return `${this._name} ${this._lastName1 ?? ""} ${this._lastName2 ?? ""} ${this._lastName3 ?? ""}`.trim();
+  get alias(): string {
+    return this._alias;
   }
 
   //Setters
@@ -70,6 +73,10 @@ class Author{
 
   set alias(newAlias: string) {
     this._alias = newAlias.trim();
+  }
+
+  createAlias(): string{
+    return `${this._name} ${this._lastName1 ?? ""} ${this._lastName2 ?? ""} ${this._lastName3 ?? ""}`.trim();
   }
 }
 
