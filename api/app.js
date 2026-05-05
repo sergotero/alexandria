@@ -19,9 +19,6 @@ app.use("/api", apiRouter);
 //Ports
 const port = process.env.SERVER_PORT || 3000;
 
-//Host
-const host = process.env.SERVER_HOST || "0.0.0.0";
-
-app.listen(port, host, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server listening on port ${port}`);
 })

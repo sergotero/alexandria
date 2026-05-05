@@ -22,3 +22,5 @@ class Collection {
     this._name = newName;
   }
 }
+
+export default Collection;
