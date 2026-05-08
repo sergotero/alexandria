@@ -1,22 +1,22 @@
--- Biblioteca
-DROP DATABASE IF EXISTS biblioteca;
-CREATE DATABASE biblioteca CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE biblioteca;
+-- alexandria
+DROP DATABASE IF EXISTS alexandria;
+CREATE DATABASE alexandria CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE alexandria;
 
-CREATE TABLE libros(
+CREATE TABLE books(
 	id INT UNSIGNED AUTO_INCREMENT,
-  titulo VARCHAR(255) NOT NULL,
-  idioma ENUM('Español', 'Inglés', 'Alemán', 'Japonés'),
-  formato ENUM('Impreso', 'Digital', 'Ambos'),
-		CONSTRAINT pk_libros PRIMARY KEY libros (id),
-      CONSTRAINT uq_libros UNIQUE (titulo)
+  title VARCHAR(255) NOT NULL,
+  language ENUM('Español', 'Inglés', 'Alemán', 'Japonés'),
+  format ENUM('Impreso', 'Digital', 'Ambos'),
+		CONSTRAINT pk_books PRIMARY KEY books (id),
+      CONSTRAINT uq_books UNIQUE (title)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE colecciones(
+CREATE TABLE collections(
 	id INT UNSIGNED AUTO_INCREMENT,
-  nombre VARCHAR(60) NOT NULL,
-		CONSTRAINT pk_colecciones PRIMARY KEY colecciones (id),
-      CONSTRAINT uq_colecciones UNIQUE (nombre)
+  name VARCHAR(60) NOT NULL,
+		CONSTRAINT pk_collections PRIMARY KEY collections (id),
+      CONSTRAINT uq_collections UNIQUE (name)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 CREATE TABLE tags(
@@ -28,78 +28,78 @@ CREATE TABLE tags(
 
 CREATE TABLE series(
 	id INT UNSIGNED AUTO_INCREMENT,
-  nombre VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   total_vol INT UNSIGNED,
-  estado ENUM('Abierta', 'Cerrada', 'Desconocido'),
+  status ENUM('Abierta', 'Cerrada', 'Desconocido'),
 		CONSTRAINT pk_series PRIMARY KEY series (id),
-      CONSTRAINT uq_series UNIQUE (nombre)
+      CONSTRAINT uq_series UNIQUE (name)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE autores(
+CREATE TABLE authors(
 	id INT UNSIGNED AUTO_INCREMENT,
-  nombre VARCHAR(60),
-	apellido1 VARCHAR(60),
-	apellido2 VARCHAR (60),
-	apellido3 VARCHAR (60),
+  name VARCHAR(60),
+	lastname1 VARCHAR(60),
+	lastname2 VARCHAR (60),
+	lastname3 VARCHAR (60),
 	alias VARCHAR(255),
-		CONSTRAINT pk_autores PRIMARY KEY autores (id),
-      CONSTRAINT uq_autores UNIQUE (alias)
+		CONSTRAINT pk_authors PRIMARY KEY authors (id),
+      CONSTRAINT uq_authors UNIQUE (alias)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE librosColecciones(
+CREATE TABLE bookscollections(
 	id INT UNSIGNED AUTO_INCREMENT,
-  id_libro INT UNSIGNED,
-  id_coleccion INT UNSIGNED,
-		CONSTRAINT pk_librosColecciones PRIMARY KEY librosColecciones (id),
-      CONSTRAINT uq_librosColecciones UNIQUE (id_libro, id_coleccion),
-      CONSTRAINT fk_lc_libros FOREIGN KEY (id_libro) REFERENCES libros(id)
+  book_id INT UNSIGNED,
+  collection_id INT UNSIGNED,
+		CONSTRAINT pk_bookscollections PRIMARY KEY bookscollections (id),
+      CONSTRAINT uq_bookscollections UNIQUE (book_id, collection_id),
+      CONSTRAINT fk_lc_books FOREIGN KEY (book_id) REFERENCES books(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE,
-      CONSTRAINT fk_lc_colecciones FOREIGN KEY (id_coleccion) REFERENCES colecciones(id)
+      CONSTRAINT fk_lc_collections FOREIGN KEY (collection_id) REFERENCES collections(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE librosTags(
+CREATE TABLE bookstags(
   id INT UNSIGNED AUTO_INCREMENT,
-  id_libro INT UNSIGNED,
-  id_tag INT UNSIGNED,
-		CONSTRAINT pk_librosTags PRIMARY KEY librosTags (id),
-      CONSTRAINT uq_librosTags UNIQUE (id_libro, id_tag),
-      CONSTRAINT fk_lt_libros FOREIGN KEY (id_libro) REFERENCES libros(id)
+  book_id INT UNSIGNED,
+  tag_id INT UNSIGNED,
+		CONSTRAINT pk_booksTags PRIMARY KEY booksTags (id),
+      CONSTRAINT uq_booksTags UNIQUE (book_id, tag_id),
+      CONSTRAINT fk_lt_books FOREIGN KEY (book_id) REFERENCES books(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE,
-      CONSTRAINT fk_lt_tags FOREIGN KEY (id_tag) REFERENCES tags(id)
+      CONSTRAINT fk_lt_tags FOREIGN KEY (tag_id) REFERENCES tags(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE librosSeries(
+CREATE TABLE booksseries(
   id INT UNSIGNED AUTO_INCREMENT,
-  id_libro INT UNSIGNED,
-  id_serie INT UNSIGNED,
-  index_serie DOUBLE,
-		CONSTRAINT pk_librosSeries PRIMARY KEY librosSeries (id),
-      CONSTRAINT uq_librosSeries UNIQUE (id_libro, id_serie),
-      CONSTRAINT fk_ls_libros FOREIGN KEY (id_libro) REFERENCES libros(id)
+  book_id INT UNSIGNED,
+  series_id INT UNSIGNED,
+  index_series DOUBLE,
+		CONSTRAINT pk_booksSeries PRIMARY KEY booksSeries (id),
+      CONSTRAINT uq_booksSeries UNIQUE (book_id, series_id),
+      CONSTRAINT fk_ls_books FOREIGN KEY (book_id) REFERENCES books(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE,
-      CONSTRAINT fk_ls_series FOREIGN KEY (id_serie) REFERENCES series(id)
+      CONSTRAINT fk_ls_series FOREIGN KEY (series_id) REFERENCES series(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE librosAutores(
+CREATE TABLE booksauthors(
   id INT UNSIGNED AUTO_INCREMENT,
-  id_libro INT UNSIGNED,
-  id_autor INT UNSIGNED,
-  descripcion LONGTEXT,
-		CONSTRAINT pk_librosAutores PRIMARY KEY librosAutores (id),
-      CONSTRAINT uq_librosAutores UNIQUE (id_libro, id_autor),
-      CONSTRAINT fk_la_libros FOREIGN KEY (id_libro) REFERENCES libros(id)
+  book_id INT UNSIGNED,
+  author_id INT UNSIGNED,
+  description LONGTEXT,
+		CONSTRAINT pk_booksauthors PRIMARY KEY booksauthors (id),
+      CONSTRAINT uq_booksauthors UNIQUE (book_id, author_id),
+      CONSTRAINT fk_la_books FOREIGN KEY (book_id) REFERENCES books(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE,
-      CONSTRAINT fk_la_autores FOREIGN KEY (id_autor) REFERENCES autores(id)
+      CONSTRAINT fk_la_authors FOREIGN KEY (author_id) REFERENCES authors(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -108,56 +108,56 @@ CREATE TABLE librosAutores(
 El parámetro puntuación originalmente se diseñó como DECIMAL (4,2) UNSIGNED pero parece ser que es un método depreciado que va a desaparecer en las próximas versiones.
 */
 
-CREATE TABLE librosLeidos(
+CREATE TABLE readbooks(
 	id INT UNSIGNED AUTO_INCREMENT,
-  id_libro INT UNSIGNED NOT NULL,
-  id_autor INT UNSIGNED NOT NULL,
-  f_lectura DATE,
-  puntuacion DOUBLE,
-  comentario LONGTEXT,
-		CONSTRAINT ch_puntuacion CHECK (puntuacion >= 00.00 AND puntuacion <= 10.00),
-      CONSTRAINT pk_librosLeidos PRIMARY KEY librosLeidos (id),
-      CONSTRAINT uq_librosLeidos UNIQUE (id_libro, id_autor),
-      CONSTRAINT fk_ll_titulo FOREIGN KEY (id_libro) REFERENCES libros(id)
+  book_id INT UNSIGNED NOT NULL,
+  author_id INT UNSIGNED NOT NULL,
+  reading_date DATE,
+  score DOUBLE,
+  comments LONGTEXT,
+		CONSTRAINT ch_score CHECK (score >= 00.00 AND score <= 10.00),
+      CONSTRAINT pk_readbooks PRIMARY KEY readbooks (id),
+      CONSTRAINT uq_readbooks UNIQUE (book_id, author_id),
+      CONSTRAINT fk_ll_title FOREIGN KEY (book_id) REFERENCES books(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE,
-		CONSTRAINT fk_ll_autor FOREIGN KEY (id_autor) REFERENCES autores(id)
+		CONSTRAINT fk_ll_autor FOREIGN KEY (author_id) REFERENCES authors(id)
 			ON DELETE CASCADE
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Artes');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Autoayuda');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Aventuras');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Bélico');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Biografía');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Ciencia ficción');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Clásicos');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Contemporáneo');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Distopía');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Divulgación');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Drama');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Esoterismo');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Espiritualidad');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Fantasía');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Filosofía');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Histórico');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Humor');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('LGBTQ');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('LGBTQ autoeditado');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Lingüística');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Manuales');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Misterio');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Novela erótica');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Parapsicología');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Poesía épica');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Poesía lírica');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Policíaco');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Romance');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Social');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Terror');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Ufología');
-INSERT INTO biblioteca.colecciones (nombre) VALUES ('Zombies');
+INSERT INTO alexandria.collections (name) VALUES ('Artes');
+INSERT INTO alexandria.collections (name) VALUES ('Autoayuda');
+INSERT INTO alexandria.collections (name) VALUES ('Aventuras');
+INSERT INTO alexandria.collections (name) VALUES ('Bélico');
+INSERT INTO alexandria.collections (name) VALUES ('Biografía');
+INSERT INTO alexandria.collections (name) VALUES ('Ciencia ficción');
+INSERT INTO alexandria.collections (name) VALUES ('Clásicos');
+INSERT INTO alexandria.collections (name) VALUES ('Contemporáneo');
+INSERT INTO alexandria.collections (name) VALUES ('Distopía');
+INSERT INTO alexandria.collections (name) VALUES ('Divulgación');
+INSERT INTO alexandria.collections (name) VALUES ('Drama');
+INSERT INTO alexandria.collections (name) VALUES ('Esoterismo');
+INSERT INTO alexandria.collections (name) VALUES ('Espiritualidad');
+INSERT INTO alexandria.collections (name) VALUES ('Fantasía');
+INSERT INTO alexandria.collections (name) VALUES ('Filosofía');
+INSERT INTO alexandria.collections (name) VALUES ('Histórico');
+INSERT INTO alexandria.collections (name) VALUES ('Humor');
+INSERT INTO alexandria.collections (name) VALUES ('LGBTQ');
+INSERT INTO alexandria.collections (name) VALUES ('LGBTQ autoeditado');
+INSERT INTO alexandria.collections (name) VALUES ('Lingüística');
+INSERT INTO alexandria.collections (name) VALUES ('Manuales');
+INSERT INTO alexandria.collections (name) VALUES ('Misterio');
+INSERT INTO alexandria.collections (name) VALUES ('Novela erótica');
+INSERT INTO alexandria.collections (name) VALUES ('Parapsicología');
+INSERT INTO alexandria.collections (name) VALUES ('Poesía épica');
+INSERT INTO alexandria.collections (name) VALUES ('Poesía lírica');
+INSERT INTO alexandria.collections (name) VALUES ('Policíaco');
+INSERT INTO alexandria.collections (name) VALUES ('Romance');
+INSERT INTO alexandria.collections (name) VALUES ('Social');
+INSERT INTO alexandria.collections (name) VALUES ('Terror');
+INSERT INTO alexandria.collections (name) VALUES ('Ufología');
+INSERT INTO alexandria.collections (name) VALUES ('Zombies');
 
-CREATE USER IF NOT EXISTS "bibliotecario"@"localhost" IDENTIFIED BY "Alejandria123!";
-GRANT ALL PRIVILEGES ON biblioteca.* TO "bibliotecario"@"localhost";
+-- CREATE USER IF NOT EXISTS "bibliotecario"@"localhost" IDENTIFIED BY "f4r0D3Lc0n0c1m13nt0!";
+-- GRANT ALL PRIVILEGES ON alexandria.* TO "bibliotecario"@"localhost";

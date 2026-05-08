@@ -1,4 +1,5 @@
 import { Router } from "express";
+import * as AuthorController from "../../controllers/author.controller.js";
 
 const router = Router();
 
@@ -10,7 +11,7 @@ const router = Router();
 // router.delete("/bookBase", bookBaseController);
 
 //AUTHOR
-// router.get("/author", authorController);
+router.get("/author", AuthorController.getAuthors);
 // router.post("/author", authorController);
 // router.get("/author/:id", authorController);
 // router.patch("/author", authorController);
@@ -30,4 +31,4 @@ const router = Router();
 // router.patch("/collection", collectionController);
 // router.delete("/collection", collectionController);
 
-export default apiRouter;
+export default router;

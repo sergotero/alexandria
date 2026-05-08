@@ -1,6 +1,6 @@
-import pool from "./mariadb.config.js";
+import pool from "./db.config.js";
 
-export const query = async(sql, params = []) => {
+export const query = async (sql: string, params: Array<string> = []) => {
   let connection;
 
   try {

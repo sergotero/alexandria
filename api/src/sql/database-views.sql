@@ -1,66 +1,66 @@
-CREATE VIEW catalogo AS
-SELECT librosautores.id_autor AS id_autor,
-  librosautores.id_libro AS id_libro,
-  series.id AS id_serie,
-  colecciones.id AS id_coleccion,
-  autores.alias AS autor,
-  libros.titulo AS titulo,
-  series.nombre AS serie,
-  librosseries.index_serie AS Nº,
-  colecciones.nombre AS coleccion
-FROM autores
-  LEFT JOIN librosautores ON autores.id = librosautores.id_autor
-  LEFT JOIN libros ON librosautores.id_libro = libros.id
-  LEFT JOIN librosseries ON librosseries.id_libro = libros.id
-  LEFT JOIN series ON series.id = librosseries.id_serie
-  LEFT JOIN libroscolecciones ON libroscolecciones.id_libro = libros.id
-  LEFT JOIN colecciones ON colecciones.id = libroscolecciones.id_coleccion
-ORDER BY autor,
-  serie,
+CREATE VIEW catalogue AS
+SELECT booksauthors.author_id AS author_id,
+  booksauthors.book_id AS book_id,
+  series.id AS series_id,
+  collections.id AS collection_id,
+  authors.alias AS author,
+  books.title AS title,
+  series.name AS series,
+  booksseries.index_series AS Nº,
+  collections.name AS collection
+FROM authors
+  LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
+  LEFT JOIN books ON booksauthors.book_id = books.id
+  LEFT JOIN booksseries ON booksseries.book_id = books.id
+  LEFT JOIN series ON series.id = booksseries.series_id
+  LEFT JOIN bookscollections ON bookscollections.book_id = books.id
+  LEFT JOIN collections ON collections.id = bookscollections.collection_id
+ORDER BY author,
+  series,
   Nº,
-  coleccion;
+  collection;
 
 
-CREATE VIEW lecturas AS
-SELECT librosleidos.id AS id,
-  librosleidos.id_libro AS id_libro,
-  librosleidos.id_autor AS id_autor,
-  libros.titulo AS titulo,
-  autores.alias AS autor,
-  librosleidos.f_lectura AS f_lectura,
-  librosleidos.puntuacion AS puntuacion,
-  librosleidos.comentario AS comentario
-FROM librosleidos
-  JOIN libros ON libros.id = librosleidos.id_libro
-  JOIN autores ON autores.id = librosleidos.id_autor
+CREATE VIEW readings AS
+SELECT readbooks.id AS id,
+  readbooks.book_id AS book_id,
+  readbooks.author_id AS author_id,
+  books.title AS title,
+  authors.alias AS author,
+  readbooks.reading_date AS reading_date,
+  readbooks.score AS score,
+  readbooks.comments AS comments
+FROM readbooks
+  JOIN books ON books.id = readbooks.book_id
+  JOIN authors ON authors.id = readbooks.author_id
 ORDER BY alias,
-  titulo,
-  f_lectura;
+  title,
+  reading_date;
 
 
-CREATE VIEW catalogo_completo AS
-SELECT librosautores.id_autor AS id_autor,
-  librosautores.id_libro AS id_libro,
-  series.id AS id_serie,
-  colecciones.id AS id_coleccion,
-  autores.alias AS autor,
-  libros.titulo AS titulo,
-  librosautores.descripcion AS descripcion,
-  libros.idioma AS idioma,
-  libros.formato AS formato,
-  series.nombre AS serie,
-  librosseries.index_serie AS Nº,
+CREATE VIEW full_catalogue AS
+SELECT booksauthors.author_id AS author_id,
+  booksauthors.book_id AS book_id,
+  series.id AS series_id,
+  collections.id AS collection_id,
+  authors.alias AS author,
+  books.title AS title,
+  booksauthors.description AS description,
+  books.language AS language,
+  books.format AS format,
+  series.name AS series,
+  booksseries.index_series AS Nº,
   series.total_vol AS total_vol,
-  series.estado AS estado,
-  colecciones.nombre AS coleccion
-FROM autores
-  LEFT JOIN librosautores ON autores.id = librosautores.id_autor
-  LEFT JOIN libros ON librosautores.id_libro = libros.id
-  LEFT JOIN librosseries ON librosseries.id_libro = libros.id
-  LEFT JOIN series ON series.id = librosseries.id_serie
-  LEFT JOIN libroscolecciones ON libroscolecciones.id_libro = libros.id
-  LEFT JOIN colecciones ON colecciones.id = libroscolecciones.id_coleccion
-ORDER BY autor,
-  serie,
+  series.status AS status,
+  collections.name AS collection
+FROM authors
+  LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
+  LEFT JOIN books ON booksauthors.book_id = books.id
+  LEFT JOIN booksseries ON booksseries.book_id = books.id
+  LEFT JOIN series ON series.id = booksseries.series_id
+  LEFT JOIN bookscollections ON bookscollections.book_id = books.id
+  LEFT JOIN collections ON collections.id = bookscollections.collection_id
+ORDER BY author,
+  series,
   Nº,
-  coleccion;
+  collection;

@@ -1,3 +1,4 @@
+import type { Request, Response } from "express";
 import * as AuthorService from "./../services/author-service.js";
 
 //Controller: maneja solo HTTP y llama al servicio
