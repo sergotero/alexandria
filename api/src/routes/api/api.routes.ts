@@ -11,11 +11,11 @@ const router = Router();
 // router.delete("/bookBase", bookBaseController);
 
 //AUTHOR
-router.get("/author", AuthorController.getAuthors);
-// router.post("/author", authorController);
-// router.get("/author/:id", authorController);
-// router.patch("/author", authorController);
-// router.delete("/author", authorController);
+router.get("/author", AuthorController.list);
+router.post("/author", AuthorController.create);
+router.get("/author/:id", AuthorController.detail);
+router.patch("/author/:id", AuthorController.update);
+// router.delete("/author", AuthorController);
 
 //SERIES
 // router.get("/series", seriesController);

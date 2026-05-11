@@ -1,6 +1,8 @@
 import pool from "./db.config.js";
 
-export const query = async (sql: string, params: Array<string> = []) => {
+export type SQLValue = string| number| boolean| Date| null;
+
+export const query = async (sql: string, params: Array<SQLValue> = []) => {
   let connection;
 
   try {

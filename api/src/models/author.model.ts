@@ -1,8 +1,8 @@
 export default interface Author{
   readonly id?: number;
   name: string;
-  lastName1?: string;
-  lastName2?: string;
-  lastName3?: string;
-  alias: string;
+  lastname1?: string | null;
+  lastname2?: string | null;
+  lastname3?: string | null;
+  alias(): string;
 }
