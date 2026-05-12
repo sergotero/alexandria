@@ -1,11 +1,11 @@
-type Languages = "Español" | "Inglés" | "Alemán" | "Japonés";
-type Formats = "Digital" | "Impreso" | "Ambos";
+export type Languages = "Español" | "Inglés" | "Alemán" | "Japonés";
+export type Formats = "Digital" | "Impreso" | "Ambos";
 
 export default interface BookBase{
-  readonly id?: number;
+  id?: number;
   title: string;
   language: Languages;
   format: Formats;
-  description?: string;
-  indexVolume?: number;
+  description?: string | null;
+  indexVolume?: number | null;
 }

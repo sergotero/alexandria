@@ -1,14 +1,15 @@
 import { Router } from "express";
-import * as AuthorController from "../../controllers/author.controller.js";
+import * as AuthorController from "./../../controllers/author.controller.js";
+import * as BookBaseController from "./../../controllers/book-base.controller.js";
 
 const router = Router();
 
 //BOOKBASE
-// router.get("/bookBase", bookBaseController);
-// router.post("/bookBase", bookBaseController);
-// router.get("/bookBase/:id", bookBaseController);
-// router.patch("/bookBase", bookBaseController);
-// router.delete("/bookBase", bookBaseController);
+router.get("/bookBase", BookBaseController.list);
+router.post("/bookBase", BookBaseController.create);
+router.get("/bookBase/:id", BookBaseController.detail);
+router.patch("/bookBase/:id", BookBaseController.update);
+router.delete("/bookBase/:id", BookBaseController.destroy);
 
 //AUTHOR
 router.get("/author", AuthorController.list);

@@ -1,5 +1,5 @@
 export default interface Author{
-  readonly id?: number;
+  id?: number;
   name: string;
   lastname1?: string | null;
   lastname2?: string | null;

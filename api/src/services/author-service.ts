@@ -79,12 +79,12 @@ export async function update(id: string, data: Record<string, string>): Promise<
   return updatedAuthor;
 };
 
-export async function destroy(id: string): Promise<SQLResponse> {
+export async function destroy(id: string): Promise<boolean> {
   const result = await AuthorRepository.findByIdAndDelete(id);
   
   if (result.affectedRows === 0) {
     throw new Error("Se ha producido un error");
   }
 
-  return result;
+  return true;
 }
