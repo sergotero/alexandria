@@ -15,7 +15,7 @@ router.get("/author", AuthorController.list);
 router.post("/author", AuthorController.create);
 router.get("/author/:id", AuthorController.detail);
 router.patch("/author/:id", AuthorController.update);
-// router.delete("/author", AuthorController);
+router.delete("/author/:id", AuthorController.destroy);
 
 //SERIES
 // router.get("/series", seriesController);

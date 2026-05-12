@@ -1,35 +1,48 @@
 import type { Request, Response } from "express";
-import * as AuthorService from "./../services/author-service.js";
+import * as AuthorService from "../services/author-service.js";
 
-export async function create(req: Request, res: Response) {
+export async function create(req: Request, res: Response): Promise<void> {
   const author = await AuthorService.create(req.body);
-
   res.status(201).json(author);
 }
 
-export async function list(req: Request, res: Response) {
+export async function list(req: Request, res: Response): Promise<void> {
   const authors = await AuthorService.list();
   res.status(200).json(authors);
 }
 
-export async function detail(req: Request, res: Response) {
+export async function detail(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
 
   if (typeof id !== 'string') {
-    return res.status(400).json({ error: "ID de autor no válido" });
+    res.status(400).json({ error: "ID de autor no válido" });
+    return;
   }
   const author = await AuthorService.detail(id);
   res.status(200).json(author);
 }
 
-export async function update(req: Request, res: Response) {
+export async function update(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
   
   if (typeof id !== 'string') {
-    return res.status(400).json({ error: "ID de autor no válido" });
+    res.status(400).json({ error: "ID de autor no válido" });
+    return;
   }
-  
+
   const result = await AuthorService.update(id, req.body);
   
   res.status(200).json(result);
+}
+
+export async function destroy(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    res.status(400).json({ error: "ID de autor no válido" });
+    return;
+  }
+
+  const result = await AuthorService.destroy(id);
+  res.status(204).json(result);
 }

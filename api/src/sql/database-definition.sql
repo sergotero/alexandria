@@ -41,7 +41,7 @@ CREATE TABLE authors(
 	lastname1 VARCHAR(60),
 	lastname2 VARCHAR (60),
 	lastname3 VARCHAR (60),
-	alias VARCHAR(255),
+	alias VARCHAR(255) AS (CONCAT_WS(name, lastname1, lastname2, lastname3)) VIRTUAL,
 		CONSTRAINT pk_authors PRIMARY KEY authors (id),
       CONSTRAINT uq_authors UNIQUE (alias)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;

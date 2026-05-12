@@ -4,5 +4,5 @@ export default interface Author{
   lastname1?: string | null;
   lastname2?: string | null;
   lastname3?: string | null;
-  alias(): string;
+  alias?: string;
 }
