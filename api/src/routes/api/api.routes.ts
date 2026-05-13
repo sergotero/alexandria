@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as AuthorController from "./../../controllers/author.controller.js";
 import * as BookBaseController from "./../../controllers/book-base.controller.js";
+import * as CollectionController from "./../../controllers/collection.controller.js";
 
 const router = Router();
 
@@ -19,17 +20,17 @@ router.patch("/author/:id", AuthorController.update);
 router.delete("/author/:id", AuthorController.destroy);
 
 //SERIES
-// router.get("/series", seriesController);
-// router.post("/series", seriesController);
-// router.get("/series/:id", seriesController);
-// router.patch("/series", seriesController);
-// router.delete("/series", seriesController);
+// router.get("/series", SeriesController.list);
+// router.post("/series", SeriesController.create);
+// router.get("/series/:id", SeriesController.detail);
+// router.patch("/series/:id", SeriesController.update);
+// router.delete("/series/:id", SeriesController.destroy);
 
 //COLLECTION
-// router.get("/collection", collectionController);
-// router.post("/collection", collectionController);
-// router.get("/collection/:id", collectionController);
-// router.patch("/collection", collectionController);
-// router.delete("/collection", collectionController);
+router.get("/collection", CollectionController.list);
+router.post("/collection", CollectionController.create);
+router.get("/collection/:id", CollectionController.detail);
+router.patch("/collection/:id", CollectionController.update);
+router.delete("/collection/:id", CollectionController.destroy);
 
 export default router;

@@ -9,7 +9,7 @@ export const transaction = async (sql: string, params: Array<SQLValue> = []) => 
     connection = await pool.getConnection();
     connection.beginTransaction();
     //TODO: loop for all the queries
-    const results = await connection.query(sql, params);
+    const results = await connection.batch(sql, params);
     connection.commit();
     return results;
   } catch (error) {
