@@ -1,14 +1,13 @@
 import type Author from "../models/author.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
 import * as AuthorRepository from "../repositories/author.repository.js";
 import { capitalize } from "./utils-service.js";
 
-export async function create(data: Record<string, string>): Promise<Author[]> {
+export async function create(data: Author): Promise<Author> {
   
   const name = capitalize(data.name!);
-  const lastname1 = data?.lastname1 === undefined ? null : capitalize(data.lastname1);
-  const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2);
-  const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3);
+  const lastname1 = data.lastname1 === undefined ? null : capitalize(data.lastname1!);
+  const lastname2 = data.lastname2 === undefined ? null : capitalize(data.lastname2!);
+  const lastname3 = data.lastname3 === undefined ? null : capitalize(data.lastname3!);
   
   const author: Author = {
     name: name,
@@ -31,9 +30,10 @@ export async function create(data: Record<string, string>): Promise<Author[]> {
     throw new Error("Se ha producido un error");
   }
 
-  const newAuthor = await AuthorRepository.findByAlias(alias);
+  author.id = Number(result.insertId);
+  author.alias = alias;
 
-  return newAuthor;
+  return author;
 }
 
 export async function list(): Promise<Author[]> {
@@ -41,12 +41,12 @@ export async function list(): Promise<Author[]> {
   return authors;
 }
 
-export async function detail(id: string): Promise<Author[]> {
+export async function detail(id: string): Promise<Author> {
   const author = await AuthorRepository.findById(id);
-  return author;
+  return author[0] as Author;
 }
 
-export async function update(id: string, data: Record<string, string>): Promise<Author[]> {
+export async function update(id: string, data: Record<string, string>): Promise<Author> {
   
   const oldAuthor = await AuthorRepository.findById(id);
 
@@ -59,7 +59,7 @@ export async function update(id: string, data: Record<string, string>): Promise<
   const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2);
   const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3);
 
-  const newAuthor: Author = {
+  const author: Author = {
     ...oldAuthor[0],
     name: name,
     lastname1: lastname1,
@@ -68,15 +68,13 @@ export async function update(id: string, data: Record<string, string>): Promise<
     alias: `${name} ${lastname1 ?? ""} ${lastname2 ?? ""} ${lastname3 ?? ""}`.trim()
   }
   
-  const result = await AuthorRepository.findByIdAndUpdate(id, newAuthor);
+  const result = await AuthorRepository.findByIdAndUpdate(id, author);
   
   if (result.affectedRows === 0) {
     throw new Error("Se ha producido un error");
   }
 
-  const updatedAuthor = await AuthorRepository.findByAlias(newAuthor.alias!);
-
-  return updatedAuthor;
+  return author;
 };
 
 export async function destroy(id: string): Promise<boolean> {

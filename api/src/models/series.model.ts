@@ -1,8 +1,8 @@
 type States = "Abierta" | "Cerrada" | "Desconocido";
 
 export default interface Series{
-  id: number;
+  id?: number;
   name: string;
-  volumes?: number;
+  volumes: number;
   status: States;
 }
