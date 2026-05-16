@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import * as AuthorService from "../services/author-service.js";
 
 export async function create(req: Request, res: Response): Promise<void> {
-  const author = await AuthorService.create(req.body);
+  const author = await AuthorService.findOrCreate(req.body);
   res.status(201).json(author);
 }
 

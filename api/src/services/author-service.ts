@@ -2,7 +2,7 @@ import type Author from "../models/author.model.js";
 import * as AuthorRepository from "../repositories/author.repository.js";
 import { capitalize } from "./utils-service.js";
 
-export async function create(data: Author): Promise<Author> {
+export async function findOrCreate(data: Author): Promise<Author> {
   
   const name = capitalize(data.name!);
   const lastname1 = data.lastname1 === undefined ? null : capitalize(data.lastname1!);
@@ -17,11 +17,11 @@ export async function create(data: Author): Promise<Author> {
   }
   
   const alias = `${author.name} ${author.lastname1 ?? ""} ${author.lastname2 ?? ""} ${author.lastname3 ?? ""}`.trim();
+  
+  const existing = await AuthorRepository.findByAlias(alias);
 
-  const checkAuthor = await AuthorRepository.findByAlias(alias);
-
-  if (Array.isArray(checkAuthor) && checkAuthor.length !== 0) {
-    throw new Error("El autor ya existe");
+  if (existing.length !== 0) {
+    return existing[0] as Author;
   }
 
   const result = await AuthorRepository.create(author);
@@ -32,7 +32,6 @@ export async function create(data: Author): Promise<Author> {
 
   author.id = Number(result.insertId);
   author.alias = alias;
-
   return author;
 }
 
@@ -46,7 +45,7 @@ export async function detail(id: string): Promise<Author> {
   return author[0] as Author;
 }
 
-export async function update(id: string, data: Record<string, string>): Promise<Author> {
+export async function update(id: string, data: Author): Promise<Author> {
   
   const oldAuthor = await AuthorRepository.findById(id);
 
@@ -55,9 +54,9 @@ export async function update(id: string, data: Record<string, string>): Promise<
   }
   
   const name = capitalize(data.name!);
-  const lastname1 = data?.lastname1 === undefined ? null : capitalize(data.lastname1);
-  const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2);
-  const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3);
+  const lastname1 = data?.lastname1 === undefined ? null : capitalize(data.lastname1!);
+  const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2!);
+  const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3!);
 
   const author: Author = {
     ...oldAuthor[0],

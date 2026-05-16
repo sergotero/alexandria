@@ -9,7 +9,7 @@ export async function create(req: Request, res: Response): Promise<void | never>
     throw new Error("Es necesario introducir el nombre de la serie, sus volúmenes y el estatus.");
   }
 
-  const series = await SeriesService.create({name, volumes, status});
+  const series = await SeriesService.findOrCreate({name, volumes, status});
   res.status(200).json(series);
 }
 

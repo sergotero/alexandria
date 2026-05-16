@@ -1,16 +1,22 @@
-import type { Request, Response } from "express";
 import type Series from "../models/series.model.js";
 import { capitalize } from "../services/utils-service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
 
 
-export async function create(data: Series): Promise<Series> {
+export async function findOrCreate(data: Series): Promise<Series> {
 
   const series: Series = {
     name: capitalize(data.name),
     volumes: Number(data.volumes),
     status: data.status
   };
+
+  const existing = await SeriesRepository.findByName(series.name);
+
+  if (existing.length !== 0) {
+    return existing[0] as Series;
+  }
+
   const newSeries = await SeriesRepository.create(series);
 
   if (newSeries.affectedRows === 0) {

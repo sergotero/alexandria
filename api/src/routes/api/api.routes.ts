@@ -3,6 +3,7 @@ import * as AuthorController from "./../../controllers/author.controller.js";
 import * as BookBaseController from "./../../controllers/book-base.controller.js";
 import * as CollectionController from "./../../controllers/collection.controller.js";
 import * as SeriesController from "./../../controllers/series.controller.js";
+import * as FullBookController from "./../../controllers/full-book.controller.js";
 
 const router = Router();
 
@@ -33,5 +34,12 @@ router.post("/collection", CollectionController.create);
 router.get("/collection/:id", CollectionController.detail);
 router.patch("/collection/:id", CollectionController.update);
 router.delete("/collection/:id", CollectionController.destroy);
+
+//FULL-BOOK
+router.get("/fullBook", FullBookController.list);
+router.post("/fullBook", FullBookController.create);
+router.get("/fullBook/:id", FullBookController.detail);
+// router.patch("/fullBook/:id", FullBookController.update);
+// router.delete("/fullBook/:id", FullBookController.destroy);
 
 export default router;

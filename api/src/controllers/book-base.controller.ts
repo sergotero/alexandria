@@ -32,7 +32,7 @@ export async function create(req: Request, res: Response): Promise<void>{
       description: req.body?.description ?? null,
       indexVolume: req.body?.indexVolume ?? null
   }
-  const result = await BookBaseService.create(bookBase);
+  const result = await BookBaseService.findOrCreate(bookBase);
   res.status(201).json(result);
 }
 

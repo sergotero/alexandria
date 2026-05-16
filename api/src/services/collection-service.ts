@@ -2,14 +2,14 @@ import * as CollectionRepository from "./../repositories/collection.repository.j
 import type Collection from "../models/collection.model.js";
 import { capitalize } from "./utils-service.js";
 
-export async function create(name: string): Promise<Collection | never> {
+export async function findOrCreate(name: string): Promise<Collection | never> {
   
   const collection: Collection = { name: capitalize(name) };
 
-  const checkCollection = await CollectionRepository.findByName(name);
+  const existing = await CollectionRepository.findByName(name);
 
-  if (checkCollection.length !== 0) {
-    throw new Error("La colección ya existe en la base de datos");
+  if (existing.length !== 0) {
+    return existing[0] as Collection;
   }
 
   const result = await CollectionRepository.create(capitalize(name));

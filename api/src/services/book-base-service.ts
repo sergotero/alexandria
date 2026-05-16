@@ -1,14 +1,13 @@
 import type BookBase from "../models/book-base.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 
-export async function create(data: BookBase): Promise<BookBase>{
+export async function findOrCreate(data: BookBase): Promise<BookBase>{
   const { title, language, format, description, indexVolume } = data;
 
-  const oldBook = await BookBaseRepository.findByTitle(title);
+  const existing = await BookBaseRepository.findByTitle(title);
 
-  if (oldBook.length !== 0) {
-    throw new Error("El libro ya existe en la base de datos");
+  if (existing.length !== 0) {
+    return existing[0] as BookBase;
   }
   
   const bookBase: BookBase = {
@@ -26,8 +25,6 @@ export async function create(data: BookBase): Promise<BookBase>{
   bookBase.id = Number(result.insertId);
   bookBase.description = description ?? null;
   bookBase.indexVolume = indexVolume ?? null;
-
-  console.log(bookBase);
   
   return bookBase;
 }

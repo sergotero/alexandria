@@ -8,7 +8,7 @@ export async function create(req: Request, res: Response): Promise<void> {
     throw new Error("Es necesario introducir un nombre válido");
   }
 
-  const collection = await CollectionService.create(name);
+  const collection = await CollectionService.findOrCreate(name);
   res.status(201).json(collection);
 }
 
