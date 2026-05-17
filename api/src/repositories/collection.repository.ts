@@ -2,7 +2,7 @@ import { query } from "../config/db-query.config.js";
 import type Collection from "../models/collection.model.js";
 import type SQLResponse from "../models/SQLResponse.js";
 
-export async function create(name: string) {
+export async function create(name: string): Promise<SQLResponse> {
   return await query("INSERT INTO collections (name) VALUE (?)", [name]);
 }
 

@@ -77,15 +77,15 @@ export async function findByIdAndUpdate(id: string, book: BookBase): Promise<SQL
   }
 
   values.push(id);
-
-  const sql = `
-  UPDATE books
-  LEFT JOIN booksseries ON books.id = booksseries.book_id
-  LEFT JOIN booksauthors ON books.id = booksauthors.book_id
-  SET ${fields.join(", ")}
-  WHERE books.id = ?`;
   
-  return await query(sql, values);
+  return await query(`
+    UPDATE books
+    LEFT JOIN booksseries ON books.id = booksseries.book_id
+    LEFT JOIN booksauthors ON books.id = booksauthors.book_id
+    SET ${fields.join(", ")}
+    WHERE books.id = ?`,
+    values
+  );
 }
 
 export async function findByIdAndDelete(id: string): Promise<SQLResponse> {

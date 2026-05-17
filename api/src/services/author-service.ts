@@ -10,7 +10,7 @@ export async function findOrCreate(data: Author): Promise<Author> {
   const lastname3 = data.lastname3 === undefined ? null : capitalize(data.lastname3!);
   
   const author: Author = {
-    name: name,
+    name: name!,
     lastname1: lastname1,
     lastname2: lastname2,
     lastname3: lastname3,
@@ -45,7 +45,7 @@ export async function detail(id: string): Promise<Author> {
   return author[0] as Author;
 }
 
-export async function update(id: string, data: Author): Promise<Author> {
+export async function update(id: string, data: Author): Promise<Author | never> {
   
   const oldAuthor = await AuthorRepository.findById(id);
 
@@ -60,7 +60,7 @@ export async function update(id: string, data: Author): Promise<Author> {
 
   const author: Author = {
     ...oldAuthor[0],
-    name: name,
+    name: name!,
     lastname1: lastname1,
     lastname2: lastname2,
     lastname3: lastname3,
@@ -76,7 +76,7 @@ export async function update(id: string, data: Author): Promise<Author> {
   return author;
 };
 
-export async function destroy(id: string): Promise<boolean> {
+export async function destroy(id: string): Promise<boolean | never> {
   const result = await AuthorRepository.findByIdAndDelete(id);
   
   if (result.affectedRows === 0) {

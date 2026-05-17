@@ -14,15 +14,13 @@ import * as BooksCollectionsService from "./../services/books-collections-servic
 import pool from "../config/db.config.js";
 
 
-export async function findOrCreate(data: FullBook) {
+export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
 
   let connection;
 
   try {
     connection = await pool.getConnection();
     await connection.beginTransaction();
-    //-----------------------------------
-    //Basic insert in tables
     const bookBase: BookBase = data.bookBase;
     const newBookBase = await BookBaseService.findOrCreate(bookBase);
     
@@ -43,11 +41,9 @@ export async function findOrCreate(data: FullBook) {
     }
 
     const newCollection = await CollectionService.findOrCreate(data.collection.name);
-    //-----------------------------------
-    //Binding tables
+
     const booksAuthors = await BooksAuthorsService.findOrCreate(newBookBase, newAuthor);
     const booksCollections = await BooksCollectionsService.findOrCreate(newBookBase, newCollection);
-    
     if (newSeries) {
       const booksSeries = await BooksSeriesService.findOrCreate(newBookBase, newSeries);
 
@@ -72,7 +68,11 @@ export async function findOrCreate(data: FullBook) {
     await connection.commit();
     return fullBook;
   } catch (error) {
-    throw new Error("Se ha producido un error")
+    console.error("Se ha producido un error: ", error);
+    if (connection) {
+      await connection.rollback();
+    }
+    throw new Error();
   } finally {
     if (connection) {
       await connection.release();
@@ -81,7 +81,7 @@ export async function findOrCreate(data: FullBook) {
 }
 
 
-export async function list() {
+export async function list(): Promise<FullBook[]> {
   const fullBooks = await FullBookRepository.findAll();
   const books = fullBooks.map((book: any) => {
     const bookBase: BookBase = {
@@ -123,9 +123,8 @@ export async function list() {
 }
 
 
-export async function detail(id: string) {
+export async function detail(id: string): Promise<FullBook> {
   const book = await FullBookRepository.findById(id);
-
     const bookBase: BookBase = {
       id: book[0].book_id,
       title: book[0].title,
@@ -167,11 +166,41 @@ export async function detail(id: string) {
 }
 
 
-export async function update() {
+export async function update(id: string, data: FullBook): Promise<FullBook | never> {
+  let connection;
 
+  try {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    const oldFullBook = await detail(id);
+
+    const booksAuthors = await BooksAuthorsService.update(oldFullBook, data);
+    const booksCollections = await BooksCollectionsService.update(oldFullBook, data);
+    
+    if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
+      const booksSeries = await BooksSeriesService.update(oldFullBook, data);
+    } else if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id === null) {
+      const booksSeries = await BooksSeriesService.findOrCreate(data.bookBase, data.series);
+    }
+    
+    const newFullBook = await detail(id);
+    
+    await connection.commit();
+    return newFullBook;
+  } catch (error) {
+    console.error("Se ha producido un error: ", error);
+    if (connection) {
+      await connection.rollback();
+    }
+    throw new Error("Se ha producido un error durante la actualización");
+  } finally {
+    if (connection) {
+      await connection.release();
+    }
+  }
 }
 
+// export async function destroy() {
 
-export async function destroy() {
-
-}
+// }

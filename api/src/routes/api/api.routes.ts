@@ -39,7 +39,7 @@ router.delete("/collection/:id", CollectionController.destroy);
 router.get("/fullBook", FullBookController.list);
 router.post("/fullBook", FullBookController.create);
 router.get("/fullBook/:id", FullBookController.detail);
-// router.patch("/fullBook/:id", FullBookController.update);
+router.patch("/fullBook/:id", FullBookController.update);
 // router.delete("/fullBook/:id", FullBookController.destroy);
 
 export default router;

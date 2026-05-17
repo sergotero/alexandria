@@ -2,8 +2,9 @@ import type { SQLValue } from "../config/db-query.config.js";
 import type Collection from "../models/collection.model.js";
 import type BookBase from "../models/book-base.model.js";
 import * as BooksCollectionsRepository from "./../repositories/books-collections.repository.js";
+import type FullBook from "../models/full-book.model.js";
 
-export async function findOrCreate(bookBase: BookBase, collection: Collection): Promise<Record<string, SQLValue> | boolean> {
+export async function findOrCreate(bookBase: BookBase, collection: Collection): Promise<Record<string, SQLValue> | boolean | never> {
   const bookId = bookBase.id!.toString();
   const collectionId = collection.id!.toString();
   const existing = await BooksCollectionsRepository.findByIds(bookId, collectionId);
@@ -15,6 +16,16 @@ export async function findOrCreate(bookBase: BookBase, collection: Collection): 
 
   if (newInsert.affectedRows === 0) {
     throw new Error("Se ha producido un error");
+  }
+
+  return true;
+}
+
+export async function update(fullBook: FullBook, data: any): Promise<boolean | never> {
+  const update = await BooksCollectionsRepository.findByIdsAndUpdate(fullBook, data);
+
+  if (update.affectedRows === 0) {
+    throw new Error("Se ha producido un error durante la actualización");
   }
 
   return true;

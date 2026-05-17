@@ -3,7 +3,7 @@ import { capitalize } from "../services/utils-service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
 
 
-export async function findOrCreate(data: Series): Promise<Series> {
+export async function findOrCreate(data: Series): Promise<Series | never> {
 
   const series: Series = {
     name: capitalize(data.name),
@@ -11,7 +11,7 @@ export async function findOrCreate(data: Series): Promise<Series> {
     status: data.status
   };
 
-  const existing = await SeriesRepository.findByName(series.name);
+  const existing = await SeriesRepository.findByName(series.name!);
 
   if (existing.length !== 0) {
     return existing[0] as Series;
@@ -52,6 +52,24 @@ export async function update(id: string, data: Series): Promise<Series | never> 
     throw new Error("Se ha producido un error durante la actualización de la serie");
   }
 
+  return series;
+}
+
+export async function findByIdAndUpdateOrInsert(series: Series): Promise<Series | never> {
+  const existing = await SeriesRepository.findByName(series.name!);
+
+  if (existing.length !== 0) {
+    const updated = update(existing[0]!.id!.toString(), series);
+    return updated;
+  }
+
+  const newSeries = await SeriesRepository.create(series);
+
+  if (newSeries.affectedRows === 0) {
+    throw new Error("Se ha producido un error al crear la nueva serie");
+  }
+
+  series.id = Number(newSeries.insertId);
   return series;
 }
 

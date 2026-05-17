@@ -1,7 +1,7 @@
 import type BookBase from "../models/book-base.model.js";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 
-export async function findOrCreate(data: BookBase): Promise<BookBase>{
+export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
   const { title, language, format, description, indexVolume } = data;
 
   const existing = await BookBaseRepository.findByTitle(title);
@@ -34,12 +34,12 @@ export async function list(): Promise<BookBase[]>{
   return bookbases;
 }
 
-export async function detail(id: string): Promise<BookBase[]>{
+export async function detail(id: string): Promise<BookBase>{
   const bookbase = await BookBaseRepository.findById(id);
-  return bookbase;
+  return bookbase[0] as BookBase;
 }
 
-export async function update(id: string, bookBase: BookBase): Promise<BookBase[]>{
+export async function update(id: string, bookBase: BookBase): Promise<BookBase | never>{
   const { title, language, format, description, indexVolume } = bookBase;
   
   const updateData: BookBase = {
@@ -64,10 +64,10 @@ export async function update(id: string, bookBase: BookBase): Promise<BookBase[]
 
   const updatedBaseBook = await BookBaseRepository.findById(id);
 
-  return updatedBaseBook;
+  return updatedBaseBook[0] as BookBase;
 }
 
-export async function destroy(id: string): Promise<boolean>{
+export async function destroy(id: string): Promise<boolean | never>{
   const baseBook = await BookBaseRepository.findByIdAndDelete(id);
 
   if(baseBook.affectedRows === 0) {

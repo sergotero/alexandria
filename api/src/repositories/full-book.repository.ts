@@ -1,6 +1,7 @@
 import { query } from "../config/db-query.config.js";
+import type FullBook from "../models/full-book.model.js";
 
-export async function findAll() {
+export async function findAll(): Promise<FullBook[]> {
   return await query(`
     SELECT booksauthors.author_id AS author_id,
       booksauthors.book_id AS book_id,
@@ -34,7 +35,7 @@ export async function findAll() {
   `);
 }
 
-export async function findById(id: string) {
+export async function findById(id: string): Promise<any[]> {
   return await query(`
     SELECT booksauthors.author_id AS author_id,
       booksauthors.book_id AS book_id,
@@ -67,12 +68,4 @@ export async function findById(id: string) {
       indexVolume,
       collection_name
   `, [id]);
-}
-
-export async function findByIdAndUpdate() {
-
-}
-
-export async function findByIdAndDelete() {
-
 }
