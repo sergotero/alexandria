@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import * as CollectionRepository from "./../repositories/collection.repository.js";
 import type Collection from "../models/collection.model.js";
 import { capitalize } from "./utils-service.js";
@@ -36,17 +37,17 @@ export async function update(id: string, name: string): Promise<Collection | nev
   const result = await CollectionRepository.findByIdAndUpdate(id, collection);
 
   if (result.affectedRows === 0) {
-    throw new Error("La colección no se ha actualizado debido a un problema");
+    throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
   return collection;
 }
 
-export async function destroy(id: string): Promise<boolean | never> {
+export async function destroy(id: string): Promise<true | never> {
   const collection = await CollectionRepository.findByIdAndDelete(id);
 
   if (collection.affectedRows === 0){
-    throw new Error("Se ha producido un error durante el borrado de la colección");
+    throw createHttpError(400, "Se ha producido un error durante el borrado de la colección");
   }
 
   return true;

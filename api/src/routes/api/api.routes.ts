@@ -4,6 +4,7 @@ import * as BookBaseController from "./../../controllers/book-base.controller.js
 import * as CollectionController from "./../../controllers/collection.controller.js";
 import * as SeriesController from "./../../controllers/series.controller.js";
 import * as FullBookController from "./../../controllers/full-book.controller.js";
+import * as ReadBookController from "./../../controllers/read-book.controller.js";
 
 const router = Router();
 
@@ -41,5 +42,12 @@ router.post("/fullBook", FullBookController.create);
 router.get("/fullBook/:id", FullBookController.detail);
 router.patch("/fullBook/:id", FullBookController.update);
 // router.delete("/fullBook/:id", FullBookController.destroy);
+
+//READ-BOOK
+router.get("/readBook", ReadBookController.list);
+router.post("/readBook", ReadBookController.create);
+router.get("/readBook/:id", ReadBookController.detail);
+router.patch("/readBook/:id", ReadBookController.update);
+router.delete("/readBook/:id", ReadBookController.destroy);
 
 export default router;

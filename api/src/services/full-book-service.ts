@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import type Author from "../models/author.model.js";
 import type BookBase from "../models/book-base.model.js";
 import type Collection from "../models/collection.model.js";
@@ -72,7 +73,7 @@ export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
     if (connection) {
       await connection.rollback();
     }
-    throw new Error();
+    throw createHttpError(400, );
   } finally {
     if (connection) {
       await connection.release();
@@ -193,14 +194,10 @@ export async function update(id: string, data: FullBook): Promise<FullBook | nev
     if (connection) {
       await connection.rollback();
     }
-    throw new Error("Se ha producido un error durante la actualización");
+    throw createHttpError(400, "Se ha producido un error durante la actualización");
   } finally {
     if (connection) {
       await connection.release();
     }
   }
 }
-
-// export async function destroy() {
-
-// }

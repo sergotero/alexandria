@@ -1,10 +1,11 @@
+import createHttpError from "http-errors";
 import type { SQLValue } from "../config/db-query.config.js";
 import type Series from "../models/series.model.js";
 import type BookBase from "../models/book-base.model.js";
 import * as BooksSeriesRepository from "./../repositories/books-series.repository.js";
 import type FullBook from "../models/full-book.model.js";
 
-export async function findOrCreate(bookBase: BookBase, series: Series): Promise<Record<string, SQLValue> | boolean | never> {
+export async function findOrCreate(bookBase: BookBase, series: Series): Promise<Record<string, SQLValue> | true | never> {
   const bookId = bookBase.id!.toString();
   const seriesId = series.id!.toString();
   const existing = await BooksSeriesRepository.findByIds(bookId, seriesId);
@@ -15,17 +16,17 @@ export async function findOrCreate(bookBase: BookBase, series: Series): Promise<
   const newInsert = await BooksSeriesRepository.create(bookBase, series);
 
   if (newInsert.affectedRows === 0) {
-    throw new Error("Se ha producido un error");
+    throw createHttpError(400, "Se ha producido un error en la base de datos");
   }
 
   return true;
 }
 
-export async function update(fullBook: FullBook, data: any): Promise<boolean | never> {
+export async function update(fullBook: FullBook, data: any): Promise<true | never> {
   const update = await BooksSeriesRepository.findByIdsAndUpdate(fullBook, data);
   
   if (update.affectedRows === 0) {
-    throw new Error("Se ha producido un error durante la actualización");
+    throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
   
   return true;

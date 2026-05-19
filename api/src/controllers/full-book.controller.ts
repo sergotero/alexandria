@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as FullBookService from "./../services/full-book-service.js";
 
@@ -14,8 +15,10 @@ export async function list(req: Request, res: Response): Promise<void> {
 export async function detail(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
 
-  if (typeof id !== "string") {
-    throw new Error("El ID no es válido");
+  if (id == undefined) {
+    throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
+  } else if (typeof id !== 'string') {
+    throw createHttpError(400, "El ID del libro no es válido");
   }
 
   const fullBook = await FullBookService.detail(id);
@@ -25,9 +28,12 @@ export async function detail(req: Request, res: Response): Promise<void> {
 export async function update(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
 
-  if (typeof id !== "string") {
-    throw new Error("El ID no es válido");
+  if (id == undefined) {
+    throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
+  } else if (typeof id !== 'string') {
+    throw createHttpError(400, "El ID del libro no es válido");
   }
+
   const fullBook = await FullBookService.update(id, req.body);
   res.status(200).json(fullBook);
 }
@@ -35,10 +41,12 @@ export async function update(req: Request, res: Response): Promise<void> {
 // export async function destroy(req: Request, res: Response): Promise<void> {
 //   const { id } = req.params;
 
-//   if (typeof id !== "string") {
-//     throw new Error("El ID no es válido");
-//   }
+// if (id == undefined) {
+//   throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
+// } else if (typeof id !== 'string') {
+//   throw createHttpError(400, "El ID del libro no es válido");
+// }
 
 //   const fullBook = await FullBookService.destroy();
-//   res.status(204).json(fullBook);
+//   res.status(204).send(fullBook);
 // }

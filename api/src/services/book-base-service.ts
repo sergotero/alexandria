@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import type BookBase from "../models/book-base.model.js";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 
@@ -19,7 +20,7 @@ export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
   const result = await BookBaseRepository.create(bookBase);
 
   if (result.affectedRows === 0) {
-    throw new Error("Se ha producido un error en la base de datos");
+    throw createHttpError(400, "Se ha producido un error en la base de datos");
   }
 
   bookBase.id = Number(result.insertId);
@@ -59,7 +60,7 @@ export async function update(id: string, bookBase: BookBase): Promise<BookBase |
   const checkBaseBook = await BookBaseRepository.findByIdAndUpdate(id, updateData);
 
   if (checkBaseBook.affectedRows === 0) {
-    throw new Error("Se ha producido un error durante la actualización");
+    throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
   const updatedBaseBook = await BookBaseRepository.findById(id);
@@ -71,7 +72,7 @@ export async function destroy(id: string): Promise<boolean | never>{
   const baseBook = await BookBaseRepository.findByIdAndDelete(id);
 
   if(baseBook.affectedRows === 0) {
-    throw new Error("Se ha producido un error durante el borrado");
+    throw createHttpError(400, "Se ha producido un error durante el borrado");
   }
   return true;
 }

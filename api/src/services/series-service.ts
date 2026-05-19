@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import type Series from "../models/series.model.js";
 import { capitalize } from "../services/utils-service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
@@ -20,7 +21,7 @@ export async function findOrCreate(data: Series): Promise<Series | never> {
   const newSeries = await SeriesRepository.create(series);
 
   if (newSeries.affectedRows === 0) {
-    throw new Error("Se ha producido un error al crear la nueva serie");
+    throw createHttpError(400, "Se ha producido un error al crear la nueva serie");
   }
 
   series.id = Number(newSeries.insertId);
@@ -49,35 +50,17 @@ export async function update(id: string, data: Series): Promise<Series | never> 
   const result = await SeriesRepository.findByIdAndUpdate(id, series);
 
   if (result.affectedRows === 0) {
-    throw new Error("Se ha producido un error durante la actualización de la serie");
+    throw createHttpError(400, "Se ha producido un error durante la actualización de la serie");
   }
 
   return series;
 }
 
-export async function findByIdAndUpdateOrInsert(series: Series): Promise<Series | never> {
-  const existing = await SeriesRepository.findByName(series.name!);
-
-  if (existing.length !== 0) {
-    const updated = update(existing[0]!.id!.toString(), series);
-    return updated;
-  }
-
-  const newSeries = await SeriesRepository.create(series);
-
-  if (newSeries.affectedRows === 0) {
-    throw new Error("Se ha producido un error al crear la nueva serie");
-  }
-
-  series.id = Number(newSeries.insertId);
-  return series;
-}
-
-export async function destroy(id: string): Promise<boolean | never> {
+export async function destroy(id: string): Promise<true | never> {
   const series = await SeriesRepository.findByIdAndDelete(id);
 
   if (series.affectedRows === 0) {
-    throw new Error("Se ha producido un error durante el borrado de la serie");
+    throw createHttpError(400, "Se ha producido un error durante el borrado de la serie");
   }
 
   return true;

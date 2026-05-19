@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import type Author from "../models/author.model.js";
 import * as AuthorRepository from "../repositories/author.repository.js";
 import { capitalize } from "./utils-service.js";
@@ -27,7 +28,7 @@ export async function findOrCreate(data: Author): Promise<Author> {
   const result = await AuthorRepository.create(author);
 
   if (result.affectedRows === 0) {
-    throw new Error("Se ha producido un error");
+    throw createHttpError(400, "Se ha producido un error");
   }
 
   author.id = Number(result.insertId);
@@ -50,7 +51,7 @@ export async function update(id: string, data: Author): Promise<Author | never> 
   const oldAuthor = await AuthorRepository.findById(id);
 
   if (Array.isArray(oldAuthor) && oldAuthor.length === 0) {
-    throw new Error("No existe este autor en la base de datos");
+    throw createHttpError(404, "No existe este autor en la base de datos");
   }
   
   const name = capitalize(data.name!);
@@ -70,17 +71,17 @@ export async function update(id: string, data: Author): Promise<Author | never> 
   const result = await AuthorRepository.findByIdAndUpdate(id, author);
   
   if (result.affectedRows === 0) {
-    throw new Error("Se ha producido un error");
+    throw createHttpError(400, "Se ha producido un error");
   }
 
   return author;
 };
 
-export async function destroy(id: string): Promise<boolean | never> {
+export async function destroy(id: string): Promise<true | never> {
   const result = await AuthorRepository.findByIdAndDelete(id);
   
   if (result.affectedRows === 0) {
-    throw new Error("Se ha producido un error");
+    throw createHttpError(400, "Se ha producido un error");
   }
 
   return true;
