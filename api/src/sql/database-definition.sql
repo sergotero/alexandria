@@ -104,10 +104,6 @@ CREATE TABLE booksauthors(
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-/*
-El parámetro puntuación originalmente se diseñó como DECIMAL (4,2) UNSIGNED pero parece ser que es un método depreciado que va a desaparecer en las próximas versiones.
-*/
-
 CREATE TABLE readbooks(
 	id INT UNSIGNED AUTO_INCREMENT,
   book_id INT UNSIGNED NOT NULL,
@@ -159,5 +155,5 @@ INSERT INTO alexandria.collections (name) VALUES ('Terror');
 INSERT INTO alexandria.collections (name) VALUES ('Ufología');
 INSERT INTO alexandria.collections (name) VALUES ('Zombies');
 
--- CREATE USER IF NOT EXISTS "bibliotecario"@"localhost" IDENTIFIED BY "f4r0D3Lc0n0c1m13nt0!";
--- GRANT ALL PRIVILEGES ON alexandria.* TO "bibliotecario"@"localhost";
+-- CREATE USER IF NOT EXISTS "user"@"host" IDENTIFIED BY "secret";
+-- GRANT ALL PRIVILEGES ON alexandria.* TO "user"@"host";

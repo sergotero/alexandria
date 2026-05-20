@@ -1,4 +1,4 @@
-type States = "Abierta" | "Cerrada" | "Desconocido";
+import type { States } from "./../types/models.types.js";
 
 export default interface Series{
   id?: number | null;

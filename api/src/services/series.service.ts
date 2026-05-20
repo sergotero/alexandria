@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import type Series from "../models/series.model.js";
-import { capitalize } from "../services/utils-service.js";
+import { capitalize } from "./utils.service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
 
 

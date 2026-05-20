@@ -1,6 +1,8 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
-import * as CollectionService from "./../services/collection-service.js";
+import * as CollectionService from "./../services/collection.service.js";
+import type { APIResponse } from "../types/api-responses.type.js";
+import type Collection from "../models/collection.model.js";
 
 export async function create(req: Request, res: Response): Promise<void | never> {
   const { name } = req.body;
@@ -12,12 +14,20 @@ export async function create(req: Request, res: Response): Promise<void | never>
   }
 
   const collection = await CollectionService.findOrCreate(name);
-  res.status(201).json(collection);
+  const response: APIResponse<Collection> = {
+    success: true,
+    data: collection
+  };
+  res.status(201).json(response);
 }
 
 export async function list(req: Request, res: Response): Promise<void> {
   const collections = await CollectionService.list();
-  res.status(200).json(collections);
+  const response: APIResponse<Collection[]> = {
+    success: true,
+    data: collections
+  };
+  res.status(200).json(response);
 }
 
 export async function detail(req: Request, res: Response): Promise<void | never> {
@@ -30,7 +40,11 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   }
 
   const collection = await CollectionService.detail(id);
-  res.status(200).json(collection);
+  const response: APIResponse<Collection> = {
+    success: true,
+    data: collection
+  };
+  res.status(200).json(response);
 }
 
 export async function update(req: Request, res: Response): Promise<void | never> {
@@ -43,7 +57,11 @@ export async function update(req: Request, res: Response): Promise<void | never>
   }
 
   const collection = await CollectionService.update(id, req.body.name);
-  res.status(200).json(collection);
+  const response: APIResponse<Collection> = {
+    success: true,
+    data: collection
+  };
+  res.status(200).json(response);
 }
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
@@ -56,5 +74,9 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   }
 
   const collection = await CollectionService.destroy(id);
-  res.status(204).send(collection);
+  const response: APIResponse<true> = {
+    success: true,
+    data: collection
+  };
+  res.status(204).json(response);
 }

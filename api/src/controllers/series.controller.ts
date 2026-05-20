@@ -1,6 +1,8 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
-import * as SeriesService from "./../services/series-service.js";
+import * as SeriesService from "./../services/series.service.js";
+import type { APIResponse } from "../types/api-responses.type.js";
+import type Series from "../models/series.model.js";
 
 export async function create(req: Request, res: Response): Promise<void | never> {
   const statuses = ["Abierta", "Cerrada", "Desconocido"];
@@ -26,12 +28,20 @@ export async function create(req: Request, res: Response): Promise<void | never>
   }
 
   const series = await SeriesService.findOrCreate(req.body);
-  res.status(200).json(series);
+  const response: APIResponse<Series> = {
+    success: true,
+    data: series
+  };
+  res.status(200).json(response);
 }
 
 export async function list(req: Request, res: Response): Promise<void | never> {
   const series = await SeriesService.list();
-  res.status(200).json(series);
+  const response: APIResponse<Series[]> = {
+    success: true,
+    data: series
+  };
+  res.status(200).json(response);
 }
 
 export async function detail(req: Request, res: Response): Promise<void | never> {
@@ -44,7 +54,11 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   }
   
   const series = await SeriesService.detail(id);
-  res.status(200).json(series);
+  const response: APIResponse<Series> = {
+    success: true,
+    data: series
+  };
+  res.status(200).json(response);
 }
 
 export async function update(req: Request, res: Response): Promise<void | never> {
@@ -57,7 +71,11 @@ export async function update(req: Request, res: Response): Promise<void | never>
   }
 
   const series = await SeriesService.update(id, req.body);
-  res.status(200).json(series);
+  const response: APIResponse<Series> = {
+    success: true,
+    data: series
+  };
+  res.status(200).json(response);
 }
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
@@ -70,6 +88,10 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   }
 
   const series = await SeriesService.destroy(id);
-  res.status(204).send(series);
+  const response: APIResponse<true> = {
+    success: true,
+    data: series
+  };
+  res.status(204).json(series);
 }
 

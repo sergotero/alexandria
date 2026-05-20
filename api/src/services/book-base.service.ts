@@ -68,7 +68,7 @@ export async function update(id: string, bookBase: BookBase): Promise<BookBase |
   return updatedBaseBook[0] as BookBase;
 }
 
-export async function destroy(id: string): Promise<boolean | never>{
+export async function destroy(id: string): Promise<true | never>{
   const baseBook = await BookBaseRepository.findByIdAndDelete(id);
 
   if(baseBook.affectedRows === 0) {

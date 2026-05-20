@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import * as CollectionRepository from "./../repositories/collection.repository.js";
 import type Collection from "../models/collection.model.js";
-import { capitalize } from "./utils-service.js";
+import { capitalize } from "./utils.service.js";
 
 export async function findOrCreate(name: string): Promise<Collection> {
   

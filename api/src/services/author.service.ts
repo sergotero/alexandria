@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import type Author from "../models/author.model.js";
 import * as AuthorRepository from "../repositories/author.repository.js";
-import { capitalize } from "./utils-service.js";
+import { capitalize } from "./utils.service.js";
 
 export async function findOrCreate(data: Author): Promise<Author> {
   

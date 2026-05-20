@@ -4,14 +4,14 @@ import type BookBase from "../models/book-base.model.js";
 import type Collection from "../models/collection.model.js";
 import type FullBook from "../models/full-book.model.js";
 import type Series from "../models/series.model.js";
-import * as FullBookRepository from "./../repositories/full-book.repository.js";
-import * as BookBaseService from "./../services/book-base-service.js";
-import * as AuthorService from "./../services/author-service.js";
-import * as SeriesService from "./../services/series-service.js";
-import * as CollectionService from "./../services/collection-service.js";
-import * as BooksAuthorsService from "./../services/books-authors-service.js";
-import * as BooksSeriesService from "./../services/books-series-services.js";
-import * as BooksCollectionsService from "./../services/books-collections-services.js";
+import * as FullBookRepository from "../repositories/full-book.repository.js";
+import * as BookBaseService from "./../services/book-base.service.js";
+import * as AuthorService from "./author.service.js";
+import * as SeriesService from "./series.service.js";
+import * as CollectionService from "./../services/collection.service.js";
+import * as BooksAuthorsService from "./books-authors.service.js";
+import * as BooksSeriesService from "./books-series.service.js";
+import * as BooksCollectionsService from "./books-collections.service.js";
 import pool from "../config/db.config.js";
 
 

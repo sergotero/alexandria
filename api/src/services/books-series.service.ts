@@ -1,9 +1,9 @@
 import createHttpError from "http-errors";
-import type { SQLValue } from "../config/db-query.config.js";
 import type Series from "../models/series.model.js";
 import type BookBase from "../models/book-base.model.js";
-import * as BooksSeriesRepository from "./../repositories/books-series.repository.js";
+import * as BooksSeriesRepository from "../repositories/books-series.repository.js";
 import type FullBook from "../models/full-book.model.js";
+import type { SQLValue } from "../types/models.types.js";
 
 export async function findOrCreate(bookBase: BookBase, series: Series): Promise<Record<string, SQLValue> | true | never> {
   const bookId = bookBase.id!.toString();

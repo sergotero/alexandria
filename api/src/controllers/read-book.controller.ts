@@ -1,15 +1,25 @@
 import type { Request, Response } from "express";
-import * as ReadBookService from "./../services/read-book-service.js";
+import * as ReadBookService from "./../services/read-book.service.js";
 import createHttpError from "http-errors";
+import type { APIResponse } from "../types/api-responses.type.js";
+import type ReadBook from "../models/read-book.model.js";
 
 export async function create(req: Request, res: Response): Promise<void> {
   const readBook = await ReadBookService.create(req.body);
-  res.status(201).json(readBook);
+  const response: APIResponse<ReadBook> = {
+    success: true,
+    data: readBook
+  };
+  res.status(201).json(response);
 }
 
 export async function list(req: Request, res: Response): Promise<void> {
   const readBooks = await ReadBookService.list();
-  res.status(200).json(readBooks);
+  const response: APIResponse<ReadBook[]> = {
+    success: true,
+    data: readBooks
+  };
+  res.status(200).json(response);
 }
 
 export async function detail(req: Request, res: Response): Promise<void> {
@@ -20,7 +30,11 @@ export async function detail(req: Request, res: Response): Promise<void> {
   }
   
   const readBook = await ReadBookService.detail(id);
-  res.status(200).json(readBook);
+  const response: APIResponse<ReadBook> = {
+    success: true,
+    data: readBook
+  };
+  res.status(200).json(response);
 }
 
 export async function update(req: Request, res: Response): Promise<void> {
@@ -30,7 +44,11 @@ export async function update(req: Request, res: Response): Promise<void> {
     throw createHttpError(400, "El ID no es válido");
   }
   const readBook = await ReadBookService.update(id, req.body);
-  res.status(200).json(readBook);
+  const response: APIResponse<ReadBook> = {
+    success: true,
+    data: readBook
+  };
+  res.status(200).json(response);
 }
 
 export async function destroy(req: Request, res: Response): Promise<void> {
@@ -41,5 +59,9 @@ export async function destroy(req: Request, res: Response): Promise<void> {
   }
 
   const readBook = await ReadBookService.destroy(id);
-  res.status(204).send();
+  const response: APIResponse<true> = {
+    success: true,
+    data: readBook
+  };
+  res.status(204).json(response);
 }

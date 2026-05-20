@@ -21,21 +21,21 @@ export async function findByName(name: string): Promise<Series[]>{
 export async function findByIdAndUpdate(id: string, series: Series){
   
   const fields: string[] = [];
-  const values: (string | number)[] = [];
+  const values: string[] = [];
 
   if (series.name !== undefined) {
     fields.push("name = ?");
-    values.push(series.name);
+    values.push(series.name!.toString());
   }
 
   if (series.volumes !== undefined) {
     fields.push("total_vol = ?");
-    values.push(series.volumes);
+    values.push(series.volumes!.toString());
   }
 
   if (series.status !== undefined) {
     fields.push("status = ?");
-    values.push(series.status);
+    values.push(series.status!.toString());
   }
 
   values.push(id);

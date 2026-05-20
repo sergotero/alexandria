@@ -1,15 +1,25 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
-import * as FullBookService from "./../services/full-book-service.js";
+import * as FullBookService from "../services/full-book.service.js";
+import type { APIResponse } from "../types/api-responses.type.js";
+import type FullBook from "../models/full-book.model.js";
 
 export async function create(req: Request, res: Response): Promise<void> {
-  const fullBook = await FullBookService.findOrCreate(req.body);  
-  res.status(201).json(fullBook);
+  const fullBook = await FullBookService.findOrCreate(req.body);
+  const response: APIResponse<FullBook> = {
+    success: true,
+    data: fullBook
+  };
+  res.status(201).json(response);
 }
 
 export async function list(req: Request, res: Response): Promise<void> {
   const fullBooks = await FullBookService.list();
-  res.status(200).json(fullBooks);
+  const response: APIResponse<FullBook[]> = {
+    success: true,
+    data: fullBooks
+  };
+  res.status(200).json(response);
 }
 
 export async function detail(req: Request, res: Response): Promise<void> {
@@ -22,7 +32,11 @@ export async function detail(req: Request, res: Response): Promise<void> {
   }
 
   const fullBook = await FullBookService.detail(id);
-  res.status(200).json(fullBook);
+  const response: APIResponse<FullBook> = {
+    success: true,
+    data: fullBook
+  };
+  res.status(200).json(response);
 }
 
 export async function update(req: Request, res: Response): Promise<void> {
@@ -35,7 +49,11 @@ export async function update(req: Request, res: Response): Promise<void> {
   }
 
   const fullBook = await FullBookService.update(id, req.body);
-  res.status(200).json(fullBook);
+  const response: APIResponse<FullBook> = {
+    success: true,
+    data: fullBook
+  };
+  res.status(200).json(response);
 }
 
 // export async function destroy(req: Request, res: Response): Promise<void> {

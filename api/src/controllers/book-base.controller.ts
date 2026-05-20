@@ -1,8 +1,10 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
-import * as BookBaseService from "./../services/book-base-service.js";
+import * as BookBaseService from "./../services/book-base.service.js";
 import type BookBase from "../models/book-base.model.js";
-import type { Formats, Languages } from "../models/book-base.model.js";
+import type { Formats, Languages } from "../types/models.types.js";
+import type { APIResponse } from "../types/api-responses.type.js";
+
 
 
 export async function create(req: Request, res: Response): Promise<void | never>{
@@ -37,12 +39,20 @@ export async function create(req: Request, res: Response): Promise<void | never>
       indexVolume: req.body?.indexVolume ?? null
   }
   const result = await BookBaseService.findOrCreate(bookBase);
-  res.status(201).json(result);
+  const response: APIResponse<BookBase> = {
+    success: true,
+    data: result
+  };
+  res.status(201).json(response);
 }
 
 export async function list(req: Request, res: Response): Promise<void>{
   const bookBases = await BookBaseService.list();
-  res.status(200).json(bookBases);
+  const response: APIResponse<BookBase[]> = {
+    success: true,
+    data: bookBases
+  };
+  res.status(200).json(response);
 }
 
 export async function detail(req: Request, res: Response): Promise<void | never>{
@@ -55,8 +65,11 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   }
 
   const bookbase = await BookBaseService.detail(id);
-
-  res.status(200).json(bookbase);
+  const response: APIResponse<BookBase> = {
+    success: true,
+    data: bookbase
+  };
+  res.status(200).json(response);
 }
 
 export async function update(req: Request, res: Response): Promise<void | never>{
@@ -69,9 +82,12 @@ export async function update(req: Request, res: Response): Promise<void | never>
   }
 
   const bookBase: BookBase = req.body;
-
   const updatedBaseBook = await BookBaseService.update(id, bookBase);
-  res.status(200).json(updatedBaseBook);
+  const response: APIResponse<BookBase> = {
+    success: true,
+    data: updatedBaseBook
+  };
+  res.status(200).json(response);
 }
 
 export async function destroy(req: Request, res: Response): Promise<void | never>{
@@ -84,5 +100,9 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   }
 
   const baseBook = await BookBaseService.destroy(id);
-  res.status(204).send(baseBook)
+  const response: APIResponse<true> = {
+    success: true,
+    data: baseBook
+  };
+  res.status(204).json(response)
 }

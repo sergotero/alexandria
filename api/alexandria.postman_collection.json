@@ -1,0 +1,844 @@
+{
+  "info": {
+    "_postman_id": "a1442f28-acdb-49a4-8329-8a77dbef98d5",
+    "name": "Alexandria",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52148319",
+    "_collection_link": "https://go.postman.co/collection/52148319-a1442f28-acdb-49a4-8329-8a77dbef98d5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Authors",
+      "item": [
+        {
+          "name": "List Authors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/author",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Author",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/author/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "553"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Author",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"SeRGio\",\r\n    \"lastname1\": \"otero\",\r\n    \"lastname2\": \"Pérez\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/author",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update author",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Sergio\",\r\n    \"lastname1\": \"oTEro\",\r\n    \"lastname2\": \"Pérez\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/author/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "554"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete author",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/author/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "554"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BookBase",
+      "item": [
+        {
+          "name": "Create bookBase",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Libro autoeditado de Sergio\",\r\n    \"language\": \"Español\",\r\n    \"format\": \"Digital\",\r\n    \"description\": \"Es un libro de mierda para realizar una prueba.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/bookBase",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookBase"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List bookBase",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookBase",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookBase"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail bookBase",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookBase/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookBase",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update bookBase",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Libro autoeditado de Sergio\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/bookBase/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookBase",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete bookBase",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/bookBase/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookBase",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1001"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "Create collection",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/collection",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "collection"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/collection",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "collection"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/collection/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "collection",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "12"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update collection",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"jurriña\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/collection/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "collection",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "33"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete collection",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/collection/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "collection",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "33"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Series",
+      "item": [
+        {
+          "name": "Create series",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"La mejor serie de la historia\",\r\n    \"volumes\": 1,\r\n    \"status\": \"Cerrada\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/series",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "series"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List series",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/series",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "series"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail series",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/series/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "series",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "54"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update series",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"La peor serie de la historia\",\r\n    \"volumes\": 1,\r\n    \"status\": \"Desconocido\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/series/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "series",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "163"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete series",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/series/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "series",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "163"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "FullBooks",
+      "item": [
+        {
+          "name": "Create fullBook",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookBase\": {\r\n        \"title\": \"Memorias de una gaysha\",\r\n        \"language\": \"Español\",\r\n        \"format\": \"Digital\",\r\n        \"description\": \"Una novela como nunca antes se ha visto en el mundo.\"\r\n    },\r\n    \"author\": {\r\n        \"name\": \"Sergio\",\r\n        \"lastname1\": \"Otero\",\r\n        \"lastname2\": \"Pérez\"\r\n    },\r\n    \"collection\": {\r\n        \"name\": \"LGBTQ autoeditado\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/fullBook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fullBook"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List fullBooks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fullBook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fullBook"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail fullBook",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fullBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fullBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1002"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update fullBook",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookBase\": {\r\n        \"id\": 1002,\r\n        \"indexVolume\": 1\r\n    },\r\n    \"author\": {\r\n        \"id\": 555\r\n    },\r\n    \"series\": {\r\n        \"id\": 163,\r\n        \"name\": \"Gordilandia\",\r\n        \"volumes\": 1,\r\n        \"status\": \"Abierta\"\r\n    },\r\n    \"collection\": {\r\n        \"id\": 1,\r\n        \"name\": \"Artes\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/fullBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fullBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1002"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete fullBook",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/fullBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fullBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "163"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ReadBooks",
+      "item": [
+        {
+          "name": "Create readBook",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"68\",\r\n    \"authorId\": \"300\",\r\n    \"readingDate\": \"2026-05-19\",\r\n    \"score\": \"0\",\r\n    \"comments\": \"Una prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/readBook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "readBook"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List readBooks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/readBook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "readBook"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail readBook",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/readBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "readBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "15"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update readBook",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"72\",\r\n    \"authorId\": \"300\",\r\n    \"readingDate\": \"2026-05-17\",\r\n    \"score\": \"7.5\",\r\n    \"comments\": \"Una prueba2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/readBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "readBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "110"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete readBook",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/readBook/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "readBook",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "110"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
