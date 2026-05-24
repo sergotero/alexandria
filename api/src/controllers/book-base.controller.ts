@@ -10,6 +10,9 @@ import type { APIResponse } from "../types/api-responses.type.js";
 export async function create(req: Request, res: Response): Promise<void | never>{
   const languages = ["Español", "Inglés", "Alemán", "Japonés"];
   const formats = ["Digital", "Impreso", "Ambos"];
+  // English version
+  // const languages = ["Spanish", "English", "German", "Japanese"];
+  // const formats = ["Digital", "Printed", "Both"];
 
   const { title, language, format } = req.body;
 

@@ -1,4 +1,3 @@
--- alexandria
 DROP DATABASE IF EXISTS alexandria;
 CREATE DATABASE alexandria CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE alexandria;
@@ -7,7 +6,9 @@ CREATE TABLE books(
 	id INT UNSIGNED AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
   language ENUM('Español', 'Inglés', 'Alemán', 'Japonés'),
+  -- language ENUM('Spanish', 'English', 'German', 'Japanese'),
   format ENUM('Impreso', 'Digital', 'Ambos'),
+  -- format ENUM('Printed', 'Digital', 'Both'),
 		CONSTRAINT pk_books PRIMARY KEY books (id),
       CONSTRAINT uq_books UNIQUE (title)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -31,6 +32,7 @@ CREATE TABLE series(
   name VARCHAR(255) NOT NULL,
   total_vol INT UNSIGNED,
   status ENUM('Abierta', 'Cerrada', 'Desconocido'),
+  -- status ENUM('Open', 'Closed', 'Unkown'),
 		CONSTRAINT pk_series PRIMARY KEY series (id),
       CONSTRAINT uq_series UNIQUE (name)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -122,38 +124,8 @@ CREATE TABLE readbooks(
         ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-INSERT INTO alexandria.collections (name) VALUES ('Artes');
-INSERT INTO alexandria.collections (name) VALUES ('Autoayuda');
-INSERT INTO alexandria.collections (name) VALUES ('Aventuras');
-INSERT INTO alexandria.collections (name) VALUES ('Bélico');
-INSERT INTO alexandria.collections (name) VALUES ('Biografía');
-INSERT INTO alexandria.collections (name) VALUES ('Ciencia ficción');
-INSERT INTO alexandria.collections (name) VALUES ('Clásicos');
-INSERT INTO alexandria.collections (name) VALUES ('Contemporáneo');
-INSERT INTO alexandria.collections (name) VALUES ('Distopía');
-INSERT INTO alexandria.collections (name) VALUES ('Divulgación');
-INSERT INTO alexandria.collections (name) VALUES ('Drama');
-INSERT INTO alexandria.collections (name) VALUES ('Esoterismo');
-INSERT INTO alexandria.collections (name) VALUES ('Espiritualidad');
-INSERT INTO alexandria.collections (name) VALUES ('Fantasía');
-INSERT INTO alexandria.collections (name) VALUES ('Filosofía');
-INSERT INTO alexandria.collections (name) VALUES ('Histórico');
-INSERT INTO alexandria.collections (name) VALUES ('Humor');
-INSERT INTO alexandria.collections (name) VALUES ('LGBTQ');
-INSERT INTO alexandria.collections (name) VALUES ('LGBTQ autoeditado');
-INSERT INTO alexandria.collections (name) VALUES ('Lingüística');
-INSERT INTO alexandria.collections (name) VALUES ('Manuales');
-INSERT INTO alexandria.collections (name) VALUES ('Misterio');
-INSERT INTO alexandria.collections (name) VALUES ('Novela erótica');
-INSERT INTO alexandria.collections (name) VALUES ('Parapsicología');
-INSERT INTO alexandria.collections (name) VALUES ('Poesía épica');
-INSERT INTO alexandria.collections (name) VALUES ('Poesía lírica');
-INSERT INTO alexandria.collections (name) VALUES ('Policíaco');
-INSERT INTO alexandria.collections (name) VALUES ('Romance');
-INSERT INTO alexandria.collections (name) VALUES ('Social');
-INSERT INTO alexandria.collections (name) VALUES ('Terror');
-INSERT INTO alexandria.collections (name) VALUES ('Ufología');
-INSERT INTO alexandria.collections (name) VALUES ('Zombies');
 
--- CREATE USER IF NOT EXISTS "user"@"host" IDENTIFIED BY "secret";
--- GRANT ALL PRIVILEGES ON alexandria.* TO "user"@"host";
+-- Important: change the following parameters:
+
+CREATE USER IF NOT EXISTS "user"@"host" IDENTIFIED BY "secret";
+GRANT ALL PRIVILEGES ON alexandria.* TO "user"@"host";

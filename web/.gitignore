@@ -22,17 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Temporal
-/public/alexandria.json
-/public/alexandria_full.json
-/public/alexandria_final.json
-/public/limpiador2.py
-/public/limpiador.py
-/public/favorites.py
-/public/complete-books.js
-/public/alexandria_enriquecido.json
-/public/request.py
-/data/reviews.json
-# Local Netlify folder
-.netlify
