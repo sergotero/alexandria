@@ -6,6 +6,7 @@ import type { APIResponse } from "../types/api-responses.type.js";
 
 export async function create(req: Request, res: Response): Promise<void> {
   const { name, email, password, role } = req.body;
+
   if (name === undefined) {
     throw createHttpError(400, "El nombre es un parámetro obligatorio");
   } else if (typeof name !== "string") {
@@ -48,13 +49,66 @@ export async function list(req: Request, res: Response): Promise<void> {
 }
 
 export async function detail(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  if (id === undefined) {
+    throw createHttpError(400, "El id es un parámetro obligatorio");
+  } else if (typeof id !== "string") {
+    throw createHttpError(400, "El id debe ser un string");
+  }
+
+  const user = await UserService.detail(id);
+  const response: APIResponse<User> = {
+    success: true,
+    data: user
+  };
+
+  res.status(200).json(response)
 
 }
 
 export async function update(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
 
+  if (id == undefined) {
+    throw createHttpError(400, "El ID del usuario es un parámetro obligatorio");
+  } else if (typeof id !== 'string') {
+    throw createHttpError(400, "El ID del usuario no es válido");
+  }
+
+  const user = await UserService.update(id, req.body);
+  const response: APIResponse<User> = {
+    success: true,
+    data: user
+  };
+  res.status(200).json(response);
 }
 
 export async function destroy(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+
+  if (id == undefined) {
+    throw createHttpError(400, "El ID del usuario es un parámetro obligatorio");
+  } else if (typeof id !== 'string') {
+    throw createHttpError(400, "El ID del usuario no es válido");
+  }
+
+  const user = await UserService.destroy(id);
+  const response: APIResponse<true> = {
+    success: true,
+    data: user
+  };
+  res.status(204).json(response);
+}
+
+export async function register(req: Request, res: Response){
+  
+}
+
+export async function login(req: Request, res: Response) {
+
+}
+
+export async function logout(req: Request, res: Response) {
 
 }

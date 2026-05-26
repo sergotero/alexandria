@@ -1,10 +1,9 @@
 import createHttpError from "http-errors";
-import bcrypt from "bcryptjs";
 import type User from "../models/user.model.js";
 import * as UserRepository from "./../repositories/user.repository.js";
-import { capitalize } from "./utils.service.js";
+import { capitalize, encryptPassword } from "./utils.service.js";
 
-export async function create(data: User): Promise<User> {
+export async function create(data: User): Promise<User | never> {
   const { email, password } = data;
 
   if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/.test(email)) {
@@ -15,9 +14,7 @@ export async function create(data: User): Promise<User> {
     throw createHttpError(400, "La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo y debe tener entre 5 y 15 caracteres");
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPass = await bcrypt.hash(password, salt);
-
+  const hashedPass = await encryptPassword(data.password);
   const user: User = {
     name: capitalize(data.name)!,
     lastname1: capitalize(data?.lastname1!),
@@ -32,7 +29,8 @@ export async function create(data: User): Promise<User> {
   if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error durante la creación del usuario")
   }
-
+  
+  user.id = result.insertId!;
   user.password = "******";
 
   return user;
@@ -43,14 +41,69 @@ export async function list(): Promise<User[]> {
   return users as User[];
 }
 
-export async function detail() {
+export async function detail(id: string) {
+  const user = await UserRepository.findById(id);
+  return user[0] as User;
+}
+
+export async function update(id: string, data: any): Promise<User | never> {
+
+  if (data.name !== undefined) {
+    data.name = capitalize(data.name);
+  }
+
+  if (data.lastname1 !== undefined) {
+    data.lastname1 = capitalize(data.lastname1);
+  }
+
+  if (data.lastname2 !== undefined) {
+    data.lastname2 = capitalize(data.lastname2);
+  }
+
+  if (data.email !== undefined && !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/.test(data.email)) {
+    throw createHttpError(400, "El email no tiene un formato válido");
+  }
+  
+  if (data.password !== undefined && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,15}$/.test(data.password)) {
+    data.password = await encryptPassword(data.password);
+  } else {
+    throw createHttpError(400, "La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo y debe tener entre 5 y 15 caracteres");
+  }
+  
+  if (data.role !== undefined) {
+    data.role = capitalize(data.role);
+  }
+
+  const result = await UserRepository.findByIdAndUpdate(id, data);
+  
+  if (result.affectedRows === 0) {
+    throw createHttpError(400, "Se ha producido un error durante la actualización");
+  }
+
+  const user = await detail(id);
+  user.password = "******";
+  return user;
+  
+}
+
+export async function destroy(id: string) : Promise<true | never>{
+  const user = await UserRepository.findByIdAndDelete(id);
+
+  if (user.affectedRows === 0) {
+    throw createHttpError(400, "Se ha producido un error durante la eliminación");
+  }
+
+  return true;
+}
+
+export async function register(){
+  
+}
+
+export async function login() {
 
 }
 
-export async function update() {
-
-}
-
-export async function destroy() {
+export async function logout() {
 
 }

@@ -57,4 +57,9 @@ router.get("/user/:id", UserController.detail);
 router.patch("/user/:id", UserController.update);
 router.delete("/user/:id", UserController.destroy);
 
+//ACCESS
+router.post("/access/register", UserController.register);
+router.post("/access/login", UserController.login);
+router.delete("/access/logout", UserController.logout);
+
 export default router;
