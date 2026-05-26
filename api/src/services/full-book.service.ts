@@ -43,11 +43,10 @@ export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
 
     const newCollection = await CollectionService.findOrCreate(data.collection.name);
 
-    const booksAuthors = await BooksAuthorsService.findOrCreate(newBookBase, newAuthor);
-    const booksCollections = await BooksCollectionsService.findOrCreate(newBookBase, newCollection);
+    await BooksAuthorsService.findOrCreate(newBookBase, newAuthor);
+    await BooksCollectionsService.findOrCreate(newBookBase, newCollection);
     if (newSeries) {
-      const booksSeries = await BooksSeriesService.findOrCreate(newBookBase, newSeries);
-
+      await BooksSeriesService.findOrCreate(newBookBase, newSeries);
     }
     
     let fullBook: FullBook;
@@ -91,7 +90,8 @@ export async function list(): Promise<FullBook[]> {
       language: book.language,
       format: book.format,
       description: book.description,
-      indexVolume: book.indexVolume
+      indexVolume: book.indexVolume,
+      cover: book.cover
     };
     const author: Author = {
       id: book.author_id,
@@ -132,7 +132,8 @@ export async function detail(id: string): Promise<FullBook> {
       language: book[0].language,
       format: book[0].format,
       description: book[0].description,
-      indexVolume: book[0].indexVolume
+      indexVolume: book[0].indexVolume,
+      cover: book[0].cover
     };
 
     const author: Author = {
@@ -176,13 +177,13 @@ export async function update(id: string, data: FullBook): Promise<FullBook | nev
 
     const oldFullBook = await detail(id);
 
-    const booksAuthors = await BooksAuthorsService.update(oldFullBook, data);
-    const booksCollections = await BooksCollectionsService.update(oldFullBook, data);
+    await BooksAuthorsService.update(oldFullBook, data);
+    await BooksCollectionsService.update(oldFullBook, data);
     
     if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
-      const booksSeries = await BooksSeriesService.update(oldFullBook, data);
+      await BooksSeriesService.update(oldFullBook, data);
     } else if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id === null) {
-      const booksSeries = await BooksSeriesService.findOrCreate(data.bookBase, data.series);
+      await BooksSeriesService.findOrCreate(data.bookBase, data.series);
     }
     
     const newFullBook = await detail(id);

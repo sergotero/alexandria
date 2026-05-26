@@ -16,6 +16,7 @@ export async function findAll(): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
+      booksauthors.cover AS cover,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -28,6 +29,7 @@ export async function findById(id: string): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
+      booksauthors.cover AS cover,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -40,6 +42,7 @@ export async function findByTitle(title: string): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
+      booksauthors.cover AS cover,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -69,6 +72,11 @@ export async function findByIdAndUpdate(id: string, book: BookBase): Promise<SQL
   if (book.description !== undefined) {
     fields.push("booksauthors.description = ?");
     values.push(book.description);
+  }
+  
+  if (book.cover !== undefined) {
+    fields.push("booksauthors.cover = ?");
+    values.push(book.cover);
   }
 
   if (book.indexVolume !== undefined) {

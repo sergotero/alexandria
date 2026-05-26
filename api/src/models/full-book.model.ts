@@ -4,8 +4,8 @@ import type Series from "./series.model.js";
 import type Collection from "./collection.model.js";
 
 export default interface FullBook{
-  bookBase: BookBase;
-  author: Author;
-  series?: Series;
-  collection: Collection;
+  bookBase: BookBase,
+  author: Author,
+  series?: Series,
+  collection: Collection,
 }

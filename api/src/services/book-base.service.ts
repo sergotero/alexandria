@@ -3,7 +3,7 @@ import type BookBase from "../models/book-base.model.js";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 
 export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
-  const { title, language, format, description, indexVolume } = data;
+  const { title, language, format, description, indexVolume, cover } = data;
 
   const existing = await BookBaseRepository.findByTitle(title);
 
@@ -26,6 +26,7 @@ export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
   bookBase.id = Number(result.insertId);
   bookBase.description = description ?? null;
   bookBase.indexVolume = indexVolume ?? null;
+  bookBase.cover = cover ?? null;
   
   return bookBase;
 }
@@ -41,7 +42,7 @@ export async function detail(id: string): Promise<BookBase>{
 }
 
 export async function update(id: string, bookBase: BookBase): Promise<BookBase | never>{
-  const { title, language, format, description, indexVolume } = bookBase;
+  const { title, language, format, description, indexVolume, cover } = bookBase;
   
   const updateData: BookBase = {
     title,
@@ -54,7 +55,11 @@ export async function update(id: string, bookBase: BookBase): Promise<BookBase |
   }
 
   if (indexVolume !== undefined) {
-    updateData.indexVolume = indexVolume
+    updateData.indexVolume = indexVolume;
+  }
+  
+  if (cover !== undefined) {
+    updateData.cover = cover;
   }
 
   const checkBaseBook = await BookBaseRepository.findByIdAndUpdate(id, updateData);

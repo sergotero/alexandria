@@ -35,12 +35,14 @@ export async function create(req: Request, res: Response): Promise<void | never>
   }
 
   const bookBase: BookBase = {
-      title: title,
-      language: language as Languages,
-      format: format as Formats,
-      description: req.body?.description ?? null,
-      indexVolume: req.body?.indexVolume ?? null
+    title: title,
+    language: language as Languages,
+    format: format as Formats,
+    description: req.body?.description ?? null,
+    indexVolume: req.body?.indexVolume ?? null,
+    cover: req.body?.cover ?? null
   }
+
   const result = await BookBaseService.findOrCreate(bookBase);
   const response: APIResponse<BookBase> = {
     success: true,
