@@ -14,6 +14,11 @@ export async function create(data: User): Promise<User | never> {
     throw createHttpError(400, "La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo y debe tener entre 5 y 15 caracteres");
   }
 
+  const existing = await UserRepository.findByEmail(data.email);
+  if (existing.length !== 0) {
+    throw createHttpError(400, "El usuario ya existe en la base de datos");
+  }
+
   const hashedPass = await encryptPassword(data.password);
   const user: User = {
     name: capitalize(data.name)!,
@@ -27,7 +32,7 @@ export async function create(data: User): Promise<User | never> {
   const result = await UserRepository.create(user);
 
   if (result.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error durante la creación del usuario")
+    throw createHttpError(400, "Se ha producido un error durante la creación del usuario");
   }
   
   user.id = result.insertId!;

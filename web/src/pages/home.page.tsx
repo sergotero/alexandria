@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as FullBookService from "./../services/fullbook.services.tsx";
 import { type FullBook } from "../types/api-types.tsx";
 import type { ServerError } from "../types/error-types.tsx";
+import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 
 function HomePage() {
   const [ serverError, setServerError ] = useState<ServerError>({});
@@ -20,17 +21,15 @@ function HomePage() {
   }, []);
   
   return (
-    <main>
-      <div>
-        {serverError && (<p>{serverError.message}</p>)}
-      </div>
-      <h1>Catálogo</h1>
-      <p>¡Encuentra el libro que buscas!</p>
-      <div>
-        {list.map((book, index) => {
-          return <pre key={index}>{JSON.stringify(book, null, 2)}</pre>
-        })}
-      </div>
+    <main className="flex align-top justify-center gap-5 p-5">
+      <section className="min-w-2xl">
+        <div className="grid grid-cols-3 gap-3">
+          <BookCardsGenerator fullBooks={list} />
+        </div>
+      </section>
+      <section className="bg-red-300 min-w-2xl p-3 rounded-xl">
+        Details
+      </section>
     </main>
   );
 }
