@@ -1,13 +1,12 @@
+import type { ReadBook, ReadBookDTO, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
-import type ReadBookExtended from "../models/read-book-extended.model.js";
-import type ReadBook from "../models/read-book.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
 
-export async function create(readBook: ReadBook): Promise<SQLResponse>{
+
+export async function create(readBook: ReadBookDTO): Promise<SQLResponse>{
   
   return await query(`INSERT INTO readbooks (book_id, author_id, reading_date, score, comments) VALUES (?, ?, ?, ?, ?)`, [readBook.bookId, readBook.authorId, readBook.readingDate, readBook.score, readBook.comments]);
 }
-export async function list(): Promise<ReadBookExtended[]>{
+export async function list(): Promise<ReadBook[]>{
   return await query(`
     SELECT 
       readbooks.id AS id,
@@ -27,7 +26,7 @@ export async function list(): Promise<ReadBookExtended[]>{
       books.title
   `);
 }
-export async function detail(id: string): Promise<ReadBookExtended[]> {
+export async function detail(id: string): Promise<ReadBook[]> {
   return await query(`
     SELECT 
       readbooks.id AS id,

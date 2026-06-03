@@ -1,8 +1,8 @@
+import type { BookBase, BookBaseDTO, SQLResponse } from "@shared/types";
 import { query} from "../config/db-query.config.js";
-import type BookBase from "../models/book-base.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
 
-export async function create(book: BookBase): Promise<SQLResponse>{
+
+export async function create(book: BookBaseDTO): Promise<SQLResponse>{
   const params = [
     book.title,
     book.language,

@@ -1,8 +1,8 @@
+import type { Series, SeriesDTO, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
-import type Series from "../models/series.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
 
-export async function create(series: Series): Promise<SQLResponse>{
+
+export async function create(series: SeriesDTO): Promise<SQLResponse>{
   return await query("INSERT INTO series(name, total_vol, status) VALUES(?, ?, ?)", [series.name, series.volumes!, series.status]);
 }
 

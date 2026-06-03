@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import createHttpError from "http-errors";
-import type User from "../models/user.model.js";
 import * as UserService from "./../services/user.service.js";
-import type { APIResponse } from "../types/api-responses.type.js";
+import type { APIResponse, User } from '@shared/types';
+
 
 export async function create(req: Request, res: Response): Promise<void> {
   const { name, email, password, role } = req.body;
@@ -32,7 +32,7 @@ export async function create(req: Request, res: Response): Promise<void> {
   }
 
   const user = await UserService.create(req.body);
-  const response: APIResponse<User> = {
+  const response: APIResponse<Omit<User, "password">> = {
     success: true,
     data: user
   };
@@ -77,7 +77,7 @@ export async function update(req: Request, res: Response): Promise<void> {
   }
 
   const user = await UserService.update(id, req.body);
-  const response: APIResponse<User> = {
+  const response: APIResponse<Omit<User, "password">> = {
     success: true,
     data: user
   };

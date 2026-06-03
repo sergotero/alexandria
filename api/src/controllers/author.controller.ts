@@ -1,8 +1,8 @@
+import type { APIResponse, Author } from '@shared/types';
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as AuthorService from "../services/author.service.js";
-import type { APIResponse } from "../types/api-responses.type.js";
-import type Author from "../models/author.model.js";
+
 
 export async function create(req: Request, res: Response): Promise<void | never> {
   const { name } = req.params;

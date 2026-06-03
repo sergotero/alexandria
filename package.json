@@ -1,0 +1,29 @@
+{
+  "name": "alexandria",
+  "private": true,
+  "workspaces": [
+    "api",
+    "web",
+    "shared-types"
+  ],
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:api": "run npm dev -w api",
+    "dev:web": "run npm dev -w web",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergotero/alexandria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/sergotero/alexandria/issues"
+  },
+  "homepage": "https://github.com/sergotero/alexandria#readme"
+}

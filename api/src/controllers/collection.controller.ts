@@ -1,8 +1,8 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as CollectionService from "./../services/collection.service.js";
-import type { APIResponse } from "../types/api-responses.type.js";
-import type Collection from "../models/collection.model.js";
+import type { APIResponse, Collection } from "@shared/types";
+
 
 export async function create(req: Request, res: Response): Promise<void | never> {
   const { name } = req.body;

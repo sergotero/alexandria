@@ -1,4 +1,4 @@
-export type ServerError = {
+export type ServerErrorDTO = {
   message?: string,
   statusCode?: number
 }

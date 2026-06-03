@@ -1,16 +1,12 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as BookBaseService from "./../services/book-base.service.js";
-import type BookBase from "../models/book-base.model.js";
-import type { Formats, Languages } from "../types/models.types.js";
-import type { APIResponse } from "../types/api-responses.type.js";
-
+import type { APIResponse, BookBase, BookBaseDTO, Formats, Languages } from "@shared/types";
 
 
 export async function create(req: Request, res: Response): Promise<void | never>{
   const languages = ["Español", "Inglés", "Alemán", "Japonés"];
   const formats = ["Digital", "Impreso", "Ambos"];
-  // English version
   // const languages = ["Spanish", "English", "German", "Japanese"];
   // const formats = ["Digital", "Printed", "Both"];
 
@@ -34,7 +30,7 @@ export async function create(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El formato no se encuentra definido en la base de datos");
   }
 
-  const bookBase: BookBase = {
+  const bookBase: BookBaseDTO = {
     title: title,
     language: language as Languages,
     format: format as Formats,

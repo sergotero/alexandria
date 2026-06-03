@@ -1,8 +1,7 @@
-import type Author from "../models/author.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
+import type { Author, AuthorDTO, SQLResponse } from '@shared/types';
 import { query } from '../config/db-query.config.js';
 
-export async function create(author: Author): Promise<SQLResponse> {
+export async function create(author: AuthorDTO): Promise<SQLResponse> {
   
   const params = [
     author.name,

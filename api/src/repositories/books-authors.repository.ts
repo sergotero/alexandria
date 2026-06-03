@@ -1,8 +1,6 @@
+import type { Author, BookBase, FullBook, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
-import type Author from "../models/author.model.js";
-import type BookBase from "../models/book-base.model.js";
-import type FullBook from "../models/full-book.model.js";
-import type SQLResponse from "../models/SQLResponse.js";
+
 
 export async function create(bookBase: BookBase, author: Author): Promise<SQLResponse> {
   return await query("INSERT INTO booksauthors (book_id, author_id, description) VALUES (?, ?, ?)", [bookBase.id!, author.id!, bookBase.description!]);

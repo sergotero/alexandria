@@ -1,8 +1,7 @@
 import type { Request, Response } from "express";
 import * as ReadBookService from "./../services/read-book.service.js";
 import createHttpError from "http-errors";
-import type { APIResponse } from "../types/api-responses.type.js";
-import type ReadBook from "../models/read-book.model.js";
+import type { APIResponse, ReadBook } from "@shared/types";
 
 export async function create(req: Request, res: Response): Promise<void> {
   const readBook = await ReadBookService.create(req.body);

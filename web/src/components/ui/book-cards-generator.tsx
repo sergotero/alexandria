@@ -1,18 +1,22 @@
-import type { FullBook } from "../../types/api-types";
+import type { FullBook } from "../../../../shared/types/api-types";
 import BookCard from "./book-card";
 
 type BookCardsGeneratorProps = {
-  fullBooks: FullBook[]
+  fullBooks: FullBook[],
+  handleDetails: (fullBook: FullBook) => void
 };
 
-function BookCardsGenerator({ fullBooks }: BookCardsGeneratorProps) {
+function BookCardsGenerator({ fullBooks, handleDetails }: BookCardsGeneratorProps) {
 
   return(
     <>
       {fullBooks.map((book: FullBook) => {
         return (
-        <article className="flex flex-col bg-zinc-800 text-white p-2 rounded-xl" id={`B${book.bookBase.id}-A${book.author.id}`} key={`B${book.bookBase.id}-A${book.author.id}`}>
-          <BookCard {...book} />
+        <article
+          className="flex flex-col bg-zinc-700 text-white p-2 rounded-xl hover:bg-zinc-600"
+          key={`B${book.bookBase.id}-A${book.author.id}`}
+          onClick={() => handleDetails(book)}>
+            <BookCard {...book} />
         </article>)
       })}
     </>

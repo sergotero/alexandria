@@ -1,5 +1,5 @@
+import type { FullBook } from "@shared/types";
 import { query } from "../config/db-query.config.js";
-import type FullBook from "../models/full-book.model.js";
 
 export async function findAll(): Promise<FullBook[]> {
   return await query(`

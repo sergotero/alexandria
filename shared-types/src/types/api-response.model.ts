@@ -1,14 +1,14 @@
 type ApiSuccess<T> = {
-  success: true;
-  data: T;
+  success: true,
+  data: T,
 };
 
 type ApiError = {
-  success: false;
+  success: false,
   error: {
-    message: string;
-    statusCode: number;
-  };
+    message: string,
+    statusCode: number,
+  }
 };
 
 export type APIResponse<T> = ApiSuccess<T> | ApiError;

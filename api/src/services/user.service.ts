@@ -3,7 +3,7 @@ import type User from "../models/user.model.js";
 import * as UserRepository from "./../repositories/user.repository.js";
 import { capitalize, encryptPassword } from "./utils.service.js";
 
-export async function create(data: User): Promise<User | never> {
+export async function create(data: User): Promise<Omit<User, "password"> | never> {
   const { email, password } = data;
 
   if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/.test(email)) {
@@ -36,9 +36,9 @@ export async function create(data: User): Promise<User | never> {
   }
   
   user.id = result.insertId!;
-  user.password = "******";
+  const {password: pass, ...newUser} = user;
 
-  return user;
+  return newUser;
 }
 
 export async function list(): Promise<User[]> {
@@ -51,7 +51,7 @@ export async function detail(id: string) {
   return user[0] as User;
 }
 
-export async function update(id: string, data: any): Promise<User | never> {
+export async function update(id: string, data: any): Promise<Omit<User, "password"> | never> {
 
   if (data.name !== undefined) {
     data.name = capitalize(data.name);
@@ -86,9 +86,8 @@ export async function update(id: string, data: any): Promise<User | never> {
   }
 
   const user = await detail(id);
-  user.password = "******";
-  return user;
-  
+  const {password: pass, ...newUser} = user;
+  return newUser;
 }
 
 export async function destroy(id: string) : Promise<true | never>{

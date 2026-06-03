@@ -1,8 +1,8 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as SeriesService from "./../services/series.service.js";
-import type { APIResponse } from "../types/api-responses.type.js";
-import type Series from "../models/series.model.js";
+import type { APIResponse, Series } from "@shared/types";
+
 
 export async function create(req: Request, res: Response): Promise<void | never> {
   const statuses = ["Abierta", "Cerrada", "Desconocido"];

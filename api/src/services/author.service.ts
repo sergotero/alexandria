@@ -1,16 +1,17 @@
 import createHttpError from "http-errors";
-import type Author from "../models/author.model.js";
+
 import * as AuthorRepository from "../repositories/author.repository.js";
 import { capitalize } from "./utils.service.js";
+import type { Author, AuthorDTO } from "@shared/types";
 
-export async function findOrCreate(data: Author): Promise<Author> {
+export async function findOrCreate(data: AuthorDTO): Promise<Author> {
   
   const name = capitalize(data.name!);
   const lastname1 = data.lastname1 === undefined ? null : capitalize(data.lastname1!);
   const lastname2 = data.lastname2 === undefined ? null : capitalize(data.lastname2!);
   const lastname3 = data.lastname3 === undefined ? null : capitalize(data.lastname3!);
   
-  const author: Author = {
+  const author: AuthorDTO = {
     name: name!,
     lastname1: lastname1,
     lastname2: lastname2,
