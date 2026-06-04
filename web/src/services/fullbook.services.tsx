@@ -1,5 +1,5 @@
+import type { APIResponse, FullBook } from "@shared/types";
 import axios from "axios";
-import type { APIResponse, FullBook } from "../../../shared/types/api-types";
 
 const http = axios.create({
   baseURL: "http://localhost:3000/api",

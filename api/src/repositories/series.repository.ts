@@ -18,7 +18,7 @@ export async function findByName(name: string): Promise<Series[]>{
   return await query("SELECT * FROM series WHERE name = ?", [name]);
 }
 
-export async function findByIdAndUpdate(id: string, series: Series){
+export async function findByIdAndUpdate(id: string, series: SeriesDTO){
   
   const fields: string[] = [];
   const values: string[] = [];

@@ -10,8 +10,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:api": "run npm dev -w api",
-    "dev:web": "run npm dev -w web",
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run dev -w web",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\""
   },
   "repository": {

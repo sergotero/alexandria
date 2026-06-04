@@ -1,9 +1,9 @@
 import createHttpError from "http-errors";
-import type BookBase from "../models/book-base.model.js";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
+import type { BookBase, BookBaseDTO } from "@shared/types";
 
-export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
-  const { title, language, format, description, indexVolume, cover } = data;
+export async function findOrCreate(data: BookBaseDTO | BookBase): Promise<BookBase | never>{
+  const { title, language, format } = data;
 
   const existing = await BookBaseRepository.findByTitle(title);
 
@@ -11,7 +11,7 @@ export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
     return existing[0] as BookBase;
   }
   
-  const bookBase: BookBase = {
+  const bookBase: BookBaseDTO = {
     title: title,
     language: language,
     format: format,
@@ -23,12 +23,9 @@ export async function findOrCreate(data: BookBase): Promise<BookBase | never>{
     throw createHttpError(400, "Se ha producido un error en la base de datos");
   }
 
-  bookBase.id = Number(result.insertId);
-  bookBase.description = description ?? null;
-  bookBase.indexVolume = indexVolume ?? null;
-  bookBase.cover = cover ?? null;
+  const newBookBase = await detail(result.insertId.toString());
   
-  return bookBase;
+  return newBookBase;
 }
 
 export async function list(): Promise<BookBase[]>{
@@ -41,10 +38,10 @@ export async function detail(id: string): Promise<BookBase>{
   return bookbase[0] as BookBase;
 }
 
-export async function update(id: string, bookBase: BookBase): Promise<BookBase | never>{
+export async function update(id: string, bookBase: BookBaseDTO): Promise<BookBase | never>{
   const { title, language, format, description, indexVolume, cover } = bookBase;
   
-  const updateData: BookBase = {
+  const updateData: BookBaseDTO = {
     title,
     language,
     format,
@@ -68,9 +65,9 @@ export async function update(id: string, bookBase: BookBase): Promise<BookBase |
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
-  const updatedBaseBook = await BookBaseRepository.findById(id);
+  const updatedBaseBook = await detail(id);
 
-  return updatedBaseBook[0] as BookBase;
+  return updatedBaseBook;
 }
 
 export async function destroy(id: string): Promise<true | never>{

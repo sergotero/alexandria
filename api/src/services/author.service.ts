@@ -1,15 +1,15 @@
 import createHttpError from "http-errors";
-
 import * as AuthorRepository from "../repositories/author.repository.js";
 import { capitalize } from "./utils.service.js";
 import type { Author, AuthorDTO } from "@shared/types";
 
-export async function findOrCreate(data: AuthorDTO): Promise<Author> {
+export async function findOrCreate(data: AuthorDTO | Author): Promise<Author> {
   
   const name = capitalize(data.name!);
   const lastname1 = data.lastname1 === undefined ? null : capitalize(data.lastname1!);
   const lastname2 = data.lastname2 === undefined ? null : capitalize(data.lastname2!);
   const lastname3 = data.lastname3 === undefined ? null : capitalize(data.lastname3!);
+  const alias = `${name} ${lastname1 ?? ""} ${lastname2 ?? ""} ${lastname3 ?? ""}`.trim();
   
   const author: AuthorDTO = {
     name: name!,
@@ -17,8 +17,6 @@ export async function findOrCreate(data: AuthorDTO): Promise<Author> {
     lastname2: lastname2,
     lastname3: lastname3,
   }
-  
-  const alias = `${author.name} ${author.lastname1 ?? ""} ${author.lastname2 ?? ""} ${author.lastname3 ?? ""}`.trim();
   
   const existing = await AuthorRepository.findByAlias(alias);
 
@@ -32,9 +30,9 @@ export async function findOrCreate(data: AuthorDTO): Promise<Author> {
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  author.id = Number(result.insertId);
-  author.alias = alias;
-  return author;
+  const newAuthor = await detail(result.insertId.toString());
+  
+  return newAuthor;
 }
 
 export async function list(): Promise<Author[]> {
@@ -47,7 +45,7 @@ export async function detail(id: string): Promise<Author> {
   return author[0] as Author;
 }
 
-export async function update(id: string, data: Author): Promise<Author | never> {
+export async function update(id: string, data: AuthorDTO): Promise<Author | never> {
   
   const oldAuthor = await AuthorRepository.findById(id);
 
@@ -60,13 +58,11 @@ export async function update(id: string, data: Author): Promise<Author | never> 
   const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2!);
   const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3!);
 
-  const author: Author = {
-    ...oldAuthor[0],
+  const author: AuthorDTO = {
     name: name!,
     lastname1: lastname1,
     lastname2: lastname2,
     lastname3: lastname3,
-    alias: `${name} ${lastname1 ?? ""} ${lastname2 ?? ""} ${lastname3 ?? ""}`.trim()
   }
   
   const result = await AuthorRepository.findByIdAndUpdate(id, author);
@@ -75,7 +71,9 @@ export async function update(id: string, data: Author): Promise<Author | never> 
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  return author;
+  const updatedAuthor = await detail(id);
+
+  return updatedAuthor;
 };
 
 export async function destroy(id: string): Promise<true | never> {

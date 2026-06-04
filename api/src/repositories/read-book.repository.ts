@@ -48,7 +48,7 @@ export async function detail(id: string): Promise<ReadBook[]> {
   `, [id]);
 }
 
-export async function update(id: string, data: ReadBook) {
+export async function update(id: string, data: ReadBookDTO) {
   const fields: string[] = [];
   const values: string[] = [];
 

@@ -1,11 +1,9 @@
 import createHttpError from "http-errors";
 import * as CollectionRepository from "./../repositories/collection.repository.js";
-import type Collection from "../models/collection.model.js";
 import { capitalize } from "./utils.service.js";
+import type { Collection } from "@shared/types";
 
 export async function findOrCreate(name: string): Promise<Collection> {
-  
-  const collection: Collection = { name: capitalize(name)! };
 
   const existing = await CollectionRepository.findByName(name);
 
@@ -14,10 +12,14 @@ export async function findOrCreate(name: string): Promise<Collection> {
   }
 
   const result = await CollectionRepository.create(capitalize(name)!);
-  
-  collection.id = Number(result.insertId);
 
-  return collection;
+  if (result.affectedRows == 0) {
+    throw createHttpError(400, "Se ha producido un error");
+  }
+
+  const newCollection = await detail(result.insertId.toString());
+
+  return newCollection;
 }
 
 export async function list(): Promise<Collection[]> {

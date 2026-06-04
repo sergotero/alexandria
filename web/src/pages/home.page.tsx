@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import * as FullBookService from "./../services/fullbook.services.tsx";
-import { type FullBook } from "../../../shared/types/api-types.tsx";
-import type { ServerError } from "../../../shared/types/error-types.tsx";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
+import type { FullBook, ServerErrorDTO } from "@shared/types";
 
 function HomePage() {
-  const [ serverError, setServerError ] = useState<ServerError>({});
+  const [ serverError, setServerError ] = useState<ServerErrorDTO>({});
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null)
 

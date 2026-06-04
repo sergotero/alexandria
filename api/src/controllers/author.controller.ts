@@ -5,7 +5,7 @@ import * as AuthorService from "../services/author.service.js";
 
 
 export async function create(req: Request, res: Response): Promise<void | never> {
-  const { name } = req.params;
+  const { name } = req.body;
   
   if (name === undefined) {
     throw createHttpError(400, "El nombre es un parámetro obligatorio");

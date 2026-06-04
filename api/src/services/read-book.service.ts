@@ -1,11 +1,10 @@
 import createHttpError from "http-errors";
-import type ReadBook from "../models/read-book.model.js";
 import * as ReadBookRepository from "./../repositories/read-book.repository.js";
-import type ReadBookExtended from "../models/read-book-extended.model.js";
+import type { ReadBook, ReadBookDTO } from "@shared/types";
 
-export async function create(data: any): Promise<ReadBookExtended | never> {
+export async function create(data: any): Promise<ReadBook | never> {
 
-  const readBook: ReadBook = {
+  const readBook: ReadBookDTO = {
     bookId: data.bookId,
     authorId: data.authorId,
     readingDate: data.readingDate,
@@ -19,13 +18,13 @@ export async function create(data: any): Promise<ReadBookExtended | never> {
     throw createHttpError(400, "Se ha producido un error al insertar los datos");
   }
 
-  return await detail(result.insertId!.toString());
+  return await detail(result.insertId.toString());
 }
 
-export async function list(): Promise<ReadBookExtended[]> {
+export async function list(): Promise<ReadBook[]> {
   const result = await ReadBookRepository.list();
   const readBooks = result.map((book: any) => {
-    const readBook: ReadBookExtended = {
+    const readBook: ReadBook = {
       id: Number(book.id),
       bookId: Number(book.bookId),
       authorId: Number(book.authorId),
@@ -40,9 +39,9 @@ export async function list(): Promise<ReadBookExtended[]> {
   return readBooks;
 }
 
-export async function detail(bookId: string): Promise<ReadBookExtended> {
+export async function detail(bookId: string): Promise<ReadBook> {
   const book = await ReadBookRepository.detail(bookId);
-  const readBook: ReadBookExtended = {
+  const readBook: ReadBook = {
     id: Number(book[0]!.id),
     bookId: Number(book[0]!.bookId),
     authorId: Number(book[0]!.authorId),
@@ -56,7 +55,7 @@ export async function detail(bookId: string): Promise<ReadBookExtended> {
 }
 
 export async function update(id: string, data: ReadBook): Promise<ReadBook | never> {
-    const bookData: ReadBook = {
+    const bookData: ReadBookDTO = {
     bookId: data.bookId,
     authorId: data.authorId,
     readingDate: data.readingDate,
@@ -69,7 +68,9 @@ export async function update(id: string, data: ReadBook): Promise<ReadBook | nev
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
-  return await detail(id);
+  const updatedReadBook = await detail(id);
+
+  return updatedReadBook;
 }
 
 export async function destroy(id: string): Promise<true | never> {

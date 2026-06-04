@@ -3,5 +3,5 @@ export type ReadBookDTO = {
   authorId: number,
   readingDate: Date,
   score: number,
-  comments?: string
+  comments?: string | null
 }

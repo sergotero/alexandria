@@ -50,7 +50,7 @@ export async function findByTitle(title: string): Promise<BookBase[]> {
     WHERE books.title = ?`, [title]);
 }
 
-export async function findByIdAndUpdate(id: string, book: BookBase): Promise<SQLResponse> {
+export async function findByIdAndUpdate(id: string, book: BookBaseDTO): Promise<SQLResponse> {
   const fields: string[] = [];
   const values: (string | number | null)[] = [];
 

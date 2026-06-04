@@ -1,9 +1,5 @@
 import createHttpError from "http-errors";
-import type Author from "../models/author.model.js";
-import type BookBase from "../models/book-base.model.js";
-import type Collection from "../models/collection.model.js";
-import type FullBook from "../models/full-book.model.js";
-import type Series from "../models/series.model.js";
+import type { Author, BookBase, Collection, FullBook, Series, SeriesDTO } from "@shared/types";
 import * as FullBookRepository from "../repositories/full-book.repository.js";
 import * as BookBaseService from "./../services/book-base.service.js";
 import * as AuthorService from "./author.service.js";
@@ -30,12 +26,12 @@ export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
     const newAuthor = await AuthorService.findOrCreate(author);
 
     let newSeries;
-    let series: Series;
+    let series: SeriesDTO;
     if (data.series !== undefined) {
       series = {
-        name: data.series.name,
-        volumes: data.series.volumes,
-        status: data.series.status,
+        name: data.series.name!,
+        volumes: data.series.volumes!,
+        status: data.series.status!,
       }
       newSeries = await SeriesService.findOrCreate(series);
 

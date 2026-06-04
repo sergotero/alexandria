@@ -1,15 +1,15 @@
 import createHttpError from "http-errors";
-import type Series from "../models/series.model.js";
 import { capitalize } from "./utils.service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
+import type { Series, SeriesDTO } from "@shared/types";
 
 
-export async function findOrCreate(data: Series): Promise<Series | never> {
+export async function findOrCreate(data: Series | SeriesDTO): Promise<Series | never> {
 
-  const series: Series = {
-    name: capitalize(data.name),
+  const series: SeriesDTO = {
+    name: capitalize(data.name!),
     volumes: Number(data.volumes),
-    status: data.status
+    status: data.status!
   };
 
   const existing = await SeriesRepository.findByName(series.name!);
@@ -18,14 +18,15 @@ export async function findOrCreate(data: Series): Promise<Series | never> {
     return existing[0] as Series;
   }
 
-  const newSeries = await SeriesRepository.create(series);
+  const result = await SeriesRepository.create(series);
 
-  if (newSeries.affectedRows === 0) {
+  if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al crear la nueva serie");
   }
 
-  series.id = Number(newSeries.insertId);
-  return series;
+  const newSeries = await detail(result.insertId.toString());
+
+  return newSeries;
 }
 
 export async function list(): Promise<Series[]> {
@@ -40,8 +41,7 @@ export async function detail(id: string): Promise<Series> {
 
 export async function update(id: string, data: Series): Promise<Series | never> {
   
-  const series: Series = {
-    id: Number(id),
+  const series: SeriesDTO = {
     name: capitalize(data.name),
     volumes: Number(data.volumes),
     status: data.status
@@ -53,7 +53,9 @@ export async function update(id: string, data: Series): Promise<Series | never> 
     throw createHttpError(400, "Se ha producido un error durante la actualización de la serie");
   }
 
-  return series;
+  const updatedSeries = await detail(id);
+
+  return updatedSeries;
 }
 
 export async function destroy(id: string): Promise<true | never> {

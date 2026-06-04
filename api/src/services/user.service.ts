@@ -1,9 +1,9 @@
 import createHttpError from "http-errors";
-import type User from "../models/user.model.js";
 import * as UserRepository from "./../repositories/user.repository.js";
 import { capitalize, encryptPassword } from "./utils.service.js";
+import type { User, UserDTO } from "@shared/types";
 
-export async function create(data: User): Promise<Omit<User, "password"> | never> {
+export async function create(data: UserDTO): Promise<Omit<User, "password"> | never> {
   const { email, password } = data;
 
   if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/.test(email)) {
@@ -20,10 +20,10 @@ export async function create(data: User): Promise<Omit<User, "password"> | never
   }
 
   const hashedPass = await encryptPassword(data.password);
-  const user: User = {
+  const user: UserDTO = {
     name: capitalize(data.name)!,
-    lastname1: capitalize(data?.lastname1!),
-    lastname2: capitalize(data?.lastname2!),
+    lastname1: capitalize(data?.lastname1!)!,
+    lastname2: capitalize(data?.lastname2!)!,
     email,
     password: hashedPass,
     role: data.role
@@ -35,10 +35,10 @@ export async function create(data: User): Promise<Omit<User, "password"> | never
     throw createHttpError(400, "Se ha producido un error durante la creación del usuario");
   }
   
-  user.id = result.insertId!;
-  const {password: pass, ...newUser} = user;
+  const newUser = await detail(result.insertId.toString());
+  const userWithoutPass: Omit<User, "password"> = newUser;
 
-  return newUser;
+  return userWithoutPass;
 }
 
 export async function list(): Promise<User[]> {
@@ -85,9 +85,9 @@ export async function update(id: string, data: any): Promise<Omit<User, "passwor
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
-  const user = await detail(id);
-  const {password: pass, ...newUser} = user;
-  return newUser;
+  const newUser = await detail(result.insertId.toString());
+  const userWithoutPass: Omit<User, "password"> = newUser;
+  return userWithoutPass;
 }
 
 export async function destroy(id: string) : Promise<true | never>{

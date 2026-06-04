@@ -1,4 +1,4 @@
-import type { FullBook } from "../../../../shared/types/api-types";
+import type { FullBook } from "@shared/types";
 import BookCard from "./book-card";
 
 type BookCardsGeneratorProps = {

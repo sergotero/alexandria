@@ -1,4 +1,4 @@
-import type { FullBook } from "../../../../shared/types/api-types";
+import type { FullBook } from "@shared/types";
 
 type BookDetails = {
   book: FullBook | null

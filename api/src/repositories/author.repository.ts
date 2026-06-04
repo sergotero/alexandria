@@ -25,7 +25,7 @@ export async function findByAlias(alias: string): Promise<Author[]> {
   return await query("SELECT * FROM authors WHERE alias = ?", [alias]);
 }
 
-export async function findByIdAndUpdate(id: string, author: Author): Promise<SQLResponse> {
+export async function findByIdAndUpdate(id: string, author: AuthorDTO): Promise<SQLResponse> {
   
   const fields = [];
   const values = [];
