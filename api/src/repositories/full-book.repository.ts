@@ -1,7 +1,7 @@
 import type { FullBook } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
-export async function findAll(): Promise<FullBook[]> {
+export async function findAll(limit: string, offset: string): Promise<FullBook[]> {
   return await query(`
     SELECT booksauthors.author_id AS author_id,
       booksauthors.book_id AS book_id,
@@ -33,6 +33,8 @@ export async function findAll(): Promise<FullBook[]> {
       series_name,
       indexVolume,
       collection_name
+    LIMIT ${limit}
+    OFFSET ${offset}
   `);
 }
 

@@ -13,7 +13,8 @@ export async function create(req: Request, res: Response): Promise<void> {
 }
 
 export async function list(req: Request, res: Response): Promise<void> {
-  const fullBooks = await FullBookService.list();
+  const { page, limit } = req.query;
+  const fullBooks = await FullBookService.list(Number(page), Number(limit));
   const response: APIResponse<FullBook[]> = {
     success: true,
     data: fullBooks

@@ -77,8 +77,10 @@ export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
 }
 
 
-export async function list(): Promise<FullBook[]> {
-  const fullBooks = await FullBookRepository.findAll();
+export async function list(page: number, limit: number): Promise<FullBook[]> {
+  
+  const offset = page * limit;
+  const fullBooks = await FullBookRepository.findAll(limit.toString(), offset.toString());
   const books = fullBooks.map((book: any) => {
     const bookBase: BookBase = {
       id: book.book_id,
