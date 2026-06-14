@@ -16,7 +16,8 @@ export async function findAll(): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
-      booksauthors.cover AS cover,
+      booksauthors.cover_url AS cover,
+      booksauthors.cloudinary_public_id AS cloudinaryId,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -29,7 +30,8 @@ export async function findById(id: string): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
-      booksauthors.cover AS cover,
+      booksauthors.cover_url AS cover,
+      booksauthors.cloudinary_public_id AS cloudinaryId,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -42,7 +44,8 @@ export async function findByTitle(title: string): Promise<BookBase[]> {
     `SELECT 
       books.*,
       booksauthors.description AS description,
-      booksauthors.cover AS cover,
+      booksauthors.cover_url AS cover,
+      booksauthors.cloudinary_public_id AS cloudinaryId,
       booksseries.index_series AS indexVolume
     FROM books
     LEFT JOIN booksseries ON books.id = booksseries.book_id
@@ -75,8 +78,13 @@ export async function findByIdAndUpdate(id: string, book: BookBaseDTO): Promise<
   }
   
   if (book.cover !== undefined) {
-    fields.push("booksauthors.cover = ?");
+    fields.push("booksauthors.cover_url = ?");
     values.push(book.cover);
+  }
+  
+  if (book.cloudinaryId !== undefined) {
+    fields.push("booksauthors.cloudinary_public_id = ?");
+    values.push(book.cloudinaryId);
   }
 
   if (book.indexVolume !== undefined) {

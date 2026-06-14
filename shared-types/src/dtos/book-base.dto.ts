@@ -6,5 +6,6 @@ export type BookBaseDTO = {
   format: Formats,
   description?: string,
   indexVolume?: number,
-  cover?: string
+  cover?: string,
+  cloudinaryId?: string
 }

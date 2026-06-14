@@ -24,14 +24,14 @@ function BookDetails({ book }: BookDetails) {
             <div>
               <table className="table-auto border-collapse">
                 <tbody className="border-1 border-gray-400 p-1.5">
-                  <tr className="border-1 border-gray-400 p-1.5">
+                  {/* <tr className="border-1 border-gray-400 p-1.5">
                     <td className="border-1 border-gray-400 p-1.5">Título</td>
                     <td className="border-1 border-gray-400 p-1.5">{book.bookBase.title}</td>
                   </tr>
                   <tr className="border-1 border-gray-400 p-1.5">
                     <td className="border-1 border-gray-400 p-1.5">Autor</td>
                     <td className="border-1 border-gray-400 p-1.5">{book.author.alias}</td>
-                  </tr>
+                  </tr> */}
                   <tr className="border-1 border-gray-400 p-1.5">
                     <td className="border-1 border-gray-400 p-1.5">Serie</td>
                     <td className="border-1 border-gray-400 p-1.5">{book.series?.name ?? "-"}</td>

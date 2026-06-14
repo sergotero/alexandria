@@ -7,5 +7,6 @@ export type BookBase = {
   format: Formats,
   description: string | null,
   indexVolume: number | null,
-  cover: string | null
+  cover: string | null,
+  cloudinaryId: string | null
 }

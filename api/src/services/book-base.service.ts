@@ -39,7 +39,7 @@ export async function detail(id: string): Promise<BookBase>{
 }
 
 export async function update(id: string, bookBase: BookBaseDTO): Promise<BookBase | never>{
-  const { title, language, format, description, indexVolume, cover } = bookBase;
+  const { title, language, format, description, indexVolume, cover, cloudinaryId } = bookBase;
   
   const updateData: BookBaseDTO = {
     title,
@@ -57,6 +57,10 @@ export async function update(id: string, bookBase: BookBaseDTO): Promise<BookBas
   
   if (cover !== undefined) {
     updateData.cover = cover;
+  }
+
+  if (cloudinaryId !== undefined) {
+    updateData.cloudinaryId = cloudinaryId;
   }
 
   const checkBaseBook = await BookBaseRepository.findByIdAndUpdate(id, updateData);

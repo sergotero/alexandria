@@ -89,7 +89,8 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
       format: book.format,
       description: book.description,
       indexVolume: book.indexVolume,
-      cover: book.cover
+      cover: book.cover,
+      cloudinaryId: book.cloudinaryId
     };
     const author: Author = {
       id: book.author_id,
@@ -131,7 +132,8 @@ export async function detail(id: string): Promise<FullBook> {
       format: book[0].format,
       description: book[0].description,
       indexVolume: book[0].indexVolume,
-      cover: book[0].cover
+      cover: book[0].cover,
+      cloudinaryId: book[0].cloudinaryId
     };
 
     const author: Author = {
