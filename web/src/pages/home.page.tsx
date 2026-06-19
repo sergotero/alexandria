@@ -4,7 +4,8 @@ import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import type { FullBook, ServerErrorDTO } from "@shared/types";
 import Header from "../components/ui/header.tsx";
-import * as style from "./home.page.module.css";
+import style from "./home.page.module.css";
+import EditForm from "../components/forms/edit-form.tsx";
 
 function HomePage() {
   const [ serverError, setServerError ] = useState<ServerErrorDTO>({});
@@ -51,9 +52,10 @@ function HomePage() {
           </section>
           {/* Details & More */}
           <section className="w-[30%] bg-zinc-700 text-white p-3 rounded-xl">
+            {/* TABS */}
             <div className={style.tabs}>
               <button
-                className={`bg-yellow-600 hover:cursor-pointer text-white min-w-24 rounded-tl-md disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                className={`bg-yellow-600 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                 type="button"
                 onClick={() => (setActiveTab("details"))}>
                   Detalles
@@ -65,12 +67,14 @@ function HomePage() {
                   Edición
                 </button>
             </div>
-            <div className={`tabs-content ${activeTab === "details" ? "bg-yellow-600" : "bg-red-600"} p-5`}>
+            {/* Content */}
+            <div className={`tabs-content ${activeTab === "details" ? "bg-yellow-600" : "bg-red-600"} p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
               {activeTab === "details" && (
                 <BookDetails book={details} />
               )}
+              {/* Edition Form */}
               {activeTab === "edition" && (
-                "Here goes a form"
+                <EditForm fullbook={details} />
               )}
             </div>
           </section>

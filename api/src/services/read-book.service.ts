@@ -9,7 +9,8 @@ export async function create(data: any): Promise<ReadBook | never> {
     authorId: data.authorId,
     readingDate: data.readingDate,
     score: data.score,
-    comments: data.comments
+    comments: data.comments,
+    completed: data.completed
   }
 
   const result = await ReadBookRepository.create(readBook);
@@ -32,7 +33,8 @@ export async function list(): Promise<ReadBook[]> {
       author: book.author,
       readingDate: new Date(book.readingDate),
       score: Number(book.score),
-      comments: book.comments
+      comments: book.comments,
+      completed: book.completed
     };
     return readBook;
   })
@@ -49,7 +51,8 @@ export async function detail(bookId: string): Promise<ReadBook> {
     author: book[0]!.author,
     readingDate: new Date(book[0]!.readingDate),
     score: Number(book[0]!.score),
-    comments: book[0]!.comments
+    comments: book[0]!.comments,
+    completed: book[0]!.completed
   };
   return readBook;
 }
@@ -60,7 +63,8 @@ export async function update(id: string, data: ReadBook): Promise<ReadBook | nev
     authorId: data.authorId,
     readingDate: data.readingDate,
     score: data.score,
-    comments: data.comments
+    comments: data.comments,
+    completed: data.completed
   }
   const readBook = await ReadBookRepository.update(id, bookData);
   

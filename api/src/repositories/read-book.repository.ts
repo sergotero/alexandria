@@ -4,7 +4,7 @@ import { query } from "../config/db-query.config.js";
 
 export async function create(readBook: ReadBookDTO): Promise<SQLResponse>{
   
-  return await query(`INSERT INTO readbooks (book_id, author_id, reading_date, score, comments) VALUES (?, ?, ?, ?, ?)`, [readBook.bookId, readBook.authorId, readBook.readingDate, readBook.score, readBook.comments]);
+  return await query(`INSERT INTO readbooks (book_id, author_id, reading_date, score, comments, completed) VALUES (?, ?, ?, ?, ?, ?)`, [readBook.bookId, readBook.authorId, readBook.readingDate, readBook.score, readBook.comments, readBook.completed]);
 }
 export async function list(): Promise<ReadBook[]>{
   return await query(`
@@ -16,7 +16,8 @@ export async function list(): Promise<ReadBook[]>{
       authors.alias AS author,
       readbooks.reading_date AS readingDate,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM readbooks 
     LEFT JOIN books ON books.id = readbooks.book_id
     LEFT JOIN authors ON authors.id = readbooks.author_id
@@ -36,7 +37,8 @@ export async function detail(id: string): Promise<ReadBook[]> {
       authors.alias AS author,
       readbooks.reading_date AS readingDate,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM readbooks 
     LEFT JOIN books ON books.id = readbooks.book_id
     LEFT JOIN authors ON authors.id = readbooks.author_id
@@ -71,6 +73,10 @@ export async function update(id: string, data: ReadBookDTO) {
   if (data.comments) {
     fields.push("comments = ?");
     values.push(data.comments);
+  }
+  if (data.completed) {
+    fields.push("completed = ?");
+    values.push(data.completed.toString());
   }
 
   values.push(id);

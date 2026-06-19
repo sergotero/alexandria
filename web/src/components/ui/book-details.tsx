@@ -10,7 +10,7 @@ function BookDetails({ book }: BookDetails) {
       {book && (
         <div className="flex flex-col">
           {/* TITLE */}
-          <h2 className="text-4xl font-bold">{book.bookBase.title}</h2>
+          <h2 className="text-4xl font-bold text-center">{book.bookBase.title}</h2>
           {/* AUTHOR */}
           <h2 className="text-xl font-light italic">{book.author.alias}</h2>
           {/* IMAGE & TABLE */}

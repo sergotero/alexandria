@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/sergotero/alexandria/issues"
   },
-  "homepage": "https://github.com/sergotero/alexandria#readme"
+  "homepage": "https://github.com/sergotero/alexandria#readme",
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.79.0"
+  }
 }

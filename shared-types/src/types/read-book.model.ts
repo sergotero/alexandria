@@ -7,4 +7,5 @@ export type ReadBook = {
   readingDate: Date,
   score: number,
   comments: string | null,
+  completed: boolean | null
 }
