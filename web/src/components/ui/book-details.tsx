@@ -8,50 +8,46 @@ function BookDetails({ book }: BookDetails) {
   return (
     <>
       {book && (
-        <div className="flex flex-col">
+        <div className="flex flex-wrap items-center">
           {/* TITLE */}
-          <h2 className="text-4xl font-bold text-center">{book.bookBase.title}</h2>
+          <h2 className="block w-100 text-4xl font-bold text-center">{book.bookBase.title}</h2>
           {/* AUTHOR */}
-          <h2 className="text-xl font-light italic">{book.author.alias}</h2>
+          <h2 className="block w-100 text-xl font-light text-center italic">{book.author.alias}</h2>
           {/* IMAGE & TABLE */}
-          <div className="flex items-start justify-center p-2 gap-3">
-            <div className="w-[50%]">
+          <div className="flex flex-wrap">
+            <div className="w-[70%] m-auto pt-5 pb-5">
               <img
                 className="object-cover"
-                src={book.bookBase.cover ? book.bookBase.cover : ""}
-                alt={book.bookBase.title} />
+                src={book.bookBase.cover ? book.bookBase.cover : "https://res.cloudinary.com/da8iuexu4/image/upload/v1783292999/404-cover_y3yscb.png"}
+                alt={book.bookBase.title}
+              />
             </div>
-            <div>
-              <table className="table-auto border-collapse">
-                <tbody className="border-1 border-gray-400 p-1.5">
-                  {/* <tr className="border-1 border-gray-400 p-1.5">
-                    <td className="border-1 border-gray-400 p-1.5">Título</td>
-                    <td className="border-1 border-gray-400 p-1.5">{book.bookBase.title}</td>
+            <div className="m-auto mb-5">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Serie</td>
+                    <td>{book.series?.name ?? " - "}</td>
                   </tr>
-                  <tr className="border-1 border-gray-400 p-1.5">
-                    <td className="border-1 border-gray-400 p-1.5">Autor</td>
-                    <td className="border-1 border-gray-400 p-1.5">{book.author.alias}</td>
-                  </tr> */}
-                  <tr className="border-1 border-gray-400 p-1.5">
-                    <td className="border-1 border-gray-400 p-1.5">Serie</td>
-                    <td className="border-1 border-gray-400 p-1.5">{book.series?.name ?? "-"}</td>
+                  <tr>
+                    <td>Volúmenes</td>
+                    <td>{book.series?.volumes ?? " - "}</td>
                   </tr>
-                  <tr className="border-1 border-gray-400 p-1.5">
-                    <td className="border-1 border-gray-400 p-1.5">Volumen</td>
-                    <td className="border-1 border-gray-400 p-1.5">{book.bookBase.indexVolume ?? "-"}</td>
+                  <tr>
+                    <td>#</td>
+                    <td>{book.bookBase.indexVolume ?? " - "}</td>
                   </tr>
-                  <tr className="border-1 border-gray-400 p-1.5">
-                    <td className="border-1 border-gray-400 p-1.5">Colección</td>
-                    <td className="border-1 border-gray-400 p-1.5">{book.collection.name}</td>
+                  <tr>
+                    <td>Colección</td>
+                    <td>{book.collection.name ?? " - "}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <br />
+
           {/* DESCRIPTION */}
           <p className="text-justify">{book.bookBase.description ?? "Descripción no disponible"}</p>
-          <br />
         </div>
       )}
     </>

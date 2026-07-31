@@ -5,7 +5,7 @@ import BookDetails from "../components/ui/book-details.tsx";
 import type { FullBook, ServerErrorDTO } from "@shared/types";
 import Header from "../components/ui/header.tsx";
 import style from "./home.page.module.css";
-import EditForm from "../components/forms/edit-form.tsx";
+import EditAllForm from "../components/forms/edit-all-form.tsx";
 
 function HomePage() {
   const [ serverError, setServerError ] = useState<ServerErrorDTO>({});
@@ -45,42 +45,9 @@ function HomePage() {
         </div>
       </Header>
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
+        {/* Buttons */}
         <div className="flex gap-5 align-top justify-center w-[80%]">
-          {/* BookCards */}
-          <section className="grid grid-cols-3 gap-3 p-3 w-[70%] overflow-y-scroll scrollbar-none bg-zinc-800 rounded-xl ">
-              <BookCardsGenerator fullBooks={list} handleDetails={handleDetails} />
-          </section>
-          {/* Details & More */}
-          <section className="w-[30%] bg-zinc-700 text-white p-3 rounded-xl">
-            {/* TABS */}
-            <div className={style.tabs}>
-              <button
-                className={`bg-yellow-600 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
-                type="button"
-                onClick={() => (setActiveTab("details"))}>
-                  Detalles
-                </button>
-              <button
-                className={`bg-red-600 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
-                type="button"
-                onClick={() => (setActiveTab("edition"))}>
-                  Edición
-                </button>
-            </div>
-            {/* Content */}
-            <div className={`tabs-content ${activeTab === "details" ? "bg-yellow-600" : "bg-red-600"} p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
-              {activeTab === "details" && (
-                <BookDetails book={details} />
-              )}
-              {/* Edition Form */}
-              {activeTab === "edition" && (
-                <EditForm fullbook={details} />
-              )}
-            </div>
-          </section>
-        </div>
-        {/* Previous/Next buttons */}
-        <div className="flex justify-center gap-5 p-2 bg-zinc-700 w-[81%] rounded-xl mt-auto">
+          <div className="flex items-center justify-center gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
             <button
               className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default" 
               type="button"
@@ -96,6 +63,42 @@ function HomePage() {
               Siguiente
             </button>
           </div>
+          <div className="w-[30%] bg-zinc-800 p-2 rounded-xl">
+            <button type="button" className="bg-green-600 hover:bg-green-500 p-0.5 rounded-md text-white w-17 hover:cursor-pointer">Añadir</button>
+          </div>
+        </div>
+        <div className="flex gap-5 align-top justify-center w-[80%]">
+          {/* BookCards */}
+          <section className="grid grid-cols-3 gap-3 p-3 w-[70%] overflow-y-scroll scrollbar-none bg-zinc-800 rounded-xl ">
+              <BookCardsGenerator fullBooks={list} handleDetails={handleDetails} />
+          </section>
+          {/* Details & More */}
+          <section className="w-[30%] bg-zinc-800 text-white p-3 rounded-xl">
+            {/* TABS */}
+            <div className={style.tabs}>
+              <button
+                className={`${activeTab === "details" ? "bg-zinc-800" : "bg-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                type="button"
+                onClick={() => (setActiveTab("details"))}>
+                  Detalles
+                </button>
+              <button
+                className={`${activeTab === "edition" ? "bg-zinc-800" : "bg-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                type="button"
+                onClick={() => (setActiveTab("edition"))}>
+                  Actualizar
+                </button>
+            </div>
+            {/* Content */}
+            <div className={`tabs-content bg-zinc-800 p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
+              {activeTab === "details" && (
+                <BookDetails book={details} />
+              )}
+              {/* Edition Form */}
+              {activeTab === "edition" && details && (<EditAllForm fullbook={details} />)}
+            </div>
+          </section>
+        </div>
       </main>
     </>
   );
