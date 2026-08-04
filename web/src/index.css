@@ -5,6 +5,7 @@
 table, thead, tbody, th, tr, td {
   border-collapse: collapse;
   border: 1px solid white;
+  background-color: rgba(0, 122, 85, 1);
 }
 
 td {
@@ -35,4 +36,5 @@ fieldset{
   border: 1px solid white;
   padding: 1rem;
   margin-bottom: 1rem;
+  background-color: #27272a;
 }

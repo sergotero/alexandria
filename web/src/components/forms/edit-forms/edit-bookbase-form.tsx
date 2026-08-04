@@ -39,7 +39,7 @@ function EditBookBaseForm({ bookBase }: EditBookBaseFormProps) {
         </div>
 
         <div className="input-group">
-          <label htmlFor="index-volume">Índex volumen</label>
+          <label htmlFor="index-volume">Volumen</label>
           <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="index-volume" id="index-volume" value={bookBase?.indexVolume ?? ""} />
         </div>
 
@@ -49,7 +49,7 @@ function EditBookBaseForm({ bookBase }: EditBookBaseFormProps) {
         </div>
         
         <div className="input-group">
-          <label htmlFor="cloudinaryID">Cloudinary ID</label>
+          <label htmlFor="cloudinaryID">Public ID</label>
           <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="cloudinaryID" id="cloudinaryID" value={bookBase?.cloudinaryId ?? ""} />
         </div>
 

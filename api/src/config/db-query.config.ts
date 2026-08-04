@@ -1,4 +1,4 @@
-import type { SQLValue } from "../types/models.types.js";
+import type { SQLValue } from "@shared/types";
 import pool from "./db.config.js";
 
 export const query = async (sql: string, params: Array<SQLValue> = []) => {

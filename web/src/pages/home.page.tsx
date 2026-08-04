@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
-import * as FullBookService from "./../services/fullbook.services.tsx";
+import type { Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
-import type { FullBook, ServerErrorDTO } from "@shared/types";
 import Header from "../components/ui/header.tsx";
-import style from "./home.page.module.css";
 import EditAllForm from "../components/forms/edit-all-form.tsx";
+import * as FullBookService from "./../services/fullbook.services.tsx";
+import * as CollectionServices from "./../services/collection.services.tsx";
+import * as SeriesServices from "./../services/series.services.tsx";
+import style from "./home.page.module.css";
 
 function HomePage() {
   const [ serverError, setServerError ] = useState<ServerErrorDTO>({});
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
+  const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
+  const [ seriesList, setSeriesList ] = useState<Series[]>([]);
   const [ page, setPage ] = useState<number>(0);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
 
@@ -27,9 +31,30 @@ function HomePage() {
     }
   };
 
+  const fetchCollections = async (): Promise<void> => {
+    const response = await CollectionServices.list();
+    if (response.success) {
+      setCollectionList(response.data);
+    } else {
+      setServerError(response.error);
+    }
+  };
+
+  const fetchSeries = async (): Promise<void> => {
+    const response = await SeriesServices.list();
+    if (response.success) {
+      response.data.push({id: null, name: null, volumes: null, status: null});
+      setSeriesList(response.data);
+    } else {
+      setServerError(response.error);
+    }
+  };
+
   useEffect(() => {
     try {
       fetchFullBooks();
+      fetchCollections();
+      fetchSeries();
     } catch (error) {
       console.error("Se ha producido un error.", typeof error, error);
       // setServerError(error);
@@ -77,25 +102,25 @@ function HomePage() {
             {/* TABS */}
             <div className={style.tabs}>
               <button
-                className={`${activeTab === "details" ? "bg-zinc-800" : "bg-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                className={`${activeTab === "details" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                 type="button"
                 onClick={() => (setActiveTab("details"))}>
                   Detalles
                 </button>
               <button
-                className={`${activeTab === "edition" ? "bg-zinc-800" : "bg-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                className={`${activeTab === "edition" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                 type="button"
                 onClick={() => (setActiveTab("edition"))}>
                   Actualizar
                 </button>
             </div>
             {/* Content */}
-            <div className={`tabs-content bg-zinc-800 p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
+            <div className={`tabs-content bg-zinc-600 p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
               {activeTab === "details" && (
                 <BookDetails book={details} />
               )}
               {/* Edition Form */}
-              {activeTab === "edition" && details && (<EditAllForm fullbook={details} />)}
+              {activeTab === "edition" && details && (<EditAllForm fullbook={details} collectionList={collectionList} seriesList={seriesList} />)}
             </div>
           </section>
         </div>

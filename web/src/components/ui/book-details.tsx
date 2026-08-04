@@ -8,9 +8,9 @@ function BookDetails({ book }: BookDetails) {
   return (
     <>
       {book && (
-        <div className="flex flex-wrap items-center">
+        <div className="flex flex-col items-center">
           {/* TITLE */}
-          <h2 className="block w-100 text-4xl font-bold text-center">{book.bookBase.title}</h2>
+          <h2 className="block w-100 text-3xl font-bold text-center">{book.bookBase.title}</h2>
           {/* AUTHOR */}
           <h2 className="block w-100 text-xl font-light text-center italic">{book.author.alias}</h2>
           {/* IMAGE & TABLE */}
