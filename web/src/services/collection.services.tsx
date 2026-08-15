@@ -1,4 +1,4 @@
-import type { APIResponse, Collection } from "@shared/types";
+import type { APIResponse, Collection, FullBook } from "@shared/types";
 import axios from "axios";
 
 const http = axios.create({
@@ -12,3 +12,5 @@ http.interceptors.response.use(
 );
 
 export const list = async (): Promise<APIResponse<Collection[]>> => await http.get("/collection");
+
+// export const update = async (fullbook: FullBook, data: Collection): Promise<APIResponse<Collection>> => await http.patch(`/collection/${fullbook.collection.id}`, data);

@@ -1,59 +1,110 @@
-import type { BookBase } from "@shared/types";
+import type { BookBaseDTO, FullBook } from "@shared/types";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import * as BaseBookService from "./../../../services/basebook.services.tsx";
+import { useEffect } from "react";
 
 type EditBookBaseFormProps = {
-  bookBase: BookBase
+  fullbook: FullBook,
+  updateBase: (id: number) => void
 };
 
-function EditBookBaseForm({ bookBase }: EditBookBaseFormProps) {
+function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
+
+  const { register, handleSubmit, reset } = useForm<BookBaseDTO>();
+  
+  useEffect(() => {
+    reset({
+      title: fullbook.bookBase.title,
+      language: fullbook.bookBase.language,
+      format: fullbook.bookBase.format,
+      description: fullbook.bookBase.description,
+      indexVolume: fullbook.bookBase.indexVolume,
+      cover: fullbook.bookBase.cover,
+      cloudinaryId: fullbook.bookBase.cloudinaryId
+    });
+  }, [fullbook, reset]);
+
+  const submit: SubmitHandler<BookBaseDTO> = async (data) => {
+    await BaseBookService.update(fullbook.bookBase.id, data);
+    updateBase(fullbook.bookBase.id);
+  }
+
   return(
-    <form method="POST">
+    <form method="POST" onSubmit={handleSubmit(submit)}>
       <fieldset>
         <legend>&nbsp;Base&nbsp;</legend>
         <div className="input-group">
           <label htmlFor="title">Título</label>
-          <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="title" id="title" value={bookBase.title} />
+          <input
+            {...register("title", {
+              required: true
+            })}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            type="text"
+          />
         </div>
 
         <div className="input-group">
           <label htmlFor="language">Idioma</label>
-          <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="languages" id="languages" defaultValue={bookBase.language}>
-            <option value="Español">Español</option>
-            <option value="Inglés">Inglés</option>
-            <option value="Alemán">Alemán</option>
-            <option value="Japonés">Japonés</option>
+          <select 
+            {...register("language", {
+              required: true
+            })}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
+              <option value="Español">Español</option>
+              <option value="Inglés">Inglés</option>
+              <option value="Alemán">Alemán</option>
+              <option value="Japonés">Japonés</option>
           </select>
         </div>
 
         <div className="input-group">
-          <label htmlFor="formats">Formato</label>
-          <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="formats" id="formats" defaultValue={bookBase.format}>
-            <option value="Digital">Digital</option>
-            <option value="Impreso">Impreso</option>
-            <option value="Ambos">Ambos</option>
+          <label htmlFor="format">Formato</label>
+          <select {...register("format", {
+            required: true
+          })}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
+              <option value="Digital">Digital</option>
+              <option value="Impreso">Impreso</option>
+              <option value="Ambos">Ambos</option>
           </select>
         </div>
 
         <div className="input-group">
           <label htmlFor="description">Descripción</label>
-          <textarea name="description" id="description" defaultValue={bookBase?.description ?? ""}/>
+          <textarea 
+            {...register("description")}/>
         </div>
 
         <div className="input-group">
-          <label htmlFor="index-volume">Volumen</label>
-          <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="index-volume" id="index-volume" value={bookBase?.indexVolume ?? ""} />
+          <label htmlFor="indexVolume">Volumen</label>
+          <input 
+            {...register("indexVolume")}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            type="text"/>
         </div>
 
         <div className="input-group">
           <label htmlFor="cover">Cover URL</label>
-          <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="cover" id="cover" value={bookBase?.cover ?? ""} />
+          <input
+            {...register("cover")}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            type="text"/>
         </div>
         
         <div className="input-group">
-          <label htmlFor="cloudinaryID">Public ID</label>
-          <input className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" type="text" name="cloudinaryID" id="cloudinaryID" value={bookBase?.cloudinaryId ?? ""} />
+          <label htmlFor="cloudinaryId">Public ID</label>
+          <input
+            {...register("cloudinaryId")}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            type="text"/>
         </div>
 
-        <button type="submit" className="btn bg-zinc-600 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">Actualizar</button>
+        <button
+          type="submit"
+          className="btn bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
+            Actualizar
+        </button>
       </fieldset>
     </form>
   );

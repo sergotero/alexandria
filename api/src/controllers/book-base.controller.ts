@@ -82,7 +82,7 @@ export async function update(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El ID del libro no es válido");
   }
 
-  const bookBase: BookBase = req.body;
+  const bookBase: BookBaseDTO = req.body;
   const updatedBaseBook = await BookBaseService.update(id, bookBase);
   const response: APIResponse<BookBase> = {
     success: true,

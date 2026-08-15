@@ -2,7 +2,8 @@ import type { Series } from "@shared/types";
 
 type EditSeriesFormProps = {
   series: Series,
-  seriesList: Series[]
+  seriesList: Series[],
+  updateSeries: (series: Series) => void
 };
 
 function EditSeriesForm({ series, seriesList }: EditSeriesFormProps){
@@ -12,7 +13,7 @@ function EditSeriesForm({ series, seriesList }: EditSeriesFormProps){
       <fieldset>
         <div className="input-group">
           <label htmlFor="name">Serie</label>
-          <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="collection" id="collection" defaultValue={series.name ?? ""}>
+          <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="collection" id="collection" value={series.name ?? ""}>
               {seriesList.map((ser) => {
                 return <option key={ser.id} value={ser.name!}>{ser.name}</option>
               })}

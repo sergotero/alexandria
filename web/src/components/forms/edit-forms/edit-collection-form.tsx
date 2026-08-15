@@ -2,7 +2,8 @@ import type { Collection } from "@shared/types";
 
 type EditCollectionFormProps = {
   collection: Collection,
-  collectionList: Collection[]
+  collectionList: Collection[],
+  updateCollection: (collection: Collection) => void
 };
 
 function EditCollectionForm({ collection, collectionList }: EditCollectionFormProps) {
@@ -13,7 +14,7 @@ function EditCollectionForm({ collection, collectionList }: EditCollectionFormPr
       <fieldset>
         <div className="input-group">
             <label htmlFor="name">Colección</label>
-            <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="collection" id="collection" defaultValue={collection.name}>
+            <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="collection" id="collection" value={collection.name}>
               {collectionList.map((col) => {
                 return <option key={col.id} value={col.name}>{col.name}</option>
               })}

@@ -4,8 +4,8 @@ export type BookBaseDTO = {
   title: string,
   language: Languages,
   format: Formats,
-  description?: string,
-  indexVolume?: number,
-  cover?: string,
-  cloudinaryId?: string
+  description?: string | null,
+  indexVolume?: number | null,
+  cover?: string | null,
+  cloudinaryId?: string | null
 }

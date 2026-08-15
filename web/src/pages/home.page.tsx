@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
+import type { APIResponse, Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
@@ -17,9 +17,35 @@ function HomePage() {
   const [ seriesList, setSeriesList ] = useState<Series[]>([]);
   const [ page, setPage ] = useState<number>(0);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
+  
 
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
+  }
+
+  const updateBookBase = async(bookId: number) => {
+    try {
+      const response = await FullBookService.detail(bookId);
+      if (!response.success) {
+        setServerError(response.error);
+        return;
+      }
+      const updatedBook = response.data;
+      setDetails(updatedBook);
+      setList(prevList =>
+        prevList.map(fullBook =>
+          fullBook.bookBase.id === updatedBook.bookBase.id
+            ? updatedBook
+            : fullBook
+        )
+      );
+    } catch (error) {
+      console.error("Se ha producido un error.", error);
+    }
+  }
+
+  const updateBookAuthor = async(id: number) => {
+
   }
 
   const fetchFullBooks = async (): Promise<void> => {
@@ -46,17 +72,26 @@ function HomePage() {
       response.data.push({id: null, name: null, volumes: null, status: null});
       setSeriesList(response.data);
     } else {
+      console.error("Se ha producido un error", response.error);
       setServerError(response.error);
     }
   };
 
   useEffect(() => {
     try {
-      fetchFullBooks();
       fetchCollections();
       fetchSeries();
     } catch (error) {
-      console.error("Se ha producido un error.", typeof error, error);
+      console.error("Se ha producido un error.", error);
+      // setServerError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      fetchFullBooks();
+    } catch (error) {
+      console.error("Se ha producido un error.", error);
       // setServerError(error);
     }
   }, [page]);
@@ -66,7 +101,7 @@ function HomePage() {
       <Header>
         <div className="flex items-center justify-center h-[10vh] bg-zinc-900">
         {/*Search bar*/}
-        <input className="bg-zinc-300 rounded-2xl p-1 ps-2 pe-2" type="text" name="search" id="search" placeholder="Buscar..." />
+          <input className="bg-zinc-300 rounded-2xl p-1 ps-2 pe-2" type="text" name="search" id="search" placeholder="Buscar..." />
         </div>
       </Header>
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
@@ -120,7 +155,15 @@ function HomePage() {
                 <BookDetails book={details} />
               )}
               {/* Edition Form */}
-              {activeTab === "edition" && details && (<EditAllForm fullbook={details} collectionList={collectionList} seriesList={seriesList} />)}
+              {activeTab === "edition" && details && (
+                <EditAllForm 
+                  fullbook={details} 
+                  updateBookBase={updateBookBase} 
+                  updateBookAuthor={updateBookAuthor}
+                  collectionList={collectionList} 
+                  seriesList={seriesList} 
+                />
+              )}
             </div>
           </section>
         </div>

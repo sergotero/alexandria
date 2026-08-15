@@ -13,4 +13,4 @@ http.interceptors.response.use(
 
 export const list = async (page: number, limit: number = 18): Promise<APIResponse<FullBook[]>> => await http.get(`/fullBook?page=${page}&limit=${limit}`);
 
-export const detail = async(id: number) => await http.get(`/fullBook/${id}`);
+export const detail = async(id: number): Promise<APIResponse<FullBook>> => await http.get(`/fullBook/${id}`);
