@@ -1,14 +1,13 @@
 import createHttpError from "http-errors";
 import * as AuthorRepository from "../repositories/author.repository.js";
-import { capitalize } from "./utils.service.js";
 import type { Author, AuthorDTO } from "@shared/types";
 
 export async function findOrCreate(data: AuthorDTO | Author): Promise<Author> {
   
-  const name = capitalize(data.name!);
-  const lastname1 = data.lastname1 === undefined ? null : capitalize(data.lastname1!);
-  const lastname2 = data.lastname2 === undefined ? null : capitalize(data.lastname2!);
-  const lastname3 = data.lastname3 === undefined ? null : capitalize(data.lastname3!);
+  const name = data.name!;
+  const lastname1 = data.lastname1 === undefined ? null : data.lastname1!;
+  const lastname2 = data.lastname2 === undefined ? null : data.lastname2!;
+  const lastname3 = data.lastname3 === undefined ? null : data.lastname3!;
   const alias = `${name} ${lastname1 ?? ""} ${lastname2 ?? ""} ${lastname3 ?? ""}`.trim();
   
   const author: AuthorDTO = {
@@ -53,10 +52,10 @@ export async function update(id: string, data: AuthorDTO): Promise<Author | neve
     throw createHttpError(404, "No existe este autor en la base de datos");
   }
   
-  const name = capitalize(data.name!);
-  const lastname1 = data?.lastname1 === undefined ? null : capitalize(data.lastname1!);
-  const lastname2 = data?.lastname2 === undefined ? null : capitalize(data.lastname2!);
-  const lastname3 = data?.lastname3 === undefined ? null : capitalize(data.lastname3!);
+  const name = data.name!;
+  const lastname1 = data?.lastname1 === undefined ? null : data.lastname1!;
+  const lastname2 = data?.lastname2 === undefined ? null : data.lastname2!;
+  const lastname3 = data?.lastname3 === undefined ? null : data.lastname3!;
 
   const author: AuthorDTO = {
     name: name!,

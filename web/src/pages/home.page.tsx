@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { APIResponse, Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
+import type { Author, Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
@@ -7,6 +7,7 @@ import EditAllForm from "../components/forms/edit-all-form.tsx";
 import * as FullBookService from "./../services/fullbook.services.tsx";
 import * as CollectionServices from "./../services/collection.services.tsx";
 import * as SeriesServices from "./../services/series.services.tsx";
+import * as AuthorServices from "./../services/author.services.tsx";
 import style from "./home.page.module.css";
 
 function HomePage() {
@@ -14,6 +15,7 @@ function HomePage() {
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
+  const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<Series[]>([]);
   const [ page, setPage ] = useState<number>(0);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
@@ -23,13 +25,14 @@ function HomePage() {
     setDetails(fullBook);
   }
 
-  const updateBookBase = async(bookId: number) => {
+  const updateDetails = async(bookId: number) => {
     try {
       const response = await FullBookService.detail(bookId);
       if (!response.success) {
         setServerError(response.error);
         return;
       }
+
       const updatedBook = response.data;
       setDetails(updatedBook);
       setList(prevList =>
@@ -42,10 +45,6 @@ function HomePage() {
     } catch (error) {
       console.error("Se ha producido un error.", error);
     }
-  }
-
-  const updateBookAuthor = async(id: number) => {
-
   }
 
   const fetchFullBooks = async (): Promise<void> => {
@@ -77,10 +76,21 @@ function HomePage() {
     }
   };
 
+  const fetchAuthors = async(): Promise<void> => {
+    const response = await AuthorServices.list();
+    if (response.success) {
+      setAuthorList(response.data);
+    } else {
+      console.error("Se ha producido un error", response.error);
+      setServerError(response.error);
+    }
+  }
+
   useEffect(() => {
     try {
       fetchCollections();
       fetchSeries();
+      fetchAuthors();
     } catch (error) {
       console.error("Se ha producido un error.", error);
       // setServerError(error);
@@ -158,8 +168,8 @@ function HomePage() {
               {activeTab === "edition" && details && (
                 <EditAllForm 
                   fullbook={details} 
-                  updateBookBase={updateBookBase} 
-                  updateBookAuthor={updateBookAuthor}
+                  updateBook={updateDetails} 
+                  authorList={authorList}
                   collectionList={collectionList} 
                   seriesList={seriesList} 
                 />

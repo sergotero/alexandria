@@ -8,6 +8,9 @@ export type { Series } from "./types/series.model.js";
 export type { SQLValue, States, Languages, Formats, Roles } from "./types/utils.model.js";
 export type { SQLResponse } from "./types/SQLResponse.model.js";
 export type { User } from "./types/user.model.js";
+export type { BooksAuthors } from './types/booksauthors.model.js';
+export type { BooksSeries } from './types/booksseries.model.js';
+export type { BooksCollections } from './types/bookscollections.model.js';
 export type { AuthorDTO } from "./dtos/author.dto.js";
 export type { BookBaseDTO } from "./dtos/book-base.dto.js";
 export type { CollectionDTO } from "./dtos/collection.dto.js";
@@ -16,4 +19,7 @@ export type { ReadBookDTO } from "./dtos/read-book.dto.js";
 export type { SeriesDTO } from "./dtos/series.dto.js";
 export type { ServerErrorDTO } from "./dtos/errors.dto.js";
 export type { UserDTO } from "./dtos/user.dto.js";
+export type { BooksAuthorsDTO } from './dtos/booksauthors.dto.js';
+export type { BooksSeriesDTO } from './dtos/booksseries.dto.js';
+export type { BooksCollectionsDTO } from './dtos/bookscollections.dto.js';
 

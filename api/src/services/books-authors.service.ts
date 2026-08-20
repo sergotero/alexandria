@@ -1,31 +1,42 @@
 import createHttpError from "http-errors";
 import * as BooksAuthorsRepository from "../repositories/books-authors.repository.js";
-import type { Author, BookBase, FullBook, SQLValue } from "@shared/types";
+import type { BooksAuthors, BooksAuthorsDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookBase: BookBase, author: Author): Promise<Record<string, SQLValue> | true | never> {
-  const bookId = bookBase.id!.toString();
-  const authorId = author.id!.toString();
-  const existing = await BooksAuthorsRepository.findByIds(bookId, authorId);
-  if (existing.length !== 0) {
-    return existing[0];
+export async function findOrCreate(bookId: string, authorId: string): Promise<BooksAuthors | never>{
+
+  const exists = await BooksAuthorsRepository.findById(bookId, authorId);
+
+  if (Array.isArray(exists) && exists.length === 0) {
+    const newInsert = await BooksAuthorsRepository.create(bookId, authorId);
+    
+    if (newInsert.affectedRows === 0) {
+      throw createHttpError(400, "Se ha producido un error")
+    }
+
+    const result = await BooksAuthorsRepository.findById(bookId, authorId);
+    return result;
+  } else {
+    return exists;
   }
-
-  const newInsert = await BooksAuthorsRepository.create(bookBase, author);
-
-  if (newInsert.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error");
-  }
-
-  return true;
 }
 
-export async function update(fullBook: FullBook, data: any): Promise<true | never> {
+export async function update(oldBookId: string, oldAuthorId: string, data: BooksAuthorsDTO): Promise<BooksAuthors | never> {
 
-  const update = await BooksAuthorsRepository.findByIdsAndUpdate(fullBook, data);
-
+  const update = await BooksAuthorsRepository.findByIdAndUpdate(oldBookId, oldAuthorId, data);
+  
   if (update.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al actualizar");
+  }
+  const result = await BooksAuthorsRepository.findById(data.bookId.toString(), data.authorId.toString());
+  
+  return result;
+}
+
+export async function destroy(bookId: string, authorId: string): Promise<true | never> {
+  const result = await BooksAuthorsRepository.findByIdAndDelete(bookId, authorId);
+  if (result.affectedRows === 0) {
+    throw createHttpError(400, "Se ha producido un error al borrar");
   }
 
   return true;

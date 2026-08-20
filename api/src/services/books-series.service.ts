@@ -1,31 +1,43 @@
 import createHttpError from "http-errors";
 import * as BooksSeriesRepository from "../repositories/books-series.repository.js";
-import type { BookBase, FullBook, Series, SQLValue } from "@shared/types";
+import type { BooksSeries, BooksSeriesDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookBase: BookBase, series: Series): Promise<Record<string, SQLValue> | true | never> {
-  const bookId = bookBase.id!.toString();
-  const seriesId = series.id!.toString();
-  const existing = await BooksSeriesRepository.findByIds(bookId, seriesId);
-  if (existing.length !== 0) {
-    return existing[0];
+export async function findOrCreate(bookId: string, seriesId: string): Promise<BooksSeries | never>{
+
+  const exists = await BooksSeriesRepository.findById(bookId, seriesId);
+
+  if (Array.isArray(exists) && exists.length === 0) {
+    const newInsert = await BooksSeriesRepository.create(bookId, seriesId);
+    
+    if (newInsert.affectedRows === 0) {
+      throw createHttpError(400, "Se ha producido un error")
+    }
+
+    const result = await BooksSeriesRepository.findById(bookId, seriesId);
+    return result;
+  } else {
+    return exists;
   }
-
-  const newInsert = await BooksSeriesRepository.create(bookBase, series);
-
-  if (newInsert.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error en la base de datos");
-  }
-
-  return true;
 }
 
-export async function update(fullBook: FullBook, data: any): Promise<true | never> {
-  const update = await BooksSeriesRepository.findByIdsAndUpdate(fullBook, data);
+export async function update(oldBookId: string, oldSeriesId: string, data: BooksSeriesDTO): Promise<BooksSeries | never> {
+
+  const update = await BooksSeriesRepository.findByIdAndUpdate(oldBookId, oldSeriesId, data);
   
   if (update.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error durante la actualización");
+    throw createHttpError(400, "Se ha producido un error al actualizar");
   }
+  const result = await BooksSeriesRepository.findById(data.bookId.toString(), data.seriesId.toString());
   
+  return result;
+}
+
+export async function destroy(bookId: string, seriesId: string): Promise<true | never> {
+  const result = await BooksSeriesRepository.findByIdAndDelete(bookId, seriesId);
+  if (result.affectedRows === 0) {
+    throw createHttpError(400, "Se ha producido un error al borrar");
+  }
+
   return true;
 }

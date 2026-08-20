@@ -1,40 +1,37 @@
-import type { BookBase, FullBook, Series, SQLResponse } from "@shared/types";
+import type { BooksSeries, BooksSeriesDTO, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
-export async function create(bookBase: BookBase, series: Series): Promise<SQLResponse> {
-  return await query("INSERT INTO booksseries (book_id, series_id, index_series) VALUES (?, ?, ?)", [bookBase.id!, series.id!, bookBase.indexVolume!]);
+export async function create(bookId: string, seriesId: string): Promise<SQLResponse> {
+  return await query("INSERT INTO booksseries (book_id, series_id) VALUES (?, ?)", [bookId!, seriesId]);
 }
 
-export async function findByIds(bookId: string, seriesId: string): Promise<any[]> {
-  return await query("SELECT * FROM booksseries WHERE book_id = ? AND series_id = ?", [bookId, seriesId]);
+export async function findById(bookId: string, seriesId: string): Promise<BooksSeries> {
+  return await query("SELECT book_id, series_id FROM booksseries WHERE book_id = ? AND series_id = ?", [bookId, seriesId]);
 }
 
-export async function findByIdsAndUpdate(fullBook: FullBook, data: any): Promise<SQLResponse> {
-  console.log("FullBook: ", fullBook);
+export async function findByIdAndUpdate(oldBookId: string, oldSeriesId: string, data: BooksSeriesDTO): Promise<SQLResponse>{
+  const {bookId: newBookId, seriesId: newSeriesId} = data;
   
-  const oldBookId = fullBook.bookBase.id!.toString();
-  const oldSeriesId = fullBook.series!.id!.toString();
-
   const fields: string[] = [];
-  const values: (string | number | null)[] = [];
+  const values: string[] = [];
 
-  if (data.bookBase.indexVolume !== undefined) {
+  if (data.bookId !== undefined) {
     fields.push("book_id = ?");
-    fields.push("series_id = ?");
-    fields.push("index_series = ?");
-    values.push(data.bookBase.id!);
-    values.push(data.series!.id!);
-    values.push(data.bookBase.indexVolume!.toString());
-  } else {
-    fields.push("book_id = ?");
-    fields.push("series_id = ?");
-    values.push(data.bookBase.id!);
-    values.push(data.series!.id!);
+    values.push(newBookId.toString());
   }
-
+  
+  if (data.seriesId !== undefined) {
+    fields.push("series_id = ?");
+    values.push(newSeriesId.toString());
+  }
+  
   values.push(oldBookId);
   values.push(oldSeriesId);
+  
+  return query(`UPDATE booksseries SET ${fields.join(", ")} WHERE book_id = ? AND series_id = ?`, values);
+}
 
-  return await query(`UPDATE booksseries SET ${fields.join(", ")} WHERE book_id = ? AND series_id = ?`, values);
+export async function findByIdAndDelete(bookId: string, seriesId: string): Promise<SQLResponse> {
+  return query("DELETE FROM booksseries WHERE book_id = ? AND series_id = ?", [bookId, seriesId]);
 }

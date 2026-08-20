@@ -1,30 +1,37 @@
-import type { BookBase, Collection, FullBook, SQLResponse } from "@shared/types";
+import type { BooksCollections, BooksCollectionsDTO, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
-export async function create(bookBase: BookBase, collection: Collection): Promise<SQLResponse> {
-  return await query("INSERT INTO bookscollections (book_id, collection_id) VALUES (?, ?)", [bookBase.id!, collection.id!]);
+export async function create(bookId: string, collectionId: string): Promise<SQLResponse> {
+  return await query("INSERT INTO bookscollections (book_id, collection_id) VALUES (?, ?)", [bookId!, collectionId]);
 }
 
-export async function findByIds(bookId: string, collectionId: string): Promise<any[]> {
-  return await query("SELECT * FROM bookscollections WHERE book_id = ? AND collection_id = ?", [bookId, collectionId]);
+export async function findById(bookId: string, collectionId: string): Promise<BooksCollections> {
+  return await query("SELECT book_id, collection_id FROM bookscollections WHERE book_id = ? AND collection_id = ?", [bookId, collectionId]);
 }
 
-export async function findByIdsAndUpdate(fullBook: FullBook, data: any): Promise<SQLResponse> {
-
-  const oldBookId = fullBook.bookBase.id!.toString();
-  const oldCollectionId = fullBook.collection.id!.toString();
-
+export async function findByIdAndUpdate(oldBookId: string, oldCollectionId: string, data: BooksCollectionsDTO): Promise<SQLResponse>{
+  const {bookId: newBookId, collectionId: newCollectionId} = data;
+  
   const fields: string[] = [];
-  const values: (string | number | null)[] = [];
+  const values: string[] = [];
 
-  fields.push("book_id = ?");
-  fields.push("collection_id = ?");
-  values.push(data.bookBase.id);
-  values.push(data.collection.id);
-
+  if (data.bookId !== undefined) {
+    fields.push("book_id = ?");
+    values.push(newBookId.toString());
+  }
+  
+  if (data.collectionId !== undefined) {
+    fields.push("collection_id = ?");
+    values.push(newCollectionId.toString());
+  }
+  
   values.push(oldBookId);
   values.push(oldCollectionId);
+  
+  return query(`UPDATE bookscollections SET ${fields.join(", ")} WHERE book_id = ? AND collection_id = ?`, values);
+}
 
-  return await query(`UPDATE bookscollections SET ${fields.join(", ")} WHERE book_id = ? AND collection_id = ?`, values);
+export async function findByIdAndDelete(bookId: string, collectionId: string): Promise<SQLResponse> {
+  return query("DELETE FROM bookscollections WHERE book_id = ? AND collection_id = ?", [bookId, collectionId]);
 }

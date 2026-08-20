@@ -6,6 +6,9 @@ import * as SeriesController from "./../../controllers/series.controller.js";
 import * as FullBookController from "./../../controllers/full-book.controller.js";
 import * as ReadBookController from "./../../controllers/read-book.controller.js";
 import * as UserController from "./../../controllers/user.controller.js";
+import * as BooksAuthorsController from "./../../controllers/booksauthors.controller.js";
+import * as BooksSeriesController from "./../../controllers/booksseries.controller.js";
+import * as BooksCollectionsController from "./../../controllers/bookscollections.controller.js";
 
 const router = Router();
 
@@ -36,6 +39,21 @@ router.post("/collection", CollectionController.create);
 router.get("/collection/:id", CollectionController.detail);
 router.patch("/collection/:id", CollectionController.update);
 router.delete("/collection/:id", CollectionController.destroy);
+
+//BOOKSAUTHORS
+router.post("/booksauthors", BooksAuthorsController.create);
+router.patch("/booksauthors", BooksAuthorsController.update);
+router.delete("/booksauthors", BooksAuthorsController.destroy);
+
+//BOOKSSERIES
+router.post("/booksseries", BooksSeriesController.create);
+router.patch("/booksseries", BooksSeriesController.update);
+router.delete("/booksseries", BooksSeriesController.destroy);
+
+//BOOKSCOLECTIONS
+router.post("/bookscollections", BooksCollectionsController.create);
+router.patch("/bookscollections", BooksCollectionsController.update);
+router.delete("/bookscollections", BooksCollectionsController.destroy);
 
 //FULL-BOOK
 router.get("/fullBook", FullBookController.list);

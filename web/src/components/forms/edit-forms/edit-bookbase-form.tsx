@@ -5,10 +5,10 @@ import { useEffect } from "react";
 
 type EditBookBaseFormProps = {
   fullbook: FullBook,
-  updateBase: (id: number) => void
+  updateBook: (id: number) => void
 };
 
-function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
+function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
 
   const { register, handleSubmit, reset } = useForm<BookBaseDTO>();
   
@@ -26,7 +26,7 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
 
   const submit: SubmitHandler<BookBaseDTO> = async (data) => {
     await BaseBookService.update(fullbook.bookBase.id, data);
-    updateBase(fullbook.bookBase.id);
+    updateBook(fullbook.bookBase.id);
   }
 
   return(
@@ -41,6 +41,7 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
             })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             type="text"
+            id="title"
           />
         </div>
 
@@ -50,7 +51,8 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
             {...register("language", {
               required: true
             })}
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            id="language">
               <option value="Español">Español</option>
               <option value="Inglés">Inglés</option>
               <option value="Alemán">Alemán</option>
@@ -63,7 +65,8 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
           <select {...register("format", {
             required: true
           })}
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            id="format">
               <option value="Digital">Digital</option>
               <option value="Impreso">Impreso</option>
               <option value="Ambos">Ambos</option>
@@ -73,7 +76,9 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
         <div className="input-group">
           <label htmlFor="description">Descripción</label>
           <textarea 
-            {...register("description")}/>
+            {...register("description")}
+            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+            id="description"/>
         </div>
 
         <div className="input-group">
@@ -81,7 +86,8 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
           <input 
             {...register("indexVolume")}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            type="text"/>
+            type="text"
+            id="indexVolume"/>
         </div>
 
         <div className="input-group">
@@ -89,7 +95,8 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
           <input
             {...register("cover")}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            type="text"/>
+            type="text"
+            id="cover"/>
         </div>
         
         <div className="input-group">
@@ -97,7 +104,8 @@ function EditBookBaseForm({ fullbook, updateBase }: EditBookBaseFormProps) {
           <input
             {...register("cloudinaryId")}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            type="text"/>
+            type="text"
+            id="cloudinaryId"/>
         </div>
 
         <button

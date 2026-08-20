@@ -1,41 +1,37 @@
-import type { Author, BookBase, FullBook, SQLResponse } from "@shared/types";
+import type { BooksAuthors, BooksAuthorsDTO, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
-export async function create(bookBase: BookBase, author: Author): Promise<SQLResponse> {
-  return await query("INSERT INTO booksauthors (book_id, author_id, description) VALUES (?, ?, ?)", [bookBase.id!, author.id!, bookBase.description!]);
+export async function create(bookId: string, authorId: string): Promise<SQLResponse> {
+  return await query("INSERT INTO booksauthors (book_id, author_id) VALUES (?, ?)", [bookId!, authorId]);
 }
 
-export async function findByIds(bookId: string, authorId: string) {
-  return await query("SELECT * FROM booksauthors WHERE book_id = ? AND author_id = ?", [bookId, authorId]);
+export async function findById(bookId: string, authorId: string): Promise<BooksAuthors> {
+  return await query("SELECT book_id, author_id FROM booksauthors WHERE book_id = ? AND author_id = ?", [bookId, authorId]);
 }
 
-export async function findByIdsAndUpdate(fullBook: FullBook, data: any): Promise<SQLResponse> {
-  const bookId = data.bookBase.id!.toString();
-  const authorId = data.author.id!.toString();
-  const oldBookId = fullBook.bookBase.id!.toString();
-  const oldAuthorId = fullBook.author.id!.toString();
-
-
+export async function findByIdAndUpdate(oldBookId: string, oldAuthorId: string, data: BooksAuthorsDTO): Promise<SQLResponse>{
+  const {bookId: newBookId, authorId: newAuthorId} = data;
+  
   const fields: string[] = [];
-  const values: (string | number | null)[] = [];
+  const values: string[] = [];
 
-  if (data.bookBase.description !== undefined) {
+  if (data.bookId !== undefined) {
     fields.push("book_id = ?");
-    fields.push("author_id = ?");
-    fields.push("description = ?");
-    values.push(bookId);
-    values.push(authorId);
-    values.push(data.bookBase.description);
-  } else {
-    fields.push("book_id = ?");
-    fields.push("author_id = ?");
-    values.push(bookId);
-    values.push(authorId);
+    values.push(newBookId.toString());
   }
-
+  
+  if (data.authorId !== undefined) {
+    fields.push("author_id = ?");
+    values.push(newAuthorId.toString());
+  }
+  
   values.push(oldBookId);
   values.push(oldAuthorId);
+  
+  return query(`UPDATE booksauthors SET ${fields.join(", ")} WHERE book_id = ? AND author_id = ?`, values);
+}
 
-  return await query(`UPDATE booksauthors SET ${fields.join(", ")} WHERE book_id = ? AND author_id = ?`, values);
+export async function findByIdAndDelete(bookId: string, authorId: string): Promise<SQLResponse> {
+  return query("DELETE FROM booksauthors WHERE book_id = ? AND author_id = ?", [bookId, authorId]);
 }

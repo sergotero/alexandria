@@ -1,30 +1,42 @@
-import createHttpError from 'http-errors';
+import createHttpError from "http-errors";
 import * as BooksCollectionsRepository from "../repositories/books-collections.repository.js";
-import type { BookBase, Collection, FullBook, SQLValue } from '@shared/types';
+import type { BooksCollections, BooksCollectionsDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookBase: BookBase, collection: Collection): Promise<Record<string, SQLValue> | true | never> {
-  const bookId = bookBase.id!.toString();
-  const collectionId = collection.id!.toString();
-  const existing = await BooksCollectionsRepository.findByIds(bookId, collectionId);
-  if (existing.length !== 0) {
-    return existing[0];
+export async function findOrCreate(bookId: string, collectionId: string): Promise<BooksCollections | never>{
+
+  const exists = await BooksCollectionsRepository.findById(bookId, collectionId);
+
+  if (Array.isArray(exists) && exists.length === 0) {
+    const newInsert = await BooksCollectionsRepository.create(bookId, collectionId);
+    
+    if (newInsert.affectedRows === 0) {
+      throw createHttpError(400, "Se ha producido un error")
+    }
+
+    const result = await BooksCollectionsRepository.findById(bookId, collectionId);
+    return result;
+  } else {
+    return exists;
   }
-
-  const newInsert = await BooksCollectionsRepository.create(bookBase, collection);
-
-  if (newInsert.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error en la base de datos");
-  }
-
-  return true;
 }
 
-export async function update(fullBook: FullBook, data: any): Promise<true | never> {
-  const update = await BooksCollectionsRepository.findByIdsAndUpdate(fullBook, data);
+export async function update(oldBookId: string, oldCollectionId: string, data: BooksCollectionsDTO): Promise<BooksCollections | never> {
 
+  const update = await BooksCollectionsRepository.findByIdAndUpdate(oldBookId, oldCollectionId, data);
+  
   if (update.affectedRows === 0) {
-    throw createHttpError(400, "Se ha producido un error durante la actualización");
+    throw createHttpError(400, "Se ha producido un error al actualizar");
+  }
+  const result = await BooksCollectionsRepository.findById(data.bookId.toString(), data.collectionId.toString());
+  
+  return result;
+}
+
+export async function destroy(bookId: string, collectionId: string): Promise<true | never> {
+  const result = await BooksCollectionsRepository.findByIdAndDelete(bookId, collectionId);
+  if (result.affectedRows === 0) {
+    throw createHttpError(400, "Se ha producido un error al borrar");
   }
 
   return true;
