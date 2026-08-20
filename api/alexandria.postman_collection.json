@@ -692,7 +692,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"bookBase\": {\r\n        \"title\": \"Memorias de una gaysha\",\r\n        \"language\": \"Español\",\r\n        \"format\": \"Digital\",\r\n        \"description\": \"Una novela como nunca antes se ha visto en el mundo.\"\r\n    },\r\n    \"author\": {\r\n        \"name\": \"Sergio\",\r\n        \"lastname1\": \"Otero\",\r\n        \"lastname2\": \"Pérez\"\r\n    },\r\n    \"collection\": {\r\n        \"name\": \"LGBTQ autoeditado\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"bookBase\": {\r\n        \"title\": \"Test book\",\r\n        \"language\": \"Español\",\r\n        \"format\": \"Digital\",\r\n        \"description\": \"Una novela como nunca antes se ha visto en el mundo.\"\r\n    },\r\n    \"author\": {\r\n        \"name\": \"AA.VV.\"\r\n    },\r\n    \"collection\": {\r\n        \"name\": \"LGBTQ autoeditado\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -941,6 +941,255 @@
                   "key": "id",
                   "value": "110"
                 }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BooksAuthors",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"authorId\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksauthors",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksauthors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"authorId\": \"2\",\r\n    \"data\": {\r\n        \"bookId\": 1359,\r\n        \"authorId\": 1\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksauthors",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksauthors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"authorId\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksauthors",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksauthors"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BooksCollections",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"collectionId\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/bookscollections",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookscollections"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"collectionId\": \"1\",\r\n    \"data\": {\r\n        \"bookId\": 1359,\r\n        \"collectionId\": 2\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/bookscollections",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookscollections"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"collectionId\": \"2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/bookscollections",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "bookscollections"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BooksSeries",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"seriesId\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksseries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksseries"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"seriesId\": \"1\",\r\n    \"data\": {\r\n        \"bookId\": 1359,\r\n        \"seriesId\": 2\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksseries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksseries"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookId\": \"1359\",\r\n    \"seriesId\": \"2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/booksseries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "booksseries"
               ]
             }
           },
