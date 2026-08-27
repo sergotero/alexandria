@@ -8,6 +8,8 @@ type EditCollectionFormProps = {
 
 function EditCollectionForm({ collection, collectionList }: EditCollectionFormProps) {
 
+  "use no memo";
+
   return(
     <form method="POST">
       <legend>Colección</legend>

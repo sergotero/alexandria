@@ -13,11 +13,11 @@ import * as BooksCollectionsController from "./../../controllers/bookscollection
 const router = Router();
 
 //BOOKBASE
-router.get("/bookBase", BookBaseController.list);
-router.post("/bookBase", BookBaseController.create);
-router.get("/bookBase/:id", BookBaseController.detail);
-router.patch("/bookBase/:id", BookBaseController.update);
-router.delete("/bookBase/:id", BookBaseController.destroy);
+router.get("/bookbase", BookBaseController.list);
+router.post("/bookbase", BookBaseController.create);
+router.get("/bookbase/:id", BookBaseController.detail);
+router.patch("/bookbase/:id", BookBaseController.update);
+router.delete("/bookbase/:id", BookBaseController.destroy);
 
 //AUTHOR
 router.get("/author", AuthorController.list);
@@ -56,17 +56,17 @@ router.patch("/bookscollections", BooksCollectionsController.update);
 router.delete("/bookscollections", BooksCollectionsController.destroy);
 
 //FULL-BOOK
-router.get("/fullBook", FullBookController.list);
-router.post("/fullBook", FullBookController.create);
-router.get("/fullBook/:id", FullBookController.detail);
-router.patch("/fullBook/:id", FullBookController.update);
+router.get("/fullbook", FullBookController.list);
+router.post("/fullbook", FullBookController.create);
+router.get("/fullbook/:id", FullBookController.detail);
+router.patch("/fullbook/:id", FullBookController.update);
 
 //READ-BOOK
-router.get("/readBook", ReadBookController.list);
-router.post("/readBook", ReadBookController.create);
-router.get("/readBook/:id", ReadBookController.detail);
-router.patch("/readBook/:id", ReadBookController.update);
-router.delete("/readBook/:id", ReadBookController.destroy);
+router.get("/readook", ReadBookController.list);
+router.post("/readbook", ReadBookController.create);
+router.get("/readbook/:id", ReadBookController.detail);
+router.patch("/readbook/:id", ReadBookController.update);
+router.delete("/readbook/:id", ReadBookController.destroy);
 
 //USER
 router.get("/user", UserController.list);

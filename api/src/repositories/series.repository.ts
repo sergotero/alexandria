@@ -1,13 +1,13 @@
-import type { Series, SeriesDTO, SQLResponse } from "@shared/types";
+import type { Series, SeriesDTO, SeriesList, SQLResponse } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
 export async function create(series: SeriesDTO): Promise<SQLResponse>{
-  return await query("INSERT INTO series(name, total_vol, status) VALUES(?, ?, ?)", [series.name, series.volumes!, series.status]);
+  return await query("INSERT INTO series(name, total_vol, status) VALUES(?, ?, ?)", [series.name!, series.volumes!, series.status!]);
 }
 
-export async function findAll(): Promise<Series[]>{
-  return await query("SELECT * FROM series");
+export async function findAll(): Promise<SeriesList[]>{
+  return await query("SELECT * FROM series ORDER BY name");
 }
 
 export async function findById(id: string): Promise<Series[]>{

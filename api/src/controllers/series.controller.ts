@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import type { Request, Response } from "express";
 import * as SeriesService from "./../services/series.service.js";
-import type { APIResponse, Series } from "@shared/types";
+import type { APIResponse, Series, SeriesList } from "@shared/types";
 
 
 export async function create(req: Request, res: Response): Promise<void | never> {
@@ -37,7 +37,7 @@ export async function create(req: Request, res: Response): Promise<void | never>
 
 export async function list(req: Request, res: Response): Promise<void | never> {
   const series = await SeriesService.list();
-  const response: APIResponse<Series[]> = {
+  const response: APIResponse<SeriesList[]> = {
     success: true,
     data: series
   };

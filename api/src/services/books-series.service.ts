@@ -21,7 +21,18 @@ export async function findOrCreate(bookId: string, seriesId: string): Promise<Bo
   }
 }
 
-export async function update(oldBookId: string, oldSeriesId: string, data: BooksSeriesDTO): Promise<BooksSeries | never> {
+export async function update(oldBookId: string, oldSeriesId: string | null | undefined, data: BooksSeriesDTO): Promise<BooksSeries | never> {
+
+  if (oldSeriesId === null || oldSeriesId === undefined) {
+    const newInsert = await BooksSeriesRepository.create(oldBookId, data.seriesId.toString());
+    
+    if (newInsert.affectedRows === 0) {
+      throw createHttpError(400, "Se ha producido un error")
+    }
+
+    const result = await BooksSeriesRepository.findById(oldBookId, data.seriesId.toString());
+    return result;
+  }
 
   const update = await BooksSeriesRepository.findByIdAndUpdate(oldBookId, oldSeriesId, data);
   

@@ -2,6 +2,7 @@ import type { APIResponse, BooksSeries } from '@shared/types';
 import type { Request, Response } from "express"
 import createHttpError from 'http-errors';
 import * as BooksSeriesService from "./../services/books-series.service.js";
+import { log } from 'node:console';
 
 export const create = async (req: Request, res: Response): Promise<void | never> => {
   const { bookId, seriesId } = req.body;
@@ -28,8 +29,8 @@ export const create = async (req: Request, res: Response): Promise<void | never>
 }
 
 export const update = async(req: Request, res: Response): Promise<void | never> => {
-  const oldBookId = req.body.bookId.toString();
-  const oldAuthorkId = req.body.seriesId.toString();
+  const oldBookId = req.body.bookId;
+  const oldSeriesId = req.body.seriesId;
   const { data } = req.body
 
   if (oldBookId === undefined) {
@@ -38,13 +39,15 @@ export const update = async(req: Request, res: Response): Promise<void | never> 
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (oldAuthorkId === undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof oldAuthorkId !== "string") {
-    throw createHttpError(400, "El ID debe ser un string");
+  if (data.bookId === undefined) {
+    throw createHttpError(400, "El nuevo ID es un parámetro obligatorio");
   }
 
-  const result = await BooksSeriesService.update(oldBookId, oldAuthorkId, data);
+  if (data.seriesId === undefined) {
+    throw createHttpError(400, "El nuevo ID es un parámetro obligatorio");
+  }
+
+  const result = await BooksSeriesService.update(oldBookId, oldSeriesId, data);
   const response: APIResponse<BooksSeries> = {
     success: true,
     data: result

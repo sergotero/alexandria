@@ -11,6 +11,6 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const list = async (page: number, limit: number = 18): Promise<APIResponse<FullBook[]>> => await http.get(`/fullBook?page=${page}&limit=${limit}`);
+export const list = async (page: number, limit: number = 18): Promise<APIResponse<FullBook[]>> => await http.get(`/fullbook?page=${page}&limit=${limit}`);
 
-export const detail = async(id: number): Promise<APIResponse<FullBook>> => await http.get(`/fullBook/${id}`);
+export const detail = async(id: number): Promise<APIResponse<FullBook>> => await http.get(`/fullbook/${id}`);

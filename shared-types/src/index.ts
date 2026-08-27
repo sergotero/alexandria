@@ -5,6 +5,7 @@ export type { Collection } from "./types/collection.model.js";
 export type { FullBook } from "./types/full-book.model.js";
 export type { ReadBook } from "./types/read-book.model.js";
 export type { Series } from "./types/series.model.js";
+export type { SeriesList } from "./types/series-list.model.js";
 export type { SQLValue, States, Languages, Formats, Roles } from "./types/utils.model.js";
 export type { SQLResponse } from "./types/SQLResponse.model.js";
 export type { User } from "./types/user.model.js";

@@ -1,13 +1,12 @@
 import createHttpError from "http-errors";
-import { capitalize } from "./utils.service.js";
 import * as SeriesRepository from "./../repositories/series.repository.js";
-import type { Series, SeriesDTO } from "@shared/types";
+import type { Series, SeriesDTO, SeriesList } from "@shared/types";
 
 
 export async function findOrCreate(data: Series | SeriesDTO): Promise<Series | never> {
 
   const series: SeriesDTO = {
-    name: capitalize(data.name!),
+    name: data.name!,
     volumes: Number(data.volumes),
     status: data.status!
   };
@@ -29,7 +28,7 @@ export async function findOrCreate(data: Series | SeriesDTO): Promise<Series | n
   return newSeries;
 }
 
-export async function list(): Promise<Series[]> {
+export async function list(): Promise<SeriesList[]> {
   const series = await SeriesRepository.findAll();
   return series;
 }
@@ -41,11 +40,19 @@ export async function detail(id: string): Promise<Series> {
 
 export async function update(id: string, data: Series): Promise<Series | never> {
   
-  const series: SeriesDTO = {
-    name: capitalize(data.name),
+  let series: SeriesDTO;
+  
+  if (data.name === null || data.status === null) {
+    series = {
     volumes: Number(data.volumes),
-    status: data.status
   };
+  } else {
+    series = {
+      name: data.name,
+      volumes: Number(data.volumes),
+      status: data.status
+    };
+  }
 
   const result = await SeriesRepository.findByIdAndUpdate(id, series);
 

@@ -1,4 +1,4 @@
-import type { APIResponse } from "@shared/types";
+import type { APIResponse, BooksAuthors, BooksAuthorsDTO } from "@shared/types";
 import axios from "axios";
 
 
@@ -12,6 +12,5 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const update = async(bookId: string, authorId: string): Promise<APIResponse<void>> =>
-  await http.patch('/booksauthors')
+export const update = async(bookId: string, authorId: string, data: BooksAuthorsDTO): Promise<APIResponse<BooksAuthors>> => await http.patch('/booksauthors',{bookId, authorId, data});
 

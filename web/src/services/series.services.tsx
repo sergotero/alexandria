@@ -1,4 +1,4 @@
-import type { APIResponse, Series } from "@shared/types";
+import type { APIResponse, SeriesList } from "@shared/types";
 import axios from "axios";
 
 const http = axios.create({
@@ -11,4 +11,4 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const list = async (): Promise<APIResponse<Series[]>> => await http.get("/series");
+export const list = async (): Promise<APIResponse<SeriesList[]>> => await http.get("/series");

@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import type { Author, BookBase, Collection, FullBook, Series, SeriesDTO } from "@shared/types";
+import type { Author, AuthorDTO, BookBase, BookBaseDTO, Collection, CollectionDTO, FullBook, FullBookDTO, Series, SeriesDTO } from "@shared/types";
 import * as FullBookRepository from "../repositories/full-book.repository.js";
 import * as BookBaseService from "./../services/book-base.service.js";
 import * as AuthorService from "./author.service.js";
@@ -11,18 +11,18 @@ import * as BooksCollectionsService from "./books-collections.service.js";
 import pool from "../config/db.config.js";
 
 
-export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
+export async function findOrCreate(data: FullBookDTO): Promise<FullBookDTO | never> {
 
   let connection;
 
   try {
     connection = await pool.getConnection();
     await connection.beginTransaction();
-    const bookBase: BookBase = data.bookBase;
+    const bookBase: BookBaseDTO = data.bookBase;
     const newBookBase = await BookBaseService.findOrCreate(bookBase);
     
 
-    const author: Author = data.author;
+    const author: AuthorDTO = data.author;
     const newAuthor = await AuthorService.findOrCreate(author);
 
     let newSeries;
@@ -32,20 +32,19 @@ export async function findOrCreate(data: FullBook): Promise<FullBook | never> {
         name: data.series.name!,
         volumes: data.series.volumes!,
         status: data.series.status!,
-      }
+      };
       newSeries = await SeriesService.findOrCreate(series);
-
     }
 
-    const newCollection = await CollectionService.findOrCreate(data.collection.name);
+    const newCollection: Collection = await CollectionService.findOrCreate(data.collection.name);
 
-    await BooksAuthorsService.findOrCreate(newBookBase, newAuthor);
-    await BooksCollectionsService.findOrCreate(newBookBase, newCollection);
+    await BooksAuthorsService.findOrCreate(newBookBase.id.toString(), newAuthor.id.toString());
+    await BooksCollectionsService.findOrCreate(newBookBase.id.toString(), newCollection.id.toString());
     if (newSeries) {
-      await BooksSeriesService.findOrCreate(newBookBase, newSeries);
+      await BooksSeriesService.findOrCreate(newBookBase.id.toString(), newSeries.id!.toString());
     }
     
-    let fullBook: FullBook;
+    let fullBook: FullBookDTO;
     if (newSeries) {
       fullBook = {
         bookBase: newBookBase,
@@ -167,7 +166,6 @@ export async function detail(id: string): Promise<FullBook> {
   return fullBook;
 }
 
-
 export async function update(id: string, data: FullBook): Promise<FullBook | never> {
   let connection;
 
@@ -177,13 +175,26 @@ export async function update(id: string, data: FullBook): Promise<FullBook | nev
 
     const oldFullBook = await detail(id);
 
-    await BooksAuthorsService.update(oldFullBook, data);
-    await BooksCollectionsService.update(oldFullBook, data);
+    await BooksAuthorsService.update(
+      oldFullBook.bookBase.id.toString(),
+      oldFullBook.author.id.toString(),
+      { bookId: data.bookBase.id, authorId: data.author.id }
+    );
+
+    await BooksCollectionsService.update(
+      oldFullBook.bookBase.id.toString(),
+      oldFullBook.collection.id.toString(),
+      { bookId: data.bookBase.id , collectionId: data.collection.id }
+    );
     
-    if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
-      await BooksSeriesService.update(oldFullBook, data);
+    if (data.series !== undefined && data.series.id !== null && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
+      await BooksSeriesService.update(
+        oldFullBook.bookBase.id.toString(),
+        oldFullBook.series.id.toString(),
+        { bookId: data.bookBase.id, seriesId: data.series.id }
+      );
     } else if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id === null) {
-      await BooksSeriesService.findOrCreate(data.bookBase, data.series);
+      await BooksSeriesService.findOrCreate(data.bookBase.id.toString(), data.series.id!.toString());
     }
     
     const newFullBook = await detail(id);

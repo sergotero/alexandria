@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Author, Collection, FullBook, Series, ServerErrorDTO } from "@shared/types";
+import type { Author, Collection, FullBook, SeriesList, ServerErrorDTO } from "@shared/types";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
@@ -16,7 +16,7 @@ function HomePage() {
   const [ details, setDetails ] = useState<FullBook | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
-  const [ seriesList, setSeriesList ] = useState<Series[]>([]);
+  const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
   const [ page, setPage ] = useState<number>(0);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
   
@@ -32,7 +32,7 @@ function HomePage() {
         setServerError(response.error);
         return;
       }
-
+      
       const updatedBook = response.data;
       setDetails(updatedBook);
       setList(prevList =>
@@ -68,7 +68,6 @@ function HomePage() {
   const fetchSeries = async (): Promise<void> => {
     const response = await SeriesServices.list();
     if (response.success) {
-      response.data.push({id: null, name: null, volumes: null, status: null});
       setSeriesList(response.data);
     } else {
       console.error("Se ha producido un error", response.error);

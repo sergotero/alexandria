@@ -6,6 +6,6 @@ import type { Series } from "./series.model.js";
 export type FullBook = {
   bookBase: BookBase;
   author: Author;
-  series?: Series;
+  series: Series;
   collection: Collection;
 }

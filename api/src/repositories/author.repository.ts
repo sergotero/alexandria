@@ -14,7 +14,7 @@ export async function create(author: AuthorDTO): Promise<SQLResponse> {
 }
 
 export async function findAll(): Promise<Author[]> {
-  return await query("SELECT * FROM authors");
+  return await query("SELECT * FROM authors ORDER BY alias");
 }
 
 export async function findById(id: string): Promise<Author[]> {

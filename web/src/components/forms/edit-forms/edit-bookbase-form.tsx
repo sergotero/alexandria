@@ -5,13 +5,21 @@ import { useEffect } from "react";
 
 type EditBookBaseFormProps = {
   fullbook: FullBook,
-  updateBook: (id: number) => void
+  updateBook: (id: number) => Promise<void>
 };
 
 function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
 
+  /*
+  Use no memo is necessary due to a incompatibility between RHF, React 19 and reset() and useEffect(). It tells the compiler not to store this component in the memory (which is the cause of the desynchronization). The sentence must be located at the beginning of the component.
+
+  Since the problem is not resolved yet, the solution relies on using this sentence or the hook useWatch to make the <form> reactive.
+  */
+
+  "use no memo";
+
   const { register, handleSubmit, reset } = useForm<BookBaseDTO>();
-  
+
   useEffect(() => {
     reset({
       title: fullbook.bookBase.title,
@@ -22,15 +30,16 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
       cover: fullbook.bookBase.cover,
       cloudinaryId: fullbook.bookBase.cloudinaryId
     });
-  }, [fullbook, reset]);
+  }, [fullbook.bookBase, reset]);
 
+  
   const submit: SubmitHandler<BookBaseDTO> = async (data) => {
     await BaseBookService.update(fullbook.bookBase.id, data);
-    updateBook(fullbook.bookBase.id);
+    await updateBook(fullbook.bookBase.id);
   }
 
   return(
-    <form method="POST" onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit(submit)}>
       <fieldset>
         <legend>&nbsp;Base&nbsp;</legend>
         <div className="input-group">
@@ -76,7 +85,12 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
         <div className="input-group">
           <label htmlFor="description">Descripción</label>
           <textarea 
-            {...register("description")}
+            {...register("description", {
+              onChange: (event) => {
+                console.log("ONCHANGE", event.target.value);
+                
+              }
+            })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             id="description"/>
         </div>
