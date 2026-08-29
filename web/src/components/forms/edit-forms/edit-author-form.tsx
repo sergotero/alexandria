@@ -51,7 +51,11 @@ function EditAuthorForm({ fullbook, authorList, updateBook }: EditAuthorFormProp
           </select>
         </div>
 
-        <button type="submit" className="btn bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">Actualizar</button>
+        <button 
+          type="submit" 
+          className="btn bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
+            Actualizar
+        </button>
       </fieldset>
     </form>
   );

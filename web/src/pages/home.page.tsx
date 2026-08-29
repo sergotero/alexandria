@@ -68,6 +68,7 @@ function HomePage() {
   const fetchSeries = async (): Promise<void> => {
     const response = await SeriesServices.list();
     if (response.success) {
+      response.data.push({id: 0, name: "", volumes: 0, status: "Desconocido"});
       setSeriesList(response.data);
     } else {
       console.error("Se ha producido un error", response.error);
@@ -159,7 +160,7 @@ function HomePage() {
                 </button>
             </div>
             {/* Content */}
-            <div className={`tabs-content bg-zinc-600 p-5 h-[80vh] overflow-y-scroll scrollbar-none`}>
+            <div className={`tabs-content bg-zinc-600 p-5 h-[100vh] overflow-y-scroll scrollbar-none`}>
               {activeTab === "details" && (
                 <BookDetails book={details} />
               )}

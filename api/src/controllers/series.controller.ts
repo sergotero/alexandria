@@ -92,6 +92,6 @@ export async function destroy(req: Request, res: Response): Promise<void | never
     success: true,
     data: series
   };
-  res.status(204).json(series);
+  res.status(204).json(response);
 }
 

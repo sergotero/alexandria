@@ -17,13 +17,13 @@ function BookDetails({ book }: BookDetails) {
           <div className="flex flex-wrap">
             <div className="w-[70%] m-auto pt-5 pb-5">
               <img
-                className="object-cover"
+                className="object-cover rounded-md"
                 src={book.bookBase.cover ? book.bookBase.cover : "https://res.cloudinary.com/da8iuexu4/image/upload/v1783292999/404-cover_y3yscb.png"}
                 alt={book.bookBase.title}
               />
             </div>
-            <div className="m-auto mb-5">
-              <table>
+            <div className="mb-5">
+              <table className="table-fixed">
                 <tbody>
                   <tr>
                     <td>Serie</td>

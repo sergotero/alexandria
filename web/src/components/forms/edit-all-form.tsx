@@ -2,7 +2,7 @@ import type { Author, Collection, FullBook, SeriesList } from "@shared/types";
 import EditAuthorForm from "./edit-forms/edit-author-form.tsx";
 import EditBookBaseForm from "./edit-forms/edit-bookbase-form.tsx";
 import EditSeriesForm from "./edit-forms/edit-series-form.tsx";
-// import EditCollectionForm from "./edit-forms/edit-collection-form";
+import EditCollectionForm from "./edit-forms/edit-collection-form";
 
 type EditAllFormProps = {
   fullbook: FullBook,
@@ -11,8 +11,6 @@ type EditAllFormProps = {
   authorList: Author[],
   updateBook: (id: number) => Promise<void>
 }
-
-
 
 function EditAllForm({ fullbook, authorList, collectionList, seriesList, updateBook }: EditAllFormProps) {
   return (
@@ -34,7 +32,12 @@ function EditAllForm({ fullbook, authorList, collectionList, seriesList, updateB
           updateBook={updateBook}
           seriesList={seriesList}
         />}
-      {/*{fullbook.collection && <EditCollectionForm fullbook={fullbook} collectionList={collectionList} updateCollection={updatePartialBook}/>} */}
+      {fullbook.collection && 
+        <EditCollectionForm 
+          fullbook={fullbook} 
+          updateBook={updateBook}
+          collectionList={collectionList}
+        />}
     </div>
   );
 }

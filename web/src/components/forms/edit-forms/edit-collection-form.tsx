@@ -1,28 +1,60 @@
-import type { Collection } from "@shared/types";
+import type { BooksCollectionsDTO, Collection, FullBook } from "@shared/types";
+import { useEffect } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import * as BooksCollectionsService from "./../../../services/bookscollections.services.tsx";
 
 type EditCollectionFormProps = {
-  collection: Collection,
+  fullbook: FullBook,
   collectionList: Collection[],
-  updateCollection: (collection: Collection) => void
+  updateBook: (id: number) => void
 };
 
-function EditCollectionForm({ collection, collectionList }: EditCollectionFormProps) {
+function EditCollectionForm({ fullbook, collectionList, updateBook }: EditCollectionFormProps) {
 
   "use no memo";
 
+  const { register, handleSubmit, reset } = useForm<BooksCollectionsDTO>();
+
+  useEffect(() => {
+    reset({
+      collectionId: fullbook.collection.id
+    });
+  }, [fullbook.collection.id, reset]);
+
+  const submit: SubmitHandler<BooksCollectionsDTO> = async(data: BooksCollectionsDTO) => {
+    await BooksCollectionsService.update(fullbook.bookBase.id.toString(), fullbook.collection.id.toString(), {
+      bookId: fullbook.bookBase.id,
+      collectionId: data.collectionId
+    });
+    updateBook(fullbook.bookBase.id);
+  }
+
   return(
-    <form method="POST">
+    <form method="POST" onSubmit={handleSubmit(submit)}>
       <legend>Colección</legend>
       <fieldset>
         <div className="input-group">
-            <label htmlFor="name">Colección</label>
-            <select className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black" name="collection" id="collection" value={collection.name}>
-              {collectionList.map((col) => {
-                return <option key={col.id} value={col.name}>{col.name}</option>
+            <label htmlFor="collectionId">Colección</label>
+            <select 
+              {...register("collectionId", {
+                required: true
               })}
+              className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
+              id="collectionId">
+              {collectionList.map((col) => (
+                <option
+                  key={col.id}
+                  value={col.id}>
+                    {col.name}
+                </option>
+              ))}
             </select>
           </div>
-          <button type="submit" className="btn bg-zinc-600 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">Actualizar</button>
+          <button
+            type="submit" 
+            className="btn bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
+              Actualizar
+          </button>
       </fieldset>
     </form>
   )

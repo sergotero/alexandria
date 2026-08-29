@@ -14,3 +14,5 @@ http.interceptors.response.use(
 
 
 export const update = async(oldBookId: string, oldSeriesId: string | null | undefined, data: BooksSeriesDTO): Promise<APIResponse<BooksSeries>> => http.patch(`/booksseries`, {bookId: oldBookId, seriesId: oldSeriesId, data});
+
+export const destroy = async(data: BooksSeriesDTO): Promise<APIResponse<BooksSeries>> => http.delete(`/booksseries`, { data });

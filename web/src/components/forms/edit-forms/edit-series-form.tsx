@@ -22,24 +22,24 @@ function EditSeriesForm({ fullbook, seriesList, updateBook }: EditSeriesFormProp
     }, [fullbook.series, reset]);
   
     const submit: SubmitHandler<BooksSeriesDTO> = async (data: BooksSeriesDTO) => {
-
-      console.log("BOOKSSERIES DATA", {bookId: fullbook.bookBase.id, seriesId: fullbook.series.id, data:{
-        bookId: fullbook.bookBase.id,
-        seriesId: data.seriesId
-      }});
-
-      let oldSeriesId: null | undefined | string;
-      if (fullbook.series.id === null) {
-        oldSeriesId = null;
-      } else if (fullbook.series.id === undefined) {
-        oldSeriesId = undefined;
+      console.log(data);
+      
+      if (typeof data.seriesId === "string" && data.seriesId === "0" && fullbook.series.id !== null) {
+        await BooksSeriesServices.destroy({bookId: fullbook.bookBase.id, seriesId: fullbook.series.id});
       } else {
-        oldSeriesId = fullbook.series.id.toString();
+        let oldSeriesId: null | undefined | string;
+        if (fullbook.series.id === null) {
+          oldSeriesId = null;
+        } else if (fullbook.series.id === undefined) {
+          oldSeriesId = undefined;
+        } else {
+          oldSeriesId = fullbook.series.id.toString();
+        }
+        await BooksSeriesServices.update(fullbook.bookBase.id.toString(), oldSeriesId, {
+          bookId: fullbook.bookBase.id,
+          seriesId: data.seriesId
+        });
       }
-      await BooksSeriesServices.update(fullbook.bookBase.id.toString(), oldSeriesId, {
-        bookId: fullbook.bookBase.id,
-        seriesId: data.seriesId
-      });
       updateBook(fullbook.bookBase.id);
     }
   

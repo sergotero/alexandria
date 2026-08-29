@@ -57,6 +57,8 @@ export const update = async(req: Request, res: Response): Promise<void | never> 
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { bookId, seriesId } = req.body;
+  bookId.toString();
+  seriesId.toString();
 
   if (bookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
