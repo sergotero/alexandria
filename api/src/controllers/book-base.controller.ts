@@ -82,8 +82,13 @@ export async function update(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El ID del libro no es válido");
   }
 
+  let file;
+  if (req.file !== undefined) {
+    file = req.file;
+  }
+
   const bookBase: BookBaseDTO = req.body;
-  const updatedBaseBook = await BookBaseService.update(id, bookBase);
+  const updatedBaseBook = await BookBaseService.update(id, bookBase, file);
   const response: APIResponse<BookBase> = {
     success: true,
     data: updatedBaseBook

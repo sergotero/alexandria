@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
 import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 import type { BookBase, BookBaseDTO } from "@shared/types";
+import * as CloudinaryService from "./cloudinary.service.js";
 
 export async function findOrCreate(data: BookBaseDTO | BookBase): Promise<BookBase | never>{
   const { title, language, format } = data;
@@ -38,30 +39,33 @@ export async function detail(id: string): Promise<BookBase>{
   return bookbase[0] as BookBase;
 }
 
-export async function update(id: string, bookBase: BookBaseDTO): Promise<BookBase | never>{
-  const { title, language, format, description, indexVolume, cover, cloudinaryId } = bookBase;
+export async function update(id: string, bookBase: BookBaseDTO, file: Express.Multer.File | undefined): Promise<BookBase | never>{
+  const { title, language, format, description, indexVolume, cloudinaryId } = bookBase;
   
   const updateData: BookBaseDTO = {
     title,
     language,
     format,
   }
-
+  
   if (description !== undefined) {
     updateData.description = description;
   }
-
+  
   if (indexVolume !== undefined) {
     updateData.indexVolume = indexVolume;
   }
-  
-  if (cover !== undefined) {
-    updateData.cover = cover;
-  }
 
-  if (cloudinaryId !== undefined) {
-    updateData.cloudinaryId = cloudinaryId;
+  if (file) {
+    if (cloudinaryId !== undefined && cloudinaryId !== null) {
+      await CloudinaryService.destroy(cloudinaryId);
+    }
+
+    const cloudinaryFile = await CloudinaryService.upload(file);
+    updateData.cover = cloudinaryFile.coverURL ?? null;
+    updateData.cloudinaryId = cloudinaryFile.publicId ?? null;
   }
+  
 
   const checkBaseBook = await BookBaseRepository.findByIdAndUpdate(id, updateData);
 

@@ -28,7 +28,6 @@
   "homepage": "https://github.com/sergotero/alexandria#readme",
   "dependencies": {
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-hook-form": "^7.85.0"
+    "react-dom": "^19.2.7"
   }
 }

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import uploader from "../../middlewares/multer.middleware.js";
 import * as AuthorController from "./../../controllers/author.controller.js";
 import * as BookBaseController from "./../../controllers/book-base.controller.js";
 import * as CollectionController from "./../../controllers/collection.controller.js";
@@ -16,7 +17,7 @@ const router = Router();
 router.get("/bookbase", BookBaseController.list);
 router.post("/bookbase", BookBaseController.create);
 router.get("/bookbase/:id", BookBaseController.detail);
-router.patch("/bookbase/:id", BookBaseController.update);
+router.patch("/bookbase/:id", uploader.single("cover"), BookBaseController.update);
 router.delete("/bookbase/:id", BookBaseController.destroy);
 
 //AUTHOR

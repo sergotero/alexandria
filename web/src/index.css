@@ -44,3 +44,13 @@ fieldset{
   margin-bottom: 1rem;
   background-color: #27272a;
 }
+
+input[type="file"]{
+  display: none;
+}
+
+.custom-input-file{
+  margin-bottom: 1rem;
+  display: inline-block;
+  cursor: pointer;
+}

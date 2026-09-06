@@ -1,4 +1,4 @@
-import type { APIResponse, BookBase, BookBaseDTO } from "@shared/types";
+import type { APIResponse, BookBase } from "@shared/types";
 import axios from "axios";
 
 
@@ -12,4 +12,4 @@ http.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export const update = async (id: number, data: BookBaseDTO): Promise<APIResponse<BookBase>> => await http.patch(`/bookbase/${id}`, data);
+export const update = async (id: number, data: FormData): Promise<APIResponse<BookBase>> => await http.patch(`/bookbase/${id}`, data);
