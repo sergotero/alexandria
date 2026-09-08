@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Author, Collection, FullBook, SeriesList, ServerErrorDTO } from "@shared/types";
+import { useSearchParams } from "react-router";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
@@ -9,18 +10,21 @@ import * as CollectionServices from "./../services/collection.services.tsx";
 import * as SeriesServices from "./../services/series.services.tsx";
 import * as AuthorServices from "./../services/author.services.tsx";
 import style from "./home.page.module.css";
+import SearchBar from "../components/ui/search-bar.tsx";
 
 function HomePage() {
+  const [ queryParams, setQueryParams ] = useSearchParams();
+  const page = Number(queryParams.get("page")) || 0;
+  const type = queryParams.get("type") || "title";
+
   const [ serverError, setServerError ] = useState<ServerErrorDTO>({});
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
-  const [ page, setPage ] = useState<number>(0);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
   
-
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
   }
@@ -48,7 +52,7 @@ function HomePage() {
   }
 
   const fetchFullBooks = async (): Promise<void> => {
-    const response = await FullBookService.list(page);
+    const response = await FullBookService.list(+page);
     if (response.success) {
       setList(response.data);
     } else {
@@ -109,10 +113,10 @@ function HomePage() {
   return (
     <>
       <Header>
-        <div className="flex items-center justify-center h-[10vh] bg-zinc-900">
+        <search className="flex items-center justify-center h-[10vh] bg-zinc-900">
         {/*Search bar*/}
-          <input className="bg-zinc-300 rounded-2xl p-1 ps-2 pe-2" type="text" name="search" id="search" placeholder="Buscar..." />
-        </div>
+          <SearchBar collections={collectionList} searchType={type} setQueryParams={setQueryParams}/>
+        </search>
       </Header>
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
         {/* Buttons */}
@@ -121,14 +125,14 @@ function HomePage() {
             <button
               className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default" 
               type="button"
-              onClick={() => {setPage(page-1)}}
-              disabled={page <= 0}>
+              onClick={() => setQueryParams({page: (page - 1).toString()})}
+              disabled={+page <= 0}>
               Anterior
             </button>
             <button
               className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default" 
               type="button"
-              onClick={() => {setPage(page+1)}}
+              onClick={() => setQueryParams({page: (page + 1).toString()})}
               disabled={list.length < 18}>
               Siguiente
             </button>
@@ -151,16 +155,16 @@ function HomePage() {
                 type="button"
                 onClick={() => (setActiveTab("details"))}>
                   Detalles
-                </button>
+              </button>
               <button
                 className={`${activeTab === "edition" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                 type="button"
                 onClick={() => (setActiveTab("edition"))}>
                   Actualizar
-                </button>
+              </button>
             </div>
             {/* Content */}
-            <div className={`tabs-content bg-zinc-600 p-5 h-[100vh] overflow-y-scroll scrollbar-none`}>
+            <div className={`tabs-content bg-zinc-600 p-5 h-[100dvh] rounded-bl-md rounded-br-md rounded-tr-md overflow-y-scroll scrollbar-none`}>
               {activeTab === "details" && (
                 <BookDetails book={details} />
               )}

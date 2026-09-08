@@ -1,4 +1,4 @@
-import type { BookBaseDTO, FullBook } from "@shared/types";
+import type { FullBook } from "@shared/types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as BaseBookService from "./../../../services/basebook.services.tsx";
 import { useEffect } from "react";
@@ -55,13 +55,12 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
       formData.append("description", data.description);
     }
     if (data.indexVolume !== null && data.indexVolume !== undefined) {
-      formData.append("indexVolume", data.indexVolume?.toString());
+      formData.append("indexVolume", data.indexVolume.toString());
     }
 
     if (data.cover !== undefined && data.cover.length !== 0) {
       formData.append("cover", data.cover[0]);
     }
-    console.log("FormData", data);
     
     await BaseBookService.update(fullbook.bookBase.id, formData);
     await updateBook(fullbook.bookBase.id);
@@ -114,12 +113,7 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
         <div className="input-group">
           <label htmlFor="description">Descripción</label>
           <textarea 
-            {...register("description", {
-              onChange: (event) => {
-                console.log("ONCHANGE", event.target.value);
-                
-              }
-            })}
+            {...register("description")}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             id="description"/>
         </div>
@@ -140,21 +134,22 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
               Portada
           </label>
           <input
-            {...register("cover")}
-            type="file"
-            id="cover"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              if (event.target.files !== null) {
-                const files: FileList = event.target.files;
-                if (files.length !== 0) {
-                  const file = event.target.files[0];
-                  const coverName = document.getElementById("cover-name") as HTMLInputElement;
-                  if (coverName !== null) {
-                    coverName.value = file.name;
+            {...register("cover", {
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                if (event.target.files !== null) {
+                  const files: FileList = event.target.files;
+                  if (files.length !== 0) {
+                    const file = event.target.files[0];
+                    const coverName = document.getElementById("cover-name") as HTMLInputElement;
+                    if (coverName !== null) {
+                      coverName.value = file.name;
+                    }
                   }
                 }
               }
-            }}/>
+            })}
+            type="file"
+            id="cover"/>
           <input
             type="text"
             name="cover-name"
@@ -166,7 +161,7 @@ function EditBookBaseForm({ fullbook, updateBook }: EditBookBaseFormProps) {
 
         <button
           type="submit"
-          className="btn bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
+          className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
             Actualizar
         </button>
       </fieldset>

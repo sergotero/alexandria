@@ -5,7 +5,7 @@ function BookCard({ bookBase, author, collection }: FullBook) {
     <div className="flex gap-2">
       <div className="w-[30%]">
         <img
-          className="object-cover rounded-md"
+          className="covers object-fill rounded-md"
           src={bookBase.cover ? bookBase.cover : "https://res.cloudinary.com/da8iuexu4/image/upload/v1783292999/404-cover_y3yscb.png"}
           alt={bookBase.title}
         />

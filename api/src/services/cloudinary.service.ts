@@ -7,11 +7,19 @@ type CloudinaryUploadDTO = {
   publicId: string | undefined
 };
 
-export const upload = async (file: Express.Multer.File): Promise<CloudinaryUploadDTO> => {
+export const upload = async (bookId: string, file: Express.Multer.File): Promise<CloudinaryUploadDTO> => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream({
       folder: "Alexandria",
-      resource_type: "image"
+      resource_type: "image",
+      public_id: `${bookId}`,
+      transformation: {
+        width: 1600,
+        height: 2215,
+        crop: "limit",
+        format: "webp",
+        quality: "auto"
+      }
     },
     (error, result) => {
       if (error) {

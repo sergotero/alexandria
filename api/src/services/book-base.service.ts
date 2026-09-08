@@ -61,7 +61,7 @@ export async function update(id: string, bookBase: BookBaseDTO, file: Express.Mu
       await CloudinaryService.destroy(cloudinaryId);
     }
 
-    const cloudinaryFile = await CloudinaryService.upload(file);
+    const cloudinaryFile = await CloudinaryService.upload(id, file);
     updateData.cover = cloudinaryFile.coverURL ?? null;
     updateData.cloudinaryId = cloudinaryFile.publicId ?? null;
   }
