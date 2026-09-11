@@ -23,7 +23,7 @@ export async function findOrCreate(data: Series | SeriesDTO): Promise<Series | n
     throw createHttpError(400, "Se ha producido un error al crear la nueva serie");
   }
 
-  const newSeries = await detail(result.insertId.toString());
+  const newSeries = await detail(result.insertId);
 
   return newSeries;
 }
@@ -33,12 +33,12 @@ export async function list(): Promise<SeriesList[]> {
   return series;
 }
 
-export async function detail(id: string): Promise<Series> {
+export async function detail(id: number): Promise<Series> {
   const series = await SeriesRepository.findById(id);
   return series[0] as Series;
 }
 
-export async function update(id: string, data: Series): Promise<Series | never> {
+export async function update(id: number, data: Series): Promise<Series | never> {
   
   let series: SeriesDTO;
   
@@ -65,7 +65,7 @@ export async function update(id: string, data: Series): Promise<Series | never> 
   return updatedSeries;
 }
 
-export async function destroy(id: string): Promise<true | never> {
+export async function destroy(id: number): Promise<true | never> {
   const series = await SeriesRepository.findByIdAndDelete(id);
 
   if (series.affectedRows === 0) {

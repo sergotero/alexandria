@@ -1,4 +1,4 @@
-import type { Series, SeriesDTO, SeriesList, SQLResponse } from "@shared/types";
+import type { Series, SeriesDTO, SeriesList, SQLResponse, SQLValue } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
@@ -10,7 +10,7 @@ export async function findAll(): Promise<SeriesList[]>{
   return await query("SELECT * FROM series ORDER BY name");
 }
 
-export async function findById(id: string): Promise<Series[]>{
+export async function findById(id: number): Promise<Series[]>{
   return await query("SELECT * FROM series WHERE id = ?", [id]);
 }
 
@@ -18,24 +18,24 @@ export async function findByName(name: string): Promise<Series[]>{
   return await query("SELECT * FROM series WHERE name = ?", [name]);
 }
 
-export async function findByIdAndUpdate(id: string, series: SeriesDTO){
+export async function findByIdAndUpdate(id: number, series: SeriesDTO){
   
   const fields: string[] = [];
-  const values: string[] = [];
+  const values: SQLValue[] = [];
 
   if (series.name !== undefined) {
     fields.push("name = ?");
-    values.push(series.name!.toString());
+    values.push(series.name);
   }
 
   if (series.volumes !== undefined) {
     fields.push("total_vol = ?");
-    values.push(series.volumes!.toString());
+    values.push(series.volumes);
   }
 
   if (series.status !== undefined) {
     fields.push("status = ?");
-    values.push(series.status!.toString());
+    values.push(series.status);
   }
 
   values.push(id);
@@ -43,6 +43,6 @@ export async function findByIdAndUpdate(id: string, series: SeriesDTO){
   return await query(`UPDATE series SET ${fields.join(", ")} WHERE id = ?`, values);
 }
 
-export async function findByIdAndDelete(id: string): Promise<SQLResponse>{
+export async function findByIdAndDelete(id: number): Promise<SQLResponse>{
   return await query("DELETE FROM series WHERE id = ?", [id]);
 }

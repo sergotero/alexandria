@@ -25,7 +25,7 @@ export async function findAll(): Promise<BookBase[]> {
   )
 }
 
-export async function findById(id: string): Promise<BookBase[]> {
+export async function findById(id: number): Promise<BookBase[]> {
   return await query(
     `SELECT 
       books.*,
@@ -53,7 +53,7 @@ export async function findByTitle(title: string): Promise<BookBase[]> {
     WHERE books.title = ?`, [title]);
 }
 
-export async function findByIdAndUpdate(id: string, book: BookBaseDTO): Promise<SQLResponse> {
+export async function findByIdAndUpdate(id: number, book: BookBaseDTO): Promise<SQLResponse> {
   const fields: string[] = [];
   const values: (string | number | null)[] = [];
 
@@ -104,6 +104,6 @@ export async function findByIdAndUpdate(id: string, book: BookBaseDTO): Promise<
   );
 }
 
-export async function findByIdAndDelete(id: string): Promise<SQLResponse> {
+export async function findByIdAndDelete(id: number): Promise<SQLResponse> {
   return await query("DELETE FROM books WHERE id = ?", [id]);
 }

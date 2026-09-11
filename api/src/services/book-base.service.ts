@@ -24,7 +24,7 @@ export async function findOrCreate(data: BookBaseDTO | BookBase): Promise<BookBa
     throw createHttpError(400, "Se ha producido un error en la base de datos");
   }
 
-  const newBookBase = await detail(result.insertId.toString());
+  const newBookBase = await detail(result.insertId);
   
   return newBookBase;
 }
@@ -34,12 +34,12 @@ export async function list(): Promise<BookBase[]>{
   return bookbases;
 }
 
-export async function detail(id: string): Promise<BookBase>{
+export async function detail(id: number): Promise<BookBase>{
   const bookbase = await BookBaseRepository.findById(id);
   return bookbase[0] as BookBase;
 }
 
-export async function update(id: string, bookBase: BookBaseDTO, file: Express.Multer.File | undefined): Promise<BookBase | never>{
+export async function update(id: number, bookBase: BookBaseDTO, file: Express.Multer.File | undefined): Promise<BookBase | never>{
   const { title, language, format, description, indexVolume, cloudinaryId } = bookBase;
   
   const updateData: BookBaseDTO = {
@@ -78,7 +78,7 @@ export async function update(id: string, bookBase: BookBaseDTO, file: Express.Mu
   return updatedBaseBook;
 }
 
-export async function destroy(id: string): Promise<true | never>{
+export async function destroy(id: number): Promise<true | never>{
   const baseBook = await BookBaseRepository.findByIdAndDelete(id);
 
   if(baseBook.affectedRows === 0) {

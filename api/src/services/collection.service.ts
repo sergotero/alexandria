@@ -17,7 +17,7 @@ export async function findOrCreate(name: string): Promise<Collection> {
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  const newCollection = await detail(result.insertId.toString());
+  const newCollection = await detail(result.insertId);
 
   return newCollection;
 }
@@ -27,12 +27,12 @@ export async function list(): Promise<Collection[]> {
   return collections;
 }
 
-export async function detail(id: string): Promise<Collection> {
+export async function detail(id: number): Promise<Collection> {
   const collection = await CollectionRepository.findById(id);
   return collection[0] as Collection;
 }
 
-export async function update(id: string, name: string): Promise<Collection | never> {
+export async function update(id: number, name: string): Promise<Collection | never> {
   
   const collection: Collection = {id: Number(id), name: capitalize(name)!}
 
@@ -45,7 +45,7 @@ export async function update(id: string, name: string): Promise<Collection | nev
   return collection;
 }
 
-export async function destroy(id: string): Promise<true | never> {
+export async function destroy(id: number): Promise<true | never> {
   const collection = await CollectionRepository.findByIdAndDelete(id);
 
   if (collection.affectedRows === 0){

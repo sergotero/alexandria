@@ -19,7 +19,7 @@ export async function create(data: any): Promise<ReadBook | never> {
     throw createHttpError(400, "Se ha producido un error al insertar los datos");
   }
 
-  return await detail(result.insertId.toString());
+  return await detail(result.insertId);
 }
 
 export async function list(): Promise<ReadBook[]> {
@@ -41,7 +41,7 @@ export async function list(): Promise<ReadBook[]> {
   return readBooks;
 }
 
-export async function detail(bookId: string): Promise<ReadBook> {
+export async function detail(bookId: number): Promise<ReadBook> {
   const book = await ReadBookRepository.detail(bookId);
   const readBook: ReadBook = {
     id: Number(book[0]!.id),
@@ -57,7 +57,7 @@ export async function detail(bookId: string): Promise<ReadBook> {
   return readBook;
 }
 
-export async function update(id: string, data: ReadBook): Promise<ReadBook | never> {
+export async function update(id: number, data: ReadBook): Promise<ReadBook | never> {
     const bookData: ReadBookDTO = {
     bookId: data.bookId,
     authorId: data.authorId,
@@ -77,7 +77,7 @@ export async function update(id: string, data: ReadBook): Promise<ReadBook | nev
   return updatedReadBook;
 }
 
-export async function destroy(id: string): Promise<true | never> {
+export async function destroy(id: number): Promise<true | never> {
   const readBook = await ReadBookRepository.destroy(id);
 
   if (readBook.affectedRows === 0) {

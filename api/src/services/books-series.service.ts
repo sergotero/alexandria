@@ -3,7 +3,7 @@ import * as BooksSeriesRepository from "../repositories/books-series.repository.
 import type { BooksSeries, BooksSeriesDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookId: string, seriesId: string): Promise<BooksSeries | never>{
+export async function findOrCreate(bookId: number, seriesId: number): Promise<BooksSeries | never>{
 
   const exists = await BooksSeriesRepository.findById(bookId, seriesId);
 
@@ -21,16 +21,16 @@ export async function findOrCreate(bookId: string, seriesId: string): Promise<Bo
   }
 }
 
-export async function update(oldBookId: string, oldSeriesId: string | null | undefined, data: BooksSeriesDTO): Promise<BooksSeries | never> {
+export async function update(oldBookId: number, oldSeriesId: number | null | undefined, data: BooksSeriesDTO): Promise<BooksSeries | never> {
 
   if (oldSeriesId === null || oldSeriesId === undefined) {
-    const newInsert = await BooksSeriesRepository.create(oldBookId, data.seriesId.toString());
+    const newInsert = await BooksSeriesRepository.create(oldBookId, data.seriesId);
     
     if (newInsert.affectedRows === 0) {
       throw createHttpError(400, "Se ha producido un error")
     }
 
-    const result = await BooksSeriesRepository.findById(oldBookId, data.seriesId.toString());
+    const result = await BooksSeriesRepository.findById(oldBookId, data.seriesId);
     return result;
   }
 
@@ -39,12 +39,12 @@ export async function update(oldBookId: string, oldSeriesId: string | null | und
   if (update.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al actualizar");
   }
-  const result = await BooksSeriesRepository.findById(data.bookId.toString(), data.seriesId.toString());
+  const result = await BooksSeriesRepository.findById(data.bookId, data.seriesId);
   
   return result;
 }
 
-export async function destroy(bookId: string, seriesId: string): Promise<true | never> {
+export async function destroy(bookId: number, seriesId: number): Promise<true | never> {
   const result = await BooksSeriesRepository.findByIdAndDelete(bookId, seriesId);
   if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al borrar");

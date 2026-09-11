@@ -29,7 +29,7 @@ export async function findOrCreate(data: AuthorDTO | Author): Promise<Author> {
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  const newAuthor = await detail(result.insertId.toString());
+  const newAuthor = await detail(result.insertId);
   
   return newAuthor;
 }
@@ -39,12 +39,12 @@ export async function list(): Promise<Author[]> {
   return authors;
 }
 
-export async function detail(id: string): Promise<Author> {
+export async function detail(id: number): Promise<Author> {
   const author = await AuthorRepository.findById(id);
   return author[0] as Author;
 }
 
-export async function update(id: string, data: AuthorDTO): Promise<Author | never> {
+export async function update(id: number, data: AuthorDTO): Promise<Author | never> {
   
   const oldAuthor = await AuthorRepository.findById(id);
 
@@ -75,7 +75,7 @@ export async function update(id: string, data: AuthorDTO): Promise<Author | neve
   return updatedAuthor;
 };
 
-export async function destroy(id: string): Promise<true | never> {
+export async function destroy(id: number): Promise<true | never> {
   const result = await AuthorRepository.findByIdAndDelete(id);
   
   if (result.affectedRows === 0) {

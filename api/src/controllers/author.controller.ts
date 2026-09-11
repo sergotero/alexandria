@@ -32,14 +32,15 @@ export async function list(req: Request, res: Response): Promise<void> {
 
 export async function detail(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id === undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del autor es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del autor no es válido");
   }
 
-  const author = await AuthorService.detail(id);
+  const author = await AuthorService.detail(newId);
   const response: APIResponse<Author> = {
     success: true,
     data: author
@@ -49,14 +50,15 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 
 export async function update(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
-  
-  if (id === undefined) {
+  const newId = Number(id);
+
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del autor es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del autor no es válido");
   }
-  
-  const author = await AuthorService.update(id, req.body);
+
+  const author = await AuthorService.update(newId, req.body);
   const response: APIResponse<Author> = {
     success: true,
     data: author
@@ -66,14 +68,15 @@ export async function update(req: Request, res: Response): Promise<void | never>
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id === undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del autor es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del autor no es válido");
   }
 
-  const author = await AuthorService.destroy(id);
+  const author = await AuthorService.destroy(newId);
   const response: APIResponse<true> = {
     success: true,
     data: author

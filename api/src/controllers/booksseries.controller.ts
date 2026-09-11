@@ -2,24 +2,25 @@ import type { APIResponse, BooksSeries } from '@shared/types';
 import type { Request, Response } from "express"
 import createHttpError from 'http-errors';
 import * as BooksSeriesService from "./../services/books-series.service.js";
-import { log } from 'node:console';
 
 export const create = async (req: Request, res: Response): Promise<void | never> => {
   const { bookId, seriesId } = req.body;
+  const newBookId = Number(bookId);
+  const newSeriesId = Number(seriesId);
 
-  if (bookId === undefined) {
+  if (newBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof bookId !== "string") {
+  } else if (typeof newBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (seriesId === undefined) {
+  if (newSeriesId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof seriesId !== "string") {
+  } else if (typeof newSeriesId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksSeriesService.findOrCreate(bookId, seriesId);
+  const result = await BooksSeriesService.findOrCreate(newBookId, newSeriesId);
   const response: APIResponse<BooksSeries> = {
     success: true,
     data: result
@@ -29,13 +30,13 @@ export const create = async (req: Request, res: Response): Promise<void | never>
 }
 
 export const update = async(req: Request, res: Response): Promise<void | never> => {
-  const oldBookId = req.body.bookId;
-  const oldSeriesId = req.body.seriesId;
+  const oldBookId = Number(req.body.bookId);
+  const oldSeriesId = Number(req.body.seriesId);
   const { data } = req.body
 
   if (oldBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof oldBookId !== "string") {
+  } else if (typeof oldBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
@@ -57,22 +58,22 @@ export const update = async(req: Request, res: Response): Promise<void | never> 
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { bookId, seriesId } = req.body;
-  bookId.toString();
-  seriesId.toString();
+  const newBookId = Number(bookId);
+  const newSeriesId = Number(seriesId);
 
-  if (bookId === undefined) {
+  if (newBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof bookId !== "string") {
+  } else if (typeof newBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (seriesId === undefined) {
+  if (newSeriesId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof seriesId !== "string") {
+  } else if (typeof newSeriesId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksSeriesService.destroy(bookId, seriesId);
+  const result = await BooksSeriesService.destroy(newBookId, newSeriesId);
   const response: APIResponse<boolean> = {
     success: true,
     data: result

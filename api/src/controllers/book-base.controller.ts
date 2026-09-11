@@ -58,14 +58,15 @@ export async function list(req: Request, res: Response): Promise<void>{
 
 export async function detail(req: Request, res: Response): Promise<void | never>{
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
+  if (newId == undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");
   }
 
-  const bookbase = await BookBaseService.detail(id);
+  const bookbase = await BookBaseService.detail(newId);
   const response: APIResponse<BookBase> = {
     success: true,
     data: bookbase
@@ -75,10 +76,11 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 
 export async function update(req: Request, res: Response): Promise<void | never>{
   const { id } = req.params;
-  
-  if (id === undefined) {
+  const newId = Number(id);
+
+  if (newId == undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
-  } else if (typeof id !== "string") {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");
   }
 
@@ -88,7 +90,7 @@ export async function update(req: Request, res: Response): Promise<void | never>
   }
 
   const bookBase: BookBaseDTO = req.body;
-  const updatedBaseBook = await BookBaseService.update(id, bookBase, file);
+  const updatedBaseBook = await BookBaseService.update(newId, bookBase, file);
   const response: APIResponse<BookBase> = {
     success: true,
     data: updatedBaseBook
@@ -98,14 +100,15 @@ export async function update(req: Request, res: Response): Promise<void | never>
 
 export async function destroy(req: Request, res: Response): Promise<void | never>{
   const { id } = req.params;
-  
-  if (id == undefined) {
+  const newId = Number(id);
+
+  if (newId == undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");
   }
 
-  const baseBook = await BookBaseService.destroy(id);
+  const baseBook = await BookBaseService.destroy(newId);
   const response: APIResponse<true> = {
     success: true,
     data: baseBook

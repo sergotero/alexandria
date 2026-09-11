@@ -7,7 +7,7 @@ type CloudinaryUploadDTO = {
   publicId: string | undefined
 };
 
-export const upload = async (bookId: string, file: Express.Multer.File): Promise<CloudinaryUploadDTO> => {
+export const upload = async (bookId: number, file: Express.Multer.File): Promise<CloudinaryUploadDTO> => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream({
       folder: "Alexandria",

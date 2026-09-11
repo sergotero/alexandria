@@ -46,14 +46,15 @@ export async function list(req: Request, res: Response): Promise<void | never> {
 
 export async function detail(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
+  if (newId == undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID de la serie no es válido");
   }
   
-  const series = await SeriesService.detail(id);
+  const series = await SeriesService.detail(newId);
   const response: APIResponse<Series> = {
     success: true,
     data: series
@@ -63,14 +64,15 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 
 export async function update(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
+  if (newId == undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID de la serie no es válido");
   }
 
-  const series = await SeriesService.update(id, req.body);
+  const series = await SeriesService.update(newId, req.body);
   const response: APIResponse<Series> = {
     success: true,
     data: series
@@ -80,14 +82,15 @@ export async function update(req: Request, res: Response): Promise<void | never>
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
+  if (newId == undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
+  } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID de la serie no es válido");
   }
 
-  const series = await SeriesService.destroy(id);
+  const series = await SeriesService.destroy(newId);
   const response: APIResponse<true> = {
     success: true,
     data: series

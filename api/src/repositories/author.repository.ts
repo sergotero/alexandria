@@ -17,7 +17,7 @@ export async function findAll(): Promise<Author[]> {
   return await query("SELECT * FROM authors ORDER BY alias");
 }
 
-export async function findById(id: string): Promise<Author[]> {
+export async function findById(id: number): Promise<Author[]> {
   return await query("SELECT * FROM authors WHERE id = ?", [id]);
 }
 
@@ -25,7 +25,7 @@ export async function findByAlias(alias: string): Promise<Author[]> {
   return await query("SELECT * FROM authors WHERE alias = ?", [alias]);
 }
 
-export async function findByIdAndUpdate(id: string, author: AuthorDTO): Promise<SQLResponse> {
+export async function findByIdAndUpdate(id: number, author: AuthorDTO): Promise<SQLResponse> {
   
   const fields = [];
   const values = [];
@@ -61,6 +61,6 @@ export async function findByIdAndUpdate(id: string, author: AuthorDTO): Promise<
   return await query(sql, values);
 }
 
-export async function findByIdAndDelete(id: string): Promise<SQLResponse> {
+export async function findByIdAndDelete(id: number): Promise<SQLResponse> {
   return await query("DELETE FROM authors WHERE id = ?", [id]);
 }

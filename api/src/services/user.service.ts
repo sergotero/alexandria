@@ -35,7 +35,7 @@ export async function create(data: UserDTO): Promise<Omit<User, "password"> | ne
     throw createHttpError(400, "Se ha producido un error durante la creación del usuario");
   }
   
-  const newUser = await detail(result.insertId.toString());
+  const newUser = await detail(result.insertId);
   const userWithoutPass: Omit<User, "password"> = newUser;
 
   return userWithoutPass;
@@ -46,12 +46,12 @@ export async function list(): Promise<User[]> {
   return users as User[];
 }
 
-export async function detail(id: string) {
+export async function detail(id: number) {
   const user = await UserRepository.findById(id);
   return user[0] as User;
 }
 
-export async function update(id: string, data: any): Promise<Omit<User, "password"> | never> {
+export async function update(id: number, data: any): Promise<Omit<User, "password"> | never> {
 
   if (data.name !== undefined) {
     data.name = capitalize(data.name);
@@ -85,12 +85,12 @@ export async function update(id: string, data: any): Promise<Omit<User, "passwor
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
-  const newUser = await detail(result.insertId.toString());
+  const newUser = await detail(result.insertId);
   const userWithoutPass: Omit<User, "password"> = newUser;
   return userWithoutPass;
 }
 
-export async function destroy(id: string) : Promise<true | never>{
+export async function destroy(id: number) : Promise<true | never>{
   const user = await UserRepository.findByIdAndDelete(id);
 
   if (user.affectedRows === 0) {

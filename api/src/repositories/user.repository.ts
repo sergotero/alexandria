@@ -1,4 +1,4 @@
-import type { SQLResponse, User, UserDTO } from "@shared/types";
+import type { SQLResponse, SQLValue, User, UserDTO } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 export async function create(data: UserDTO): Promise<SQLResponse>{
@@ -10,7 +10,7 @@ export async function findAll(): Promise<User[]>{
   return await query(`SELECT name, lastname1, lastname2, email, role FROM users`);
 }
 
-export async function findById(id: string): Promise<User[]>{
+export async function findById(id: number): Promise<User[]>{
   return await query(`SELECT * FROM users WHERE id = ?`, [id]);
 }
 
@@ -18,9 +18,9 @@ export async function findByEmail(email: string): Promise<User[]>{
   return await query(`SELECT * FROM users WHERE email = ?`, [email]);
 }
 
-export async function findByIdAndUpdate(id: string, data: any): Promise<SQLResponse>{
+export async function findByIdAndUpdate(id: number, data: any): Promise<SQLResponse>{
   const fields: string[] = [];
-  const values: string[] = [];
+  const values: SQLValue[] = [];
 
   if (data.name !== undefined) {
     fields.push("name = ?");
@@ -57,6 +57,6 @@ export async function findByIdAndUpdate(id: string, data: any): Promise<SQLRespo
   return await query(`UPDATE users SET ${fields.join(", ")} WHERE id = ?`, values);
 }
 
-export async function findByIdAndDelete(id: string): Promise<SQLResponse>{
+export async function findByIdAndDelete(id: number): Promise<SQLResponse>{
   return await query(`DELETE FROM users WHERE id = ?`, [id]);
 }

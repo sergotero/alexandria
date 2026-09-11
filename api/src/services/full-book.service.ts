@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import type { Author, AuthorDTO, BookBase, BookBaseDTO, Collection, CollectionDTO, FullBook, FullBookDTO, Series, SeriesDTO } from "@shared/types";
+import type { Author, AuthorDTO, BookBase, BookBaseDTO, Collection, FullBook, FullBookDTO, Series, SeriesDTO } from "@shared/types";
 import * as FullBookRepository from "../repositories/full-book.repository.js";
 import * as BookBaseService from "./../services/book-base.service.js";
 import * as AuthorService from "./author.service.js";
@@ -9,9 +9,9 @@ import * as BooksAuthorsService from "./books-authors.service.js";
 import * as BooksSeriesService from "./books-series.service.js";
 import * as BooksCollectionsService from "./books-collections.service.js";
 import pool from "../config/db.config.js";
+import { fullBookGenerator } from "./utils.service.js";
 
-
-export async function findOrCreate(data: FullBookDTO): Promise<FullBookDTO | never> {
+export async function findOrCreate(data: FullBookDTO): Promise<FullBook | never> {
 
   let connection;
 
@@ -38,28 +38,13 @@ export async function findOrCreate(data: FullBookDTO): Promise<FullBookDTO | nev
 
     const newCollection: Collection = await CollectionService.findOrCreate(data.collection.name);
 
-    await BooksAuthorsService.findOrCreate(newBookBase.id.toString(), newAuthor.id.toString());
-    await BooksCollectionsService.findOrCreate(newBookBase.id.toString(), newCollection.id.toString());
+    await BooksAuthorsService.findOrCreate(newBookBase.id, newAuthor.id);
+    await BooksCollectionsService.findOrCreate(newBookBase.id, newCollection.id);
     if (newSeries) {
-      await BooksSeriesService.findOrCreate(newBookBase.id.toString(), newSeries.id!.toString());
+      await BooksSeriesService.findOrCreate(newBookBase.id, newSeries.id!);
     }
     
-    let fullBook: FullBookDTO;
-    if (newSeries) {
-      fullBook = {
-        bookBase: newBookBase,
-        author: newAuthor,
-        series: newSeries,
-        collection: newCollection
-      };
-    } else {
-      fullBook = {
-        bookBase: newBookBase,
-        author: newAuthor,
-        collection: newCollection
-      };
-    }
-    
+    const fullBook = detail(newBookBase.id);
     await connection.commit();
     return fullBook;
   } catch (error) {
@@ -79,7 +64,7 @@ export async function findOrCreate(data: FullBookDTO): Promise<FullBookDTO | nev
 export async function list(page: number, limit: number): Promise<FullBook[]> {
   
   const offset = page * limit;
-  const fullBooks = await FullBookRepository.findAll(limit.toString(), offset.toString());
+  const fullBooks = await FullBookRepository.findAll(limit, offset);
   const books = fullBooks.map((book: any) => {
     const bookBase: BookBase = {
       id: book.book_id,
@@ -122,7 +107,7 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
 }
 
 
-export async function detail(id: string): Promise<FullBook> {
+export async function detail(id: number): Promise<FullBook> {
   const book = await FullBookRepository.findById(id);
     const bookBase: BookBase = {
       id: book[0].book_id,
@@ -166,7 +151,7 @@ export async function detail(id: string): Promise<FullBook> {
   return fullBook;
 }
 
-export async function update(id: string, data: FullBook): Promise<FullBook | never> {
+export async function update(id: number, data: FullBook): Promise<FullBook | never> {
   let connection;
 
   try {
@@ -176,25 +161,25 @@ export async function update(id: string, data: FullBook): Promise<FullBook | nev
     const oldFullBook = await detail(id);
 
     await BooksAuthorsService.update(
-      oldFullBook.bookBase.id.toString(),
-      oldFullBook.author.id.toString(),
+      oldFullBook.bookBase.id,
+      oldFullBook.author.id,
       { bookId: data.bookBase.id, authorId: data.author.id }
     );
 
     await BooksCollectionsService.update(
-      oldFullBook.bookBase.id.toString(),
-      oldFullBook.collection.id.toString(),
+      oldFullBook.bookBase.id,
+      oldFullBook.collection.id,
       { bookId: data.bookBase.id , collectionId: data.collection.id }
     );
     
     if (data.series !== undefined && data.series.id !== null && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
       await BooksSeriesService.update(
-        oldFullBook.bookBase.id.toString(),
-        oldFullBook.series.id.toString(),
+        oldFullBook.bookBase.id,
+        oldFullBook.series.id,
         { bookId: data.bookBase.id, seriesId: data.series.id }
       );
     } else if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id === null) {
-      await BooksSeriesService.findOrCreate(data.bookBase.id.toString(), data.series.id!.toString());
+      await BooksSeriesService.findOrCreate(data.bookBase.id, data.series.id!);
     }
     
     const newFullBook = await detail(id);
@@ -212,4 +197,32 @@ export async function update(id: string, data: FullBook): Promise<FullBook | nev
       await connection.release();
     }
   }
+}
+
+export async function findByTitle(title: string, limit: number, page: number): Promise<FullBook[]> {
+  const offset = limit * page;
+  const result = await FullBookRepository.findByTitle(title, limit, offset);
+  const finalResult: FullBook[] = result.map((book) => fullBookGenerator(book));
+  return finalResult;
+}
+
+export async function findByAuthor(alias: string, limit: number, page: number): Promise<FullBook[]> {
+  const offset = limit * page;
+  const result = await FullBookRepository.findByAuthor(alias, limit, offset);
+  const finalResult: FullBook[] = result.map((book) => fullBookGenerator(book));
+  return finalResult;
+}
+
+export async function findByCollection(name: string, limit: number, page: number): Promise<FullBook[]> {
+  const offset = limit * page;
+  const result = await FullBookRepository.findByCollection(name, limit, offset);
+  const finalResult: FullBook[] = result.map((book) => fullBookGenerator(book));
+  return finalResult;
+}
+
+export async function findBySeries(name: string, limit: number, page: number): Promise<FullBook[]> {
+  const offset = limit * page;
+  const result = await FullBookRepository.findBySeries(name, limit, offset);
+  const finalResult: FullBook[] = result.map((book) => fullBookGenerator(book));
+  return finalResult;
 }

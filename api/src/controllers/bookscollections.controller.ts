@@ -5,20 +5,22 @@ import * as BooksCollectionsService from "./../services/books-collections.servic
 
 export const create = async (req: Request, res: Response): Promise<void | never> => {
   const { bookId, collectionId } = req.body;
+  const newBookId = Number(bookId);
+  const newCollectionId = Number(collectionId);
 
-  if (bookId === undefined) {
+  if (newBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof bookId !== "string") {
+  } else if (typeof newBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (collectionId === undefined) {
+  if (newCollectionId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof collectionId !== "string") {
+  } else if (typeof newCollectionId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksCollectionsService.findOrCreate(bookId, collectionId);
+  const result = await BooksCollectionsService.findOrCreate(newBookId, newCollectionId);
   const response: APIResponse<BooksCollections> = {
     success: true,
     data: result
@@ -28,23 +30,24 @@ export const create = async (req: Request, res: Response): Promise<void | never>
 }
 
 export const update = async(req: Request, res: Response): Promise<void | never> => {
-  const oldBookId = req.body.bookId.toString();
-  const oldAuthorkId = req.body.collectionId.toString();
+  const { bookId, collectionId } = req.body;
+  const oldBookId = Number(bookId);
+  const oldCollectionId = Number(collectionId);
   const { data } = req.body
 
   if (oldBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof oldBookId !== "string") {
+  } else if (typeof oldBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (oldAuthorkId === undefined) {
+  if (oldCollectionId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof oldAuthorkId !== "string") {
+  } else if (typeof oldCollectionId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksCollectionsService.update(oldBookId, oldAuthorkId, data);
+  const result = await BooksCollectionsService.update(oldBookId, oldCollectionId, data);
   const response: APIResponse<BooksCollections> = {
     success: true,
     data: result
@@ -54,20 +57,22 @@ export const update = async(req: Request, res: Response): Promise<void | never> 
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { bookId, collectionId } = req.body;
+  const newBookId = Number(bookId);
+  const newCollectionId = Number(collectionId);
 
-  if (bookId === undefined) {
+  if (newBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof bookId !== "string") {
+  } else if (typeof newBookId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  if (collectionId === undefined) {
+  if (newCollectionId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof collectionId !== "string") {
+  } else if (typeof newCollectionId !== "number") {
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksCollectionsService.destroy(bookId, collectionId);
+  const result = await BooksCollectionsService.destroy(newBookId, newCollectionId);
   const response: APIResponse<boolean> = {
     success: true,
     data: result

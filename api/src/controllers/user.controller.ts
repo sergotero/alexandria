@@ -50,14 +50,15 @@ export async function list(req: Request, res: Response): Promise<void> {
 
 export async function detail(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id === undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El id es un parámetro obligatorio");
-  } else if (typeof id !== "string") {
+  } else if (typeof newId !== "number") {
     throw createHttpError(400, "El id debe ser un string");
   }
 
-  const user = await UserService.detail(id);
+  const user = await UserService.detail(newId);
   const response: APIResponse<User> = {
     success: true,
     data: user
@@ -69,14 +70,15 @@ export async function detail(req: Request, res: Response): Promise<void> {
 
 export async function update(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
-    throw createHttpError(400, "El ID del usuario es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
-    throw createHttpError(400, "El ID del usuario no es válido");
+  if (newId === undefined) {
+    throw createHttpError(400, "El id es un parámetro obligatorio");
+  } else if (typeof newId !== "number") {
+    throw createHttpError(400, "El id debe ser un string");
   }
 
-  const user = await UserService.update(id, req.body);
+  const user = await UserService.update(newId, req.body);
   const response: APIResponse<Omit<User, "password">> = {
     success: true,
     data: user
@@ -86,14 +88,15 @@ export async function update(req: Request, res: Response): Promise<void> {
 
 export async function destroy(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
-    throw createHttpError(400, "El ID del usuario es un parámetro obligatorio");
-  } else if (typeof id !== 'string') {
-    throw createHttpError(400, "El ID del usuario no es válido");
+  if (newId === undefined) {
+    throw createHttpError(400, "El id es un parámetro obligatorio");
+  } else if (typeof newId !== "number") {
+    throw createHttpError(400, "El id debe ser un string");
   }
 
-  const user = await UserService.destroy(id);
+  const user = await UserService.destroy(newId);
   const response: APIResponse<true> = {
     success: true,
     data: user

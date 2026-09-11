@@ -3,7 +3,7 @@ import * as BooksCollectionsRepository from "../repositories/books-collections.r
 import type { BooksCollections, BooksCollectionsDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookId: string, collectionId: string): Promise<BooksCollections | never>{
+export async function findOrCreate(bookId: number, collectionId: number): Promise<BooksCollections | never>{
 
   const exists = await BooksCollectionsRepository.findById(bookId, collectionId);
 
@@ -21,19 +21,19 @@ export async function findOrCreate(bookId: string, collectionId: string): Promis
   }
 }
 
-export async function update(oldBookId: string, oldCollectionId: string, data: BooksCollectionsDTO): Promise<BooksCollections | never> {
+export async function update(oldBookId: number, oldCollectionId: number, data: BooksCollectionsDTO): Promise<BooksCollections | never> {
 
   const update = await BooksCollectionsRepository.findByIdAndUpdate(oldBookId, oldCollectionId, data);
   
   if (update.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al actualizar");
   }
-  const result = await BooksCollectionsRepository.findById(data.bookId.toString(), data.collectionId.toString());
+  const result = await BooksCollectionsRepository.findById(data.bookId, data.collectionId);
   
   return result;
 }
 
-export async function destroy(bookId: string, collectionId: string): Promise<true | never> {
+export async function destroy(bookId: number, collectionId: number): Promise<true | never> {
   const result = await BooksCollectionsRepository.findByIdAndDelete(bookId, collectionId);
   if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al borrar");

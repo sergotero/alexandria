@@ -32,14 +32,15 @@ export async function list(req: Request, res: Response): Promise<void> {
 
 export async function detail(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof id !== "string") {
-    throw createHttpError(400, "El ID de la colección no es válido");
+  if (newId == undefined) {
+    throw createHttpError(400, "El el ID de la colección es un parámetro obligatorio");
+  } else if (typeof newId !== 'number') {
+    throw createHttpError(400, "El el ID de la colección no es válido");
   }
 
-  const collection = await CollectionService.detail(id);
+  const collection = await CollectionService.detail(newId);
   const response: APIResponse<Collection> = {
     success: true,
     data: collection
@@ -49,14 +50,15 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 
 export async function update(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof id !== "string") {
-    throw createHttpError(400, "El ID de la colección no es válido");
+  if (newId == undefined) {
+    throw createHttpError(400, "El el ID de la colección es un parámetro obligatorio");
+  } else if (typeof newId !== 'number') {
+    throw createHttpError(400, "El el ID de la colección no es válido");
   }
 
-  const collection = await CollectionService.update(id, req.body.name);
+  const collection = await CollectionService.update(newId, req.body.name);
   const response: APIResponse<Collection> = {
     success: true,
     data: collection
@@ -66,14 +68,15 @@ export async function update(req: Request, res: Response): Promise<void | never>
 
 export async function destroy(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
+  const newId = Number(id);
 
-  if (id == undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if (typeof id !== "string") {
-    throw createHttpError(400, "El ID de la colección no es válido");
+  if (newId == undefined) {
+    throw createHttpError(400, "El el ID de la colección es un parámetro obligatorio");
+  } else if (typeof newId !== 'number') {
+    throw createHttpError(400, "El el ID de la colección no es válido");
   }
 
-  const collection = await CollectionService.destroy(id);
+  const collection = await CollectionService.destroy(newId);
   const response: APIResponse<true> = {
     success: true,
     data: collection
