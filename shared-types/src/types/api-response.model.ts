@@ -3,7 +3,7 @@ type ApiSuccess<T> = {
   data: T,
 };
 
-type ApiError = {
+export type ApiError = {
   success: false,
   error: {
     message: string,

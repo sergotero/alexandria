@@ -12,19 +12,21 @@ export async function create(req: Request, res: Response): Promise<void | never>
   if (name == undefined) {
     throw createHttpError(400, "El título es un parámetro obligatorio");
   } else if (typeof name !== "string") {
-    throw createHttpError(400, "El titulo no es válido");
+    throw createHttpError(400, "El tipado del titulo no es válido");
   }
 
   if (volumes == undefined) {
     throw createHttpError(400, "El número de volúmenes es un parámetro obligatorio");
-  } else if (typeof volumes !== "string") {
-    throw createHttpError(400, "El número de volúmenes no es válido");
+  } else if (typeof volumes !== "number") {
+    throw createHttpError(400, "El tipado de volúmenes no es válido");
   }
   
   if (status == undefined) {
     throw createHttpError(400, "El estado es un parámetro obligatorio");
-  } else if (typeof req.body.format !== "string" || !statuses.includes(status)) {
-    throw createHttpError(400, "El estado no es válido o no se encuentra definido en la base de datos");
+  } else if (typeof status !== "string") {
+    throw createHttpError(400, "El tipado del estado no es válido");
+  } else if(!statuses.includes(status)) {
+    throw createHttpError(400, "El estado no se encuentra definido en la base de datos");
   }
 
   const series = await SeriesService.findOrCreate(req.body);
@@ -51,7 +53,7 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   if (newId == undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
-    throw createHttpError(400, "El ID de la serie no es válido");
+    throw createHttpError(400, "El tipado del ID de la serie no es válido");
   }
   
   const series = await SeriesService.detail(newId);

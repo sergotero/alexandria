@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Author, Collection, FullBook, SeriesList, ServerErrorDTO } from "@shared/types";
+import type { Author, Collection, FullBook, SeriesList, ServerMessage } from "@shared/types";
 import { useSearchParams } from "react-router";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
@@ -11,22 +11,27 @@ import * as SeriesServices from "./../services/series.services.tsx";
 import * as AuthorServices from "./../services/author.services.tsx";
 import style from "./home.page.module.css";
 import SearchBar from "../components/ui/search-bar.tsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CreateSeriesForm from "../components/forms/create-forms/create-series-form.tsx";
+import PopUpModal from "../components/ui/popup-modal.tsx";
+import { isApiError } from "../services/utils.services.tsx";
+import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
 
 function HomePage() {
-  const [queryParams, setQueryParams] = useSearchParams();
+  const [ queryParams, setQueryParams ] = useSearchParams();
   
   const type = queryParams.get("type") || "title";
   const page = Number(queryParams.get("page")) || 0;
   const searchTerm = queryParams.get("search") || "";
 
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [serverError, setServerError] = useState<ServerErrorDTO>({});
-  const [list, setList] = useState<FullBook[]>([]);
-  const [details, setDetails] = useState<FullBook | null>(null);
-  const [collectionList, setCollectionList] = useState<Collection[]>([]);
-  const [authorList, setAuthorList] = useState<Author[]>([]);
-  const [seriesList, setSeriesList] = useState<SeriesList[]>([]);
-  const [activeTab, setActiveTab] = useState<"details" | "edition">("details");
+  const [ searchValue, setSearchValue ] = useState<string>("");
+  const [ warning, setWarning ] = useState<ServerMessage | null>(null);
+  const [ list, setList ] = useState<FullBook[]>([]);
+  const [ details, setDetails ] = useState<FullBook | null>(null);
+  const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
+  const [ authorList, setAuthorList ] = useState<Author[]>([]);
+  const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
+  const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
 
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
@@ -35,22 +40,34 @@ function HomePage() {
   const updateDetails = async (bookId: number) => {
     try {
       const response = await FullBookService.detail(bookId);
-      if (!response.success) {
-        setServerError(response.error);
-        return;
+      if (response.success) {
+        const updatedBook = response.data;
+        setDetails(updatedBook);
+        setList(prevList =>
+          prevList.map(fullBook =>
+            fullBook.bookBase.id === updatedBook.bookBase.id
+              ? updatedBook
+              : fullBook
+          )
+        );
+        setWarning({
+          success: true,
+          data: {
+            message: "Se han actualizado los datos",
+            statusCode: 200
+          }
+        });
       }
-
-      const updatedBook = response.data;
-      setDetails(updatedBook);
-      setList(prevList =>
-        prevList.map(fullBook =>
-          fullBook.bookBase.id === updatedBook.bookBase.id
-            ? updatedBook
-            : fullBook
-        )
-      );
-    } catch (error) {
-      console.error("Se ha producido un error.", error);
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   }
 
@@ -72,41 +89,106 @@ function HomePage() {
 
       if (response.success) {
         setList(response.data);
-      } else {
-        setServerError(response.error);
       }
-    } catch (error) {
-      console.error("Error al cargar libros:", error);
+      // } else {
+      //   setWarning({
+      //     success: true,
+      //     data: {
+      //       message: "La búsqueda se ha realizado de manera exitosa",
+      //       statusCode: 200
+      //     }
+      //   });
+      // }
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   };
 
   const fetchCollections = async (): Promise<void> => {
-    const response = await CollectionServices.list();
-    if (response.success) {
-      setCollectionList(response.data);
-    } else {
-      setServerError(response.error);
+    try {
+      const response = await CollectionServices.list();
+      if (response.success) {
+        setCollectionList(response.data);
+        setWarning({
+          success: true,
+          data: {
+            message: "El listado de colecciones se ha realizado de manera exitosa",
+            statusCode: 200
+          }
+        });
+      } 
+    } catch (error) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   };
 
   const fetchSeries = async (): Promise<void> => {
-    const response = await SeriesServices.list();
-    if (response.success) {
-      response.data.push({ id: 0, name: "", volumes: 0, status: "Desconocido" });
-      setSeriesList(response.data);
-    } else {
-      console.error("Se ha producido un error", response.error);
-      setServerError(response.error);
+    try {
+      const response = await SeriesServices.list();
+      if (response.success) {
+        response.data.push({ id: 0, name: "", volumes: 0, status: "Desconocido" });
+        setSeriesList(response.data);
+        setWarning({
+          success: true,
+          data: {
+            message: "El listado de series se ha realizado de manera exitosa",
+            statusCode: 200
+          }
+        });
+      }
+      
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   };
 
   const fetchAuthors = async (): Promise<void> => {
-    const response = await AuthorServices.list();
-    if (response.success) {
-      setAuthorList(response.data);
-    } else {
-      console.error("Se ha producido un error", response.error);
-      setServerError(response.error);
+    try {
+      const response = await AuthorServices.list();
+      if (response.success) {
+        setAuthorList(response.data);
+        setWarning({
+          success: true,
+          data: {
+            message: "El listado de autores se ha realizado de manera exitosa",
+            statusCode: 200
+          }
+        });
+      }
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   }
 
@@ -126,22 +208,15 @@ function HomePage() {
   };
 
   useEffect(() => {
-    try {
-      fetchCollections();
-      fetchSeries();
-      fetchAuthors();
-    } catch (error) {
-      console.error("Se ha producido un error.", error);
-      // setServerError(error);
-    }
+    fetchCollections();
+    fetchSeries();
+    fetchAuthors();
   }, []);
 
   useEffect(() => {
-    try {
-      fetchFullBooks();
-    } catch (error) {
-      console.error("Se ha producido un error.", error);
-      // setServerError(error);
+    fetchFullBooks();
+    return () => {
+
     }
   }, [page, searchTerm]);
 
@@ -165,22 +240,37 @@ function HomePage() {
         <div className="flex gap-5 align-top justify-center w-[80%]">
           <div className="flex items-center justify-center gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
             <button
-              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default"
+              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default"
               type="button"
               onClick={() => setQueryParams({ type, search: searchTerm, page: (page - 1).toString() })}
               disabled={+page <= 0}>
-              Anterior
+                <FontAwesomeIcon icon="angle-left"/>Anterior
             </button>
             <button
-              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default"
+              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default ps-2"
               type="button"
               onClick={() => setQueryParams({ type, search: searchTerm, page: (page + 1).toString() })}
               disabled={list.length < 18}>
-              Siguiente
+                Siguiente<FontAwesomeIcon icon="angle-right"/>
             </button>
           </div>
           <div className="w-[30%] bg-zinc-800 p-2 rounded-xl">
-            <button type="button" className="bg-green-600 hover:bg-green-500 p-0.5 rounded-md text-white w-17 hover:cursor-pointer">Añadir</button>
+            <PopUpModal
+              id={"add-series"}
+              text={"Serie"}
+              icon={<FontAwesomeIcon icon="plus"/>}
+              warning={warning}
+              >
+                <CreateSeriesForm warning={warning} setWarning={setWarning}/>
+            </PopUpModal>
+            <PopUpModal
+              id={"add-collection"}
+              text={"Colección"}
+              icon={<FontAwesomeIcon icon="plus"/>}
+              warning={warning}
+              >
+                <CreateCollectionForm warning={warning} setWarning={setWarning} />
+            </PopUpModal>
           </div>
         </div>
         <div className="flex gap-5 align-top justify-center w-[80%]">
