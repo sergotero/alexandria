@@ -31,8 +31,8 @@ function EditCollectionForm({ fullbook, collectionList, updateBook }: EditCollec
 
   return(
     <form method="POST" onSubmit={handleSubmit(submit)}>
-      <legend>Colección</legend>
       <fieldset>
+      <legend>&nbsp;Colección&nbsp;</legend>
         <div className="input-group">
             <label htmlFor="collectionId">Colección</label>
             <select 

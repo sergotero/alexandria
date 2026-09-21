@@ -1,8 +1,8 @@
-import type { Collection, SQLResponse, SQLValue } from "@shared/types";
+import type { Collection, CollectionDTO, SQLResponse, SQLValue } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
-export async function create(name: string): Promise<SQLResponse> {
-  return await query("INSERT INTO collections (name) VALUE (?)", [name]);
+export async function create(data: CollectionDTO): Promise<SQLResponse> {
+  return await query("INSERT INTO collections (name, color_code) VALUES (?, ?)", [data.name, data.colorCode!]);
 }
 
 export async function findAll(): Promise<Collection[]> {
@@ -17,13 +17,18 @@ export async function findByName(name: string): Promise<Collection[]> {
   return await query("SELECT * FROM collections WHERE name = ?", [name]);
 }
 
-export async function findByIdAndUpdate(id: number, collection: Collection): Promise<SQLResponse> {
+export async function findByIdAndUpdate(id: number, collection: CollectionDTO): Promise<SQLResponse> {
   const fields: string[] = [];
   const values: SQLValue[] = [];
 
   if (collection?.name !== undefined) {
     fields.push("name = ?");
     values.push(collection.name);
+  }
+
+  if (collection?.colorCode !== undefined) {
+    fields.push("color_code = ?");
+    values.push(collection.colorCode);
   }
 
   values.push(id)

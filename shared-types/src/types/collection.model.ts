@@ -1,4 +1,5 @@
 export type Collection = {
-  readonly id: number;
-  name: string;
+  readonly id: number,
+  name: string,
+  colorCode: string
 }

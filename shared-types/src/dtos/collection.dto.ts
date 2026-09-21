@@ -1,3 +1,4 @@
 export type CollectionDTO = {
-  name: string;
+  name: string,
+  colorCode?: string
 }

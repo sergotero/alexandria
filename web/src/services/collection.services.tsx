@@ -1,4 +1,4 @@
-import type { APIResponse, Collection, FullBook } from "@shared/types";
+import type { APIResponse, Collection, CollectionDTO } from "@shared/types";
 import axios from "axios";
 
 const http = axios.create({
@@ -10,6 +10,8 @@ http.interceptors.response.use(
   (response) => response.data,
   (error) => Promise.reject(error)
 );
+
+export const create = async (data: CollectionDTO): Promise<APIResponse<Collection>> => await http.post(`/collection`, data);
 
 export const list = async (): Promise<APIResponse<Collection[]>> => await http.get("/collection");
 

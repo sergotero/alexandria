@@ -4,8 +4,8 @@ import type { Collection } from "./collection.model.js";
 import type { Series } from "./series.model.js";
 
 export type FullBook = {
-  bookBase: BookBase;
-  author: Author;
-  series: Series;
-  collection: Collection;
+  bookBase: BookBase,
+  author: Author,
+  series: Series,
+  collection: Collection
 }

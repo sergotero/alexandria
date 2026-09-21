@@ -9,19 +9,19 @@ export async function create(req: Request, res: Response): Promise<void | never>
 
   const { name, volumes, status } = req.body;
 
-  if (name == undefined) {
+  if (name === undefined) {
     throw createHttpError(400, "El título es un parámetro obligatorio");
   } else if (typeof name !== "string") {
     throw createHttpError(400, "El tipado del titulo no es válido");
   }
 
-  if (volumes == undefined) {
+  if (volumes === undefined) {
     throw createHttpError(400, "El número de volúmenes es un parámetro obligatorio");
   } else if (typeof volumes !== "number") {
     throw createHttpError(400, "El tipado de volúmenes no es válido");
   }
   
-  if (status == undefined) {
+  if (status === undefined) {
     throw createHttpError(400, "El estado es un parámetro obligatorio");
   } else if (typeof status !== "string") {
     throw createHttpError(400, "El tipado del estado no es válido");
@@ -50,7 +50,7 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El tipado del ID de la serie no es válido");
@@ -68,7 +68,7 @@ export async function update(req: Request, res: Response): Promise<void | never>
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID de la serie no es válido");
@@ -86,7 +86,7 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID de la serie es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID de la serie no es válido");

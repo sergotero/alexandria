@@ -12,19 +12,19 @@ export async function create(req: Request, res: Response): Promise<void | never>
 
   const { title, language, format } = req.body;
 
-  if (title == undefined) {
+  if (title === undefined) {
     throw createHttpError(400, "El título es un parámetro obligatorio");
   } else if (typeof title !== "string") {
     throw createHttpError(400, "El titulo debe ser un string");
   }
 
-  if (language == undefined) {
+  if (language === undefined) {
     throw createHttpError(400, "El idioma es un parámetro obligatorio");
   } else if (typeof language !== "string" || !languages.includes(language)) {
     throw createHttpError(400, "El idioma no se encuentra definido en la base de datos");
   }
   
-  if (format == undefined) {
+  if (format === undefined) {
     throw createHttpError(400, "El formato es un parámetro obligatorio");
   } else if (typeof req.body.format !== "string" || !formats.includes(format)) {
     throw createHttpError(400, "El formato no se encuentra definido en la base de datos");
@@ -60,7 +60,7 @@ export async function detail(req: Request, res: Response): Promise<void | never>
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");
@@ -78,7 +78,7 @@ export async function update(req: Request, res: Response): Promise<void | never>
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");
@@ -102,7 +102,7 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   const { id } = req.params;
   const newId = Number(id);
 
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");

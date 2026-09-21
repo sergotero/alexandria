@@ -1,25 +1,23 @@
 import createHttpError from "http-errors";
 import * as CollectionRepository from "./../repositories/collection.repository.js";
 import { capitalize } from "./utils.service.js";
-import type { Collection } from "@shared/types";
+import type { Collection, CollectionDTO } from "@shared/types";
 
-export async function findOrCreate(name: string): Promise<Collection> {
+export async function findOrCreate(data: CollectionDTO): Promise<Collection> {
 
-  const existing = await CollectionRepository.findByName(name);
+  const existing = await CollectionRepository.findByName(data.name);
 
   if (existing.length !== 0) {
     return existing[0] as Collection;
   }
 
-  const result = await CollectionRepository.create(capitalize(name)!);
+  const result = await CollectionRepository.create(data);
 
   if (result.affectedRows == 0) {
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  const newCollection = await detail(result.insertId);
-
-  return newCollection;
+  return await detail(result.insertId);
 }
 
 export async function list(): Promise<Collection[]> {
@@ -32,17 +30,27 @@ export async function detail(id: number): Promise<Collection> {
   return collection[0] as Collection;
 }
 
-export async function update(id: number, name: string): Promise<Collection | never> {
+export async function update(id: number, data: CollectionDTO): Promise<Collection | never> {
   
-  const collection: Collection = {id: Number(id), name: capitalize(name)!}
+  let newCollection: CollectionDTO; 
+  if (data.colorCode === undefined) {
+    newCollection = {
+      name: capitalize(data.name)!,
+    };
+  } else {
+    newCollection = {
+      name: capitalize(data.name)!,
+      colorCode: data.colorCode
+    };
+  }
 
-  const result = await CollectionRepository.findByIdAndUpdate(id, collection);
+  const result = await CollectionRepository.findByIdAndUpdate(id, newCollection);
 
   if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
 
-  return collection;
+  return await detail(id);
 }
 
 export async function destroy(id: number): Promise<true | never> {

@@ -19,7 +19,11 @@ function BookCard({ bookBase, author, collection }: FullBook) {
           className={`font-light text-sm italic`}>
             {author.alias}
         </p>
-        <span className={`block self-end mt-auto min-w-25 text-center bg-emerald-700 p-1 m-1 rounded-md text-sm`}>{collection.name}</span>
+        <span 
+          className={`block self-end mt-auto min-w-25 text-center p-1 m-1 rounded-md text-sm`}
+          style={{ backgroundColor: collection.colorCode }}>
+            {collection.name}
+          </span>
       </div>
     </div>
   );

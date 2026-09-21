@@ -4,8 +4,8 @@ import type { Collection } from "../types/collection.model.js";
 import type { Series } from "../types/series.model.js";
 
 export type FullBookDTO = {
-  bookBase: BookBase;
-  author: Author;
-  series?: Series;
-  collection: Collection;
+  bookBase: BookBase,
+  author: Author,
+  series?: Series,
+  collection: Collection
 }

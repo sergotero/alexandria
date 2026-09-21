@@ -13,20 +13,18 @@ function CreateCollectionForm({ warning, setWarning }: CreateCollectionFormProp)
   
   "use no memo";
 
-  const{ register, handleSubmit, reset } = useForm<any>();
+  const{ register, handleSubmit, reset } = useForm<CollectionDTO>();
 
-  const submit: SubmitHandler<any> = async (data: any) => {
+  const submit: SubmitHandler<CollectionDTO> = async (data: CollectionDTO) => {
     try {
-      console.log(data);
-      
-      //await CollectionServices.create(data);
-      // setWarning({
-      //   success: true,
-      //   data: {
-      //     message: "La serie se ha creado con éxito",
-      //     statusCode: 200
-      //   }
-      // })
+      await CollectionServices.create(data);
+      setWarning({
+        success: true,
+        data: {
+          message: "La colección se ha creado con éxito",
+          statusCode: 200
+        }
+      })
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -69,7 +67,7 @@ function CreateCollectionForm({ warning, setWarning }: CreateCollectionFormProp)
         </div>
 
         <div className="input-group">
-          <label htmlFor="color-code" className="text-white">Código de color</label>
+          <label htmlFor="color-code" className="text-white">Color etiqueta</label>
           <input 
             {...register("colorCode", {
               required: true

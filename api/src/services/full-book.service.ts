@@ -65,6 +65,7 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
   
   const offset = page * limit;
   const fullBooks = await FullBookRepository.findAll(limit, offset);
+  
   const books = fullBooks.map((book: any) => {
     const bookBase: BookBase = {
       id: book.book_id,
@@ -92,7 +93,8 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
     };
     const collection: Collection = {
       id: book.collection_id,
-      name: book.collection_name
+      name: book.collection_name,
+      colorCode: book.color_code
     }
     const fullBook: FullBook = {
       bookBase,
@@ -138,7 +140,8 @@ export async function detail(id: number): Promise<FullBook> {
 
     const collection: Collection = {
       id: book[0].collection_id,
-      name: book[0].collection_name
+      name: book[0].collection_name,
+      colorCode: book[0].color_code
     }
 
     const fullBook: FullBook = {

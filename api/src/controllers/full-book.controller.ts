@@ -25,7 +25,7 @@ export async function list(req: Request, res: Response): Promise<void> {
 export async function detail(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
 
-  if (id == undefined) {
+  if (id === undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
   } else if (typeof id !== 'string') {
     throw createHttpError(400, "El ID del libro no es válido");
@@ -43,7 +43,7 @@ export async function update(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
   const newId = Number(id);
   
-  if (newId == undefined) {
+  if (newId === undefined) {
     throw createHttpError(400, "El ID del libro es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El ID del libro no es válido");

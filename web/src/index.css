@@ -61,7 +61,10 @@ input[type="file"]{
 
 dialog{
   background-color: #09090b;
+  max-height: 90vh;
+  scrollbar-width: none;
   width: 500px;
+  max-width: 1000px;
   padding: 1%;
   top: 50%;
   left: 50%;
@@ -96,4 +99,10 @@ dialog::backdrop{
 .success{
   background-color: rgb(98, 233, 181);
   color: black;
+}
+
+input[type="color"]{
+  padding: none;
+  height: 4rem;
+  width: 4rem;
 }

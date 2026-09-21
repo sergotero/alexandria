@@ -16,6 +16,7 @@ import CreateSeriesForm from "../components/forms/create-forms/create-series-for
 import PopUpModal from "../components/ui/popup-modal.tsx";
 import { isApiError } from "../services/utils.services.tsx";
 import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
+import CreateFullbookForm from "../components/forms/create-forms/create-fullbook-form.tsx";
 
 function HomePage() {
   const [ queryParams, setQueryParams ] = useSearchParams();
@@ -31,7 +32,7 @@ function HomePage() {
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
-  const [ activeTab, setActiveTab ] = useState<"details" | "edition">("details");
+  const [ activeTab, setActiveTab ] = useState<"details" | "edition" | "opinion">("details");
 
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
@@ -72,123 +73,44 @@ function HomePage() {
   }
 
   const fetchFullBooks = async (): Promise<void> => {
-    try {
-      let response;
+    let response;
 
-      if (type === "title" && searchTerm !== "") {
-        response = await FullBookService.findByTitle(searchTerm, page);
-      } else if (type === "author" && searchTerm !== "") {
-        response = await FullBookService.findByAuthor(searchTerm, page);
-      } else if (type === "collection" && searchTerm !== "") {
-        response = await FullBookService.findByCollection(searchTerm, page);
-      } else if (type === "series" && searchTerm !== "") {
-        response = await FullBookService.findBySeries(searchTerm, page);
-      } else {
-        response = await FullBookService.list(page);
-      }
+    if (type === "title" && searchTerm !== "") {
+      response = await FullBookService.findByTitle(searchTerm, page);
+    } else if (type === "author" && searchTerm !== "") {
+      response = await FullBookService.findByAuthor(searchTerm, page);
+    } else if (type === "collection" && searchTerm !== "") {
+      response = await FullBookService.findByCollection(searchTerm, page);
+    } else if (type === "series" && searchTerm !== "") {
+      response = await FullBookService.findBySeries(searchTerm, page);
+    } else {
+      response = await FullBookService.list(page);
+    }
 
-      if (response.success) {
-        setList(response.data);
-      }
-      // } else {
-      //   setWarning({
-      //     success: true,
-      //     data: {
-      //       message: "La búsqueda se ha realizado de manera exitosa",
-      //       statusCode: 200
-      //     }
-      //   });
-      // }
-    } catch (error: unknown) {
-      if(isApiError(error)){
-        setWarning({
-          success: error.success,
-          data: {
-            message: error.error.message,
-            statusCode: error.error.statusCode
-          }
-        });
-      }
+    if (response.success) {
+      setList(response.data);
     }
   };
 
   const fetchCollections = async (): Promise<void> => {
-    try {
-      const response = await CollectionServices.list();
-      if (response.success) {
-        setCollectionList(response.data);
-        setWarning({
-          success: true,
-          data: {
-            message: "El listado de colecciones se ha realizado de manera exitosa",
-            statusCode: 200
-          }
-        });
-      } 
-    } catch (error) {
-      if(isApiError(error)){
-        setWarning({
-          success: error.success,
-          data: {
-            message: error.error.message,
-            statusCode: error.error.statusCode
-          }
-        });
-      }
-    }
+    const response = await CollectionServices.list();
+    if (response.success) {
+      setCollectionList(response.data);
+    } 
   };
 
   const fetchSeries = async (): Promise<void> => {
-    try {
-      const response = await SeriesServices.list();
-      if (response.success) {
-        response.data.push({ id: 0, name: "", volumes: 0, status: "Desconocido" });
-        setSeriesList(response.data);
-        setWarning({
-          success: true,
-          data: {
-            message: "El listado de series se ha realizado de manera exitosa",
-            statusCode: 200
-          }
-        });
-      }
-      
-    } catch (error: unknown) {
-      if(isApiError(error)){
-        setWarning({
-          success: error.success,
-          data: {
-            message: error.error.message,
-            statusCode: error.error.statusCode
-          }
-        });
-      }
+    const response = await SeriesServices.list();
+    if (response.success) {
+      response.data.push({ id: 0, name: "", volumes: 0, status: "Desconocido" });
+      setSeriesList(response.data);
     }
   };
 
   const fetchAuthors = async (): Promise<void> => {
-    try {
-      const response = await AuthorServices.list();
-      if (response.success) {
-        setAuthorList(response.data);
-        setWarning({
-          success: true,
-          data: {
-            message: "El listado de autores se ha realizado de manera exitosa",
-            statusCode: 200
-          }
-        });
-      }
-    } catch (error: unknown) {
-      if(isApiError(error)){
-        setWarning({
-          success: error.success,
-          data: {
-            message: error.error.message,
-            statusCode: error.error.statusCode
-          }
-        });
-      }
+    const response = await AuthorServices.list();
+    if (response.success) {
+      setAuthorList(response.data);
     }
   }
 
@@ -208,17 +130,57 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchCollections();
-    fetchSeries();
-    fetchAuthors();
+    try {
+      fetchCollections();
+      fetchSeries();
+      fetchAuthors();
+      setWarning({
+        success: true,
+        data: {
+          message: "Los listados se han cargado de manera exitosa",
+          statusCode: 200
+        }
+        });
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
+    }
   }, []);
 
   useEffect(() => {
-    fetchFullBooks();
-    return () => {
-
+    try {
+      fetchFullBooks();
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
     }
   }, [page, searchTerm]);
+
+  useEffect(() => {
+    let warningTimeout: number;
+    if (warning) {
+      warningTimeout = setTimeout(() => {
+        setWarning(null);
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(warningTimeout);
+    }
+  }, [warning]);
 
 
   return (
@@ -271,6 +233,14 @@ function HomePage() {
               >
                 <CreateCollectionForm warning={warning} setWarning={setWarning} />
             </PopUpModal>
+            <PopUpModal
+              id={"add-fullbook"}
+              text={"Libro"}
+              icon={<FontAwesomeIcon icon="plus"/>}
+              warning={warning}
+              >
+                <CreateFullbookForm collectionList={collectionList} seriesList={seriesList} />
+            </PopUpModal>
           </div>
         </div>
         <div className="flex gap-5 align-top justify-center w-[80%]">
@@ -299,6 +269,12 @@ function HomePage() {
                     type="button"
                     onClick={() => (setActiveTab("edition"))}>
                     Actualizar
+                  </button>
+                  <button
+                    className={`${activeTab === "opinion" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                    type="button"
+                    onClick={() => (setActiveTab("opinion"))}>
+                    Reseña
                   </button>
                 </div>
                     {/* Content */}
