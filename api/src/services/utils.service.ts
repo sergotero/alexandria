@@ -54,7 +54,7 @@ export function fullBookGenerator(book: any): FullBook{
   const collection: Collection = {
     id: book.collection_id,
     name: book.collection_name,
-    colorCode: book.collection.color_code
+    colorCode: book.color_code
   }
 
   return {

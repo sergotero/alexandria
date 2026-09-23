@@ -19,8 +19,6 @@ function CreateFullbookForm({ authorList, collectionList, seriesList, warning, s
   const { register, handleSubmit, reset } = useForm<FullBookDTO>();
 
   const submit: SubmitHandler<FullBookDTO> = async(data: FullBookDTO) => {
-    console.log("Raw data: ", data);
-    
     try {
       await FullBookServices.create(data);
       setWarning({
