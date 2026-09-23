@@ -2,28 +2,37 @@ import type { BooksSeries, BooksSeriesDTO, SQLResponse, SQLValue } from "@shared
 import { query } from "../config/db-query.config.js";
 
 
-export async function create(bookId: number, seriesId: number): Promise<SQLResponse> {
-  return await query("INSERT INTO booksseries (book_id, series_id) VALUES (?, ?)", [bookId, seriesId]);
+export async function create(bookId: number, seriesId: number, indexVolume?: number): Promise<SQLResponse> {
+  if (indexVolume !== undefined && indexVolume !== null) {
+    return await query("INSERT INTO booksseries (book_id, series_id, index_series) VALUES (?, ?, ?)", [bookId, seriesId, indexVolume]);
+  } else {
+    return await query("INSERT INTO booksseries (book_id, series_id) VALUES (?, ?)", [bookId, seriesId]);
+  }
 }
 
 export async function findById(bookId: number, seriesId: number): Promise<BooksSeries> {
-  return await query("SELECT book_id, series_id FROM booksseries WHERE book_id = ? AND series_id = ?", [bookId, seriesId]);
+  return await query("SELECT * FROM booksseries WHERE book_id = ? AND series_id = ?", [bookId, seriesId]);
 }
 
 export async function findByIdAndUpdate(oldBookId: number, oldSeriesId: number, data: BooksSeriesDTO): Promise<SQLResponse>{
-  const {bookId: newBookId, seriesId: newSeriesId} = data;
+  const {bookId: newBookId, seriesId: newSeriesId, indexVolume: newIndexVolume} = data;
   
   const fields: string[] = [];
   const values: SQLValue[] = [];
 
-  if (data.bookId !== undefined) {
+  if (newBookId !== undefined) {
     fields.push("book_id = ?");
     values.push(newBookId);
   }
   
-  if (data.seriesId !== undefined) {
+  if (newSeriesId !== undefined) {
     fields.push("series_id = ?");
     values.push(newSeriesId);
+  }
+
+  if (newIndexVolume !== undefined && newIndexVolume !== null) {
+    fields.push("index_series = ?");
+    values.push(newIndexVolume);
   }
   
   values.push(oldBookId);

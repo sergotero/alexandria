@@ -1,4 +1,5 @@
 export type BooksAuthorsDTO = {
   bookId: number,
-  authorId: number
+  authorId: number,
+  description?: string
 };

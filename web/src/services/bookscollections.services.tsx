@@ -1,5 +1,5 @@
-import type { APIResponse, BooksCollections, BooksCollectionsDTO } from "@shared/types";
-import axios from "axios";
+import type { ApiError, APIResponse, BooksCollections, BooksCollectionsDTO } from "@shared/types";
+import axios, { AxiosError } from "axios";
 
 
 const http = axios.create({
@@ -9,7 +9,21 @@ const http = axios.create({
 
 http.interceptors.response.use(
   (response) => response.data,
-  (error) => Promise.reject(error)
+  (error: AxiosError<ApiError>) => {
+    const apiError = error.response?.data;
+
+    if (apiError) {
+      return Promise.reject(apiError);
+    }
+
+    return Promise.reject({
+      success: false,
+      error: {
+        message: "No se ha podido conectar con el servidor",
+        statusCode: 0
+      }
+    } satisfies ApiError);
+  }
 );
 
 export const update = async (oldBookId: string, oldCollectionId: string, data: BooksCollectionsDTO): Promise<APIResponse<BooksCollections>> => await http.patch(`/bookscollections`, {bookId: oldBookId, collectionId: oldCollectionId, data});

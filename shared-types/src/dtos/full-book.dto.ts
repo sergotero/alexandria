@@ -1,11 +1,14 @@
-import type { Author } from "../types/author.model.js";
-import type { BookBase } from "../types/book-base.model.js";
-import type { Collection } from "../types/collection.model.js";
-import type { Series } from "../types/series.model.js";
+import type { Formats, Languages } from "../types/utils.model.js"
 
 export type FullBookDTO = {
-  bookBase: BookBase,
-  author: Author,
-  series?: Series,
-  collection: Collection
+  title: string,
+  language: Languages,
+  format: Formats,
+  description?: string,
+  indexVolume?: number,
+  cover?: string,
+  cloudinaryId?: string,
+  authorId: number,
+  seriesId?: number,
+  collectionId: number
 }

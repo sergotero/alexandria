@@ -3,13 +3,13 @@ import * as BookBaseRepository from "./../repositories/book-base.repository.js";
 import type { BookBase, BookBaseDTO } from "@shared/types";
 import * as CloudinaryService from "./cloudinary.service.js";
 
-export async function findOrCreate(data: BookBaseDTO | BookBase): Promise<BookBase | never>{
+export async function create(data: BookBaseDTO): Promise<BookBase | never> {
   const { title, language, format } = data;
 
   const existing = await BookBaseRepository.findByTitle(title);
 
   if (existing.length !== 0) {
-    return existing[0] as BookBase;
+    throw createHttpError(400, "El libro ya se encuentra en la base de datos");
   }
   
   const bookBase: BookBaseDTO = {
@@ -24,9 +24,7 @@ export async function findOrCreate(data: BookBaseDTO | BookBase): Promise<BookBa
     throw createHttpError(400, "Se ha producido un error en la base de datos");
   }
 
-  const newBookBase = await detail(result.insertId);
-  
-  return newBookBase;
+  return await detail(result.insertId);
 }
 
 export async function list(): Promise<BookBase[]>{

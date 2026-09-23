@@ -16,12 +16,12 @@ export async function findByIdAndUpdate(oldBookId: number, oldCollectionId: numb
   const fields: string[] = [];
   const values: SQLValue[] = [];
 
-  if (data.bookId !== undefined) {
+  if (newBookId !== undefined) {
     fields.push("book_id = ?");
     values.push(newBookId);
   }
   
-  if (data.collectionId !== undefined) {
+  if (newCollectionId !== undefined) {
     fields.push("collection_id = ?");
     values.push(newCollectionId);
   }

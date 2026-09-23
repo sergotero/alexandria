@@ -1,5 +1,6 @@
 import type { Author, BookBase, Collection, FullBook, Series } from '@shared/types';
 import bcrypt from "bcryptjs";
+import type { SqlError } from 'mariadb';
 
 export function capitalize(word: string | null): string | null {
   if (word === null || word === undefined) {
@@ -52,7 +53,8 @@ export function fullBookGenerator(book: any): FullBook{
 
   const collection: Collection = {
     id: book.collection_id,
-    name: book.collection_name
+    name: book.collection_name,
+    colorCode: book.collection.color_code
   }
 
   return {
@@ -61,4 +63,13 @@ export function fullBookGenerator(book: any): FullBook{
     series,
     collection
   } as FullBook;
+}
+
+export function isSqlError(err: unknown): err is SqlError {
+  return (
+      typeof err === "object" &&
+      err !== null &&
+      "errno" in err &&
+      "code" in err
+  );
 }

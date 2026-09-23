@@ -3,19 +3,23 @@ import * as BooksSeriesRepository from "../repositories/books-series.repository.
 import type { BooksSeries, BooksSeriesDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookId: number, seriesId: number): Promise<BooksSeries | never>{
+export async function createLink(bookId: number, seriesId: number, indexVolume?: number): Promise<BooksSeries | never>{
 
   const exists = await BooksSeriesRepository.findById(bookId, seriesId);
 
   if (Array.isArray(exists) && exists.length === 0) {
-    const newInsert = await BooksSeriesRepository.create(bookId, seriesId);
+    let newInsert;
+    if (indexVolume !== undefined && indexVolume !== null) {
+      newInsert = await BooksSeriesRepository.create(bookId, seriesId, indexVolume);
+    } else {
+      newInsert = await BooksSeriesRepository.create(bookId, seriesId);
+    }
     
     if (newInsert.affectedRows === 0) {
-      throw createHttpError(400, "Se ha producido un error")
+      throw createHttpError(400, "Se ha producido un error");
     }
 
-    const result = await BooksSeriesRepository.findById(bookId, seriesId);
-    return result;
+    return await BooksSeriesRepository.findById(bookId, seriesId);
   } else {
     return exists;
   }
@@ -30,8 +34,7 @@ export async function update(oldBookId: number, oldSeriesId: number | null | und
       throw createHttpError(400, "Se ha producido un error")
     }
 
-    const result = await BooksSeriesRepository.findById(oldBookId, data.seriesId);
-    return result;
+    return await BooksSeriesRepository.findById(oldBookId, data.seriesId);
   }
 
   const update = await BooksSeriesRepository.findByIdAndUpdate(oldBookId, oldSeriesId, data);
@@ -39,9 +42,7 @@ export async function update(oldBookId: number, oldSeriesId: number | null | und
   if (update.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error al actualizar");
   }
-  const result = await BooksSeriesRepository.findById(data.bookId, data.seriesId);
-  
-  return result;
+  return await BooksSeriesRepository.findById(data.bookId, data.seriesId);
 }
 
 export async function destroy(bookId: number, seriesId: number): Promise<true | never> {

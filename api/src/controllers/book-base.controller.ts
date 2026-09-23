@@ -39,7 +39,7 @@ export async function create(req: Request, res: Response): Promise<void | never>
     cover: req.body?.cover ?? null
   }
 
-  const result = await BookBaseService.findOrCreate(bookBase);
+  const result = await BookBaseService.create(bookBase);
   const response: APIResponse<BookBase> = {
     success: true,
     data: result

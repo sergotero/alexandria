@@ -62,29 +62,6 @@ function EditSeriesForm({ fullbook, seriesList, updateBook }: EditSeriesFormProp
             ))}
             </select>
           </div>
-
-          {/* <div className="input-group">
-            <label htmlFor="volumes">Volúmenes</label>
-              <input 
-                {...register("volumes")}
-                className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-                type="number" id="volumes"/>
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="status">Estatus</label>
-              <select 
-                {...register("status", {
-                  required: true
-                })}
-                className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-                id="status">
-                  <option value="Abierta">Abierta</option>
-                  <option value="Cerrada">Cerrada</option>
-                  <option value="Desconocido">Desconocido</option>
-              </select>
-          </div> */}
-  
           <button
             type="submit"
             className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">

@@ -3,19 +3,23 @@ import * as BooksAuthorsRepository from "../repositories/books-authors.repositor
 import type { BooksAuthors, BooksAuthorsDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookId: number, authorId: number): Promise<BooksAuthors | never>{
+export async function createLink(bookId: number, authorId: number, description?: string ): Promise<BooksAuthors | never>{
 
   const exists = await BooksAuthorsRepository.findById(bookId, authorId);
 
   if (Array.isArray(exists) && exists.length === 0) {
-    const newInsert = await BooksAuthorsRepository.create(bookId, authorId);
+    let newInsert;
+    if (description !== undefined && description !== "") {
+      newInsert = await BooksAuthorsRepository.create(bookId, authorId, description);
+    } else {
+      newInsert = await BooksAuthorsRepository.create(bookId, authorId);
+    }
     
     if (newInsert.affectedRows === 0) {
       throw createHttpError(400, "Se ha producido un error")
     }
 
-    const result = await BooksAuthorsRepository.findById(bookId, authorId);
-    return result;
+    return await BooksAuthorsRepository.findById(bookId, authorId);
   } else {
     return exists;
   }

@@ -1,41 +1,85 @@
-import type { Collection, FullBookDTO, SeriesList } from "@shared/types";
-import { useForm } from "react-hook-form";
+import type { Author, Collection, FullBookDTO, SeriesList, ServerMessage } from "@shared/types";
+import { useEffect } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import * as FullBookServices from "./../../../services/fullbook.services.js";
+import { isApiError } from "../../../services/utils.services.js";
 
 type CreateFullbookFromProps = {
+  warning: ServerMessage | null,
+  setWarning: (newWarning: ServerMessage | null) => void,
+  authorList: Author[],
   collectionList: Collection[],
   seriesList: SeriesList[]
 }
 
-function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromProps){
+function CreateFullbookForm({ authorList, collectionList, seriesList, warning, setWarning }: CreateFullbookFromProps){
   
   "use no memory";
 
   const { register, handleSubmit, reset } = useForm<FullBookDTO>();
 
+  const submit: SubmitHandler<FullBookDTO> = async(data: FullBookDTO) => {
+    console.log("Raw data: ", data);
+    
+    try {
+      await FullBookServices.create(data);
+      setWarning({
+        success: true,
+        data: {
+          message: "El libro se ha creado con éxito",
+          statusCode: 200
+        }
+      });
+    } catch (error: unknown) {
+      if(isApiError(error)){
+        setWarning({
+          success: error.success,
+          data: {
+            message: error.error.message,
+            statusCode: error.error.statusCode
+          }
+        });
+      }
+    }
+    reset();
+  }
+
+  useEffect(() => {
+    let warningTimeout: number;
+    if (warning) {
+      warningTimeout = setTimeout(() => {
+        setWarning(null);
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(warningTimeout);
+    }
+  }, [warning]);
+
   return(
-    <form>
+    <form method="popover" onSubmit={handleSubmit(submit)}>
       <fieldset className="text-white">
         <legend>&nbsp;Base&nbsp;</legend>
         <div className="input-group">
-          <label htmlFor="bookBase.title">Título</label>
+          <label htmlFor="title">Título*</label>
           <input
-            {...register("bookBase.title", {
+            {...register("title", {
               required: true
             })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             type="text"
-            id="bookBase.title"
+            id="title"
           />
         </div>
 
         <div className="input-group">
-          <label htmlFor="bookBase.language">Idioma</label>
+          <label htmlFor="language">Idioma*</label>
           <select 
-            {...register("bookBase.language", {
+            {...register("language", {
               required: true
             })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            id="bookBase.language">
+            id="language">
               <option value="Español">Español</option>
               <option value="Inglés">Inglés</option>
               <option value="Alemán">Alemán</option>
@@ -44,12 +88,12 @@ function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromPr
         </div>
 
         <div className="input-group">
-          <label htmlFor="bookBase.format">Formato</label>
-          <select {...register("bookBase.format", {
+          <label htmlFor="format">Formato*</label>
+          <select {...register("format", {
             required: true
           })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            id="bookBase.format">
+            id="format">
               <option value="Digital">Digital</option>
               <option value="Impreso">Impreso</option>
               <option value="Ambos">Ambos</option>
@@ -59,28 +103,30 @@ function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromPr
         <div className="input-group">
           <label htmlFor="description">Descripción</label>
           <textarea 
-            {...register("bookBase.description")}
+            {...register("description")}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            id="bookBase.description"/>
+            id="description"/>
         </div>
 
         <div className="input-group">
-          <label htmlFor="bookBase.indexVolume">Volumen</label>
+          <label htmlFor="indexVolume">Volumen</label>
           <input 
-            {...register("bookBase.indexVolume")}
+            {...register("indexVolume", {
+              valueAsNumber: true
+            })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             type="text"
-            id="bookBase.indexVolume"/>
+            id="indexVolume"/>
         </div>
 
         <div className="input-group gap-1">
           <label
-            htmlFor="bookBase.cover" 
+            htmlFor="cover" 
             className="custom-input-file bg-zinc-600 rounded-md text-center">
               Portada
           </label>
           <input
-            {...register("bookBase.cover", {
+            {...register("cover", {
               onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
                 if (event.target.files !== null) {
                   const files: FileList = event.target.files;
@@ -95,7 +141,7 @@ function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromPr
               }
             })}
             type="file"
-            id="bookBase.cover"/>
+            id="cover"/>
           <input
             type="text"
             name="cover-name"
@@ -104,102 +150,63 @@ function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromPr
             readOnly
           />
         </div>
-
       </fieldset>
+
       <fieldset className="text-white">
         <legend>&nbsp;Autor&nbsp;</legend>
         <div className="input-group">
-          <label htmlFor="author.name">Nombre</label>
-          <input
-            {...register("author.name")}
-            id="author.name"
+          <label htmlFor="authorId">Autor*</label>
+          <select
+            {...register("authorId",{
+              required: true,
+              valueAsNumber: true
+            })}
+            id="authorId"
+            defaultValue={0}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
-          </input>
+            {authorList.map((author) => (
+              <option
+                key={author.id}
+                value={author.id}>
+                  {author.alias}
+              </option>
+          ))}
+          </select>
         </div>
-        <div className="input-group">
-          <label htmlFor="author.lastname1">Apellido 1</label>
-          <input
-            {...register("author.lastname1")}
-            id="author.lastname1"
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
-          </input>
-        </div>
-        <div className="input-group">
-          <label htmlFor="author.lastname2">Apellido 2</label>
-          <input
-            {...register("author.lastname2")}
-            id="author.lastname2"
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
-          </input>
-        </div>
-        <div className="input-group">
-          <label htmlFor="author.lastname3">Apellido 3</label>
-          <input
-            {...register("author.lastname3")}
-            id="author.lastname3"
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
-          </input>
-        </div>
-        {/* <div className="input-group">
-          <label htmlFor="author.alias">Alias</label>
-          <input
-            {...register("author.alias")}
-            id="author.alias"
-            className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black">
-          </input>
-        </div> */}
       </fieldset>
+
       <fieldset className="text-white">
-          <legend>&nbsp;Series&nbsp;</legend>
+          <legend>&nbsp;Serie&nbsp;</legend>
           <div className="input-group">
-            <label htmlFor="series.name">Nombre</label>
+            <label htmlFor="seriesId">Serie</label>
             <select 
-              {...register("series.name")}
+              {...register("seriesId", {
+                valueAsNumber: true
+              })}
               className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-              id="series.name"
-              defaultValue={"null"}>
+              id="seriesId"
+              defaultValue={0}>
                 {seriesList.map((ser) => (
                 <option
                   key={ser.id}
-                  value={ser.name}>
+                  value={ser.id}>
                     {ser.name}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* <div className="input-group">
-            <label htmlFor="series.volumes">Volúmenes</label>
-              <input 
-                {...register("series.volumes")}
-                className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-                type="number"
-                id="series.volumes"/>
-          </div> */}
-
-          {/* <div className="input-group">
-            <label htmlFor="series.status">Estatus</label>
-              <select 
-                {...register("series.status", {
-                  required: true
-                })}
-                className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-                id="series.status">
-                  <option value="Abierta">Abierta</option>
-                  <option value="Cerrada">Cerrada</option>
-                  <option value="Desconocido">Desconocido</option>
-              </select>
-          </div> */}
-
         </fieldset>
         <fieldset className="text-white">
           <legend>&nbsp;Colección&nbsp;</legend>
           <div className="input-group">
-              <label htmlFor="collection.name">Colección</label>
+              <label htmlFor="collectionId">Colección*</label>
               <select 
-                {...register("collection.name", {
-                  required: true
+                {...register("collectionId", {
+                  required: true,
+                  valueAsNumber: true
                 })}
+                defaultValue={0}
                 className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
                 id="collectionId">
                 {collectionList.map((col) => (
@@ -217,6 +224,7 @@ function CreateFullbookForm({ collectionList, seriesList }: CreateFullbookFromPr
         className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
           Actualizar
       </button>
+      <p className="inline ms-30 text-white text-center text-xs">Los campos marcados con * son obligatorios</p>
     </form>
   );
 };

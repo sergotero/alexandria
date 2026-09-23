@@ -24,7 +24,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
           message: "La serie se ha creado con éxito",
           statusCode: 200
         }
-      })
+      });
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({

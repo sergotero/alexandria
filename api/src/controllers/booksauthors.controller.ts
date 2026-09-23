@@ -4,7 +4,7 @@ import createHttpError from 'http-errors';
 import * as BooksAuthorsService from "./../services/books-authors.service.js";
 
 export const create = async (req: Request, res: Response): Promise<void | never> => {
-  const { bookId, authorId } = req.body;
+  const { bookId, authorId, indexVolume } = req.body;
   const newBookId = Number(bookId);
   const newAuthorId = Number(authorId);
 
@@ -20,7 +20,7 @@ export const create = async (req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksAuthorsService.findOrCreate(newBookId, newAuthorId);
+  const result = await BooksAuthorsService.createLink(newBookId, newAuthorId, indexVolume);
   const response: APIResponse<BooksAuthors> = {
     success: true,
     data: result

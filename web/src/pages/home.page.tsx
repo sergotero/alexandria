@@ -95,6 +95,7 @@ function HomePage() {
   const fetchCollections = async (): Promise<void> => {
     const response = await CollectionServices.list();
     if (response.success) {
+      response.data.unshift({ id: 0, name: "- - -", colorCode: "#000000" });
       setCollectionList(response.data);
     } 
   };
@@ -102,7 +103,7 @@ function HomePage() {
   const fetchSeries = async (): Promise<void> => {
     const response = await SeriesServices.list();
     if (response.success) {
-      response.data.push({ id: 0, name: "", volumes: 0, status: "Desconocido" });
+      response.data.unshift({ id: 0, name: "- - -", volumes: 0, status: "Desconocido" });
       setSeriesList(response.data);
     }
   };
@@ -110,6 +111,7 @@ function HomePage() {
   const fetchAuthors = async (): Promise<void> => {
     const response = await AuthorServices.list();
     if (response.success) {
+      response.data.unshift({ id: 0, name: "", lastname1: "", lastname2: "", lastname3: "", alias: "- - -" });
       setAuthorList(response.data);
     }
   }
@@ -216,14 +218,17 @@ function HomePage() {
                 Siguiente<FontAwesomeIcon icon="angle-right"/>
             </button>
           </div>
-          <div className="w-[30%] bg-zinc-800 p-2 rounded-xl">
+          <div className="grid grid-flow-row grid-cols-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
             <PopUpModal
               id={"add-series"}
               text={"Serie"}
               icon={<FontAwesomeIcon icon="plus"/>}
               warning={warning}
               >
-                <CreateSeriesForm warning={warning} setWarning={setWarning}/>
+                <CreateSeriesForm 
+                  warning={warning} 
+                  setWarning={setWarning}
+                />
             </PopUpModal>
             <PopUpModal
               id={"add-collection"}
@@ -231,7 +236,10 @@ function HomePage() {
               icon={<FontAwesomeIcon icon="plus"/>}
               warning={warning}
               >
-                <CreateCollectionForm warning={warning} setWarning={setWarning} />
+                <CreateCollectionForm 
+                  warning={warning}
+                  setWarning={setWarning}
+                />
             </PopUpModal>
             <PopUpModal
               id={"add-fullbook"}
@@ -239,7 +247,13 @@ function HomePage() {
               icon={<FontAwesomeIcon icon="plus"/>}
               warning={warning}
               >
-                <CreateFullbookForm collectionList={collectionList} seriesList={seriesList} />
+                <CreateFullbookForm
+                  warning={warning}
+                  setWarning={setWarning}
+                  authorList={authorList}
+                  collectionList={collectionList} 
+                  seriesList={seriesList}
+                />
             </PopUpModal>
           </div>
         </div>

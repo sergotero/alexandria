@@ -6,11 +6,9 @@ export const query = async (sql: string, params: Array<SQLValue> = []) => {
 
   try {
     connection = await pool.getConnection();
-    const results = await connection.query(sql, params);
-    return results;
-  } catch (error) {
-    console.error("DB Error", error);
-    throw new Error();
+    return await connection.query(sql, params);
+  } catch (error: unknown) {
+    throw error;
   } finally {
     if (connection) {
       connection.release();

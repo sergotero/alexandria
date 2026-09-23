@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import type { Author, AuthorDTO, BookBase, BookBaseDTO, Collection, FullBook, FullBookDTO, Series, SeriesDTO } from "@shared/types";
+import type { Author, BookBase, BookBaseDTO, Collection, FullBook, FullBookDTO, Series } from "@shared/types";
 import * as FullBookRepository from "../repositories/full-book.repository.js";
 import * as BookBaseService from "./../services/book-base.service.js";
 import * as AuthorService from "./author.service.js";
@@ -11,48 +11,54 @@ import * as BooksCollectionsService from "./books-collections.service.js";
 import pool from "../config/db.config.js";
 import { fullBookGenerator } from "./utils.service.js";
 
-export async function findOrCreate(data: FullBookDTO): Promise<FullBook | never> {
+export async function create(data: FullBookDTO): Promise<FullBook | never> {
 
   let connection;
 
   try {
     connection = await pool.getConnection();
     await connection.beginTransaction();
-    const bookBase: BookBaseDTO = data.bookBase;
-    const newBookBase = await BookBaseService.findOrCreate(bookBase);
-    
+    const bookBase: BookBaseDTO = {
+      title: data.title,
+      language: data.language,
+      format: data.format,
+      description: data.description ?? null,
+      indexVolume: data.indexVolume ?? null,
+      cover: data.cover ?? null,
+      cloudinaryId: data.cloudinaryId ?? null,
+    };
 
-    const author: AuthorDTO = data.author;
-    const newAuthor = await AuthorService.findOrCreate(author);
+    const newBookBase = await BookBaseService.create(bookBase);
+    const author = await AuthorService.detail(data.authorId);
 
-    let newSeries;
-    let series: SeriesDTO;
-    if (data.series !== undefined) {
-      series = {
-        name: data.series.name!,
-        volumes: data.series.volumes!,
-        status: data.series.status!,
-      };
-      newSeries = await SeriesService.findOrCreate(series);
+    let series;
+    if (data.seriesId !== undefined && data.seriesId !== 0) {
+      series = await SeriesService.detail(data.seriesId);
     }
-
-    const newCollection: Collection = await CollectionService.findOrCreate(data.collection.name);
-
-    await BooksAuthorsService.findOrCreate(newBookBase.id, newAuthor.id);
-    await BooksCollectionsService.findOrCreate(newBookBase.id, newCollection.id);
-    if (newSeries) {
-      await BooksSeriesService.findOrCreate(newBookBase.id, newSeries.id!);
+    const collection: Collection = await CollectionService.detail(data.collectionId);
+    
+    if (bookBase.description !== undefined && bookBase.description !== null) {
+      await BooksAuthorsService.createLink(newBookBase.id, author.id, bookBase.description);
+    } else {
+      await BooksAuthorsService.createLink(newBookBase.id, author.id);
+    }
+    await BooksCollectionsService.createLink(newBookBase.id, collection.id);
+    if (series !== undefined && series.id !== null) {
+      if (data.indexVolume !== undefined && data.indexVolume !== null) {
+        await BooksSeriesService.createLink(newBookBase.id, series.id, data.indexVolume);
+      } else {
+        await BooksSeriesService.createLink(newBookBase.id, series.id);
+      }
     }
     
     const fullBook = detail(newBookBase.id);
     await connection.commit();
     return fullBook;
   } catch (error) {
-    console.error("Se ha producido un error: ", error);
     if (connection) {
       await connection.rollback();
     }
-    throw createHttpError(400, );
+    throw error;
   } finally {
     if (connection) {
       await connection.release();
@@ -176,13 +182,17 @@ export async function update(id: number, data: FullBook): Promise<FullBook | nev
     );
     
     if (data.series !== undefined && data.series.id !== null && oldFullBook.series !== undefined && oldFullBook.series.id !== null) {
-      await BooksSeriesService.update(
-        oldFullBook.bookBase.id,
-        oldFullBook.series.id,
-        { bookId: data.bookBase.id, seriesId: data.series.id }
-      );
+        await BooksSeriesService.update(
+          oldFullBook.bookBase.id,
+          oldFullBook.series.id,
+          { 
+            bookId: data.bookBase.id, 
+            seriesId: data.series.id,
+            indexVolume: data.bookBase.indexVolume
+          }
+        );
     } else if (data.series !== undefined && oldFullBook.series !== undefined && oldFullBook.series.id === null) {
-      await BooksSeriesService.findOrCreate(data.bookBase.id, data.series.id!);
+      await BooksSeriesService.createLink(data.bookBase.id, data.series.id!);
     }
     
     const newFullBook = await detail(id);

@@ -20,7 +20,7 @@ export const create = async (req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El ID debe ser un string");
   }
 
-  const result = await BooksCollectionsService.findOrCreate(newBookId, newCollectionId);
+  const result = await BooksCollectionsService.createLink(newBookId, newCollectionId);
   const response: APIResponse<BooksCollections> = {
     success: true,
     data: result

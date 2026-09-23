@@ -3,7 +3,7 @@ import * as BooksCollectionsRepository from "../repositories/books-collections.r
 import type { BooksCollections, BooksCollectionsDTO } from "@shared/types";
 
 
-export async function findOrCreate(bookId: number, collectionId: number): Promise<BooksCollections | never>{
+export async function createLink(bookId: number, collectionId: number): Promise<BooksCollections | never>{
 
   const exists = await BooksCollectionsRepository.findById(bookId, collectionId);
 
@@ -14,8 +14,7 @@ export async function findOrCreate(bookId: number, collectionId: number): Promis
       throw createHttpError(400, "Se ha producido un error")
     }
 
-    const result = await BooksCollectionsRepository.findById(bookId, collectionId);
-    return result;
+    return await BooksCollectionsRepository.findById(bookId, collectionId);
   } else {
     return exists;
   }
