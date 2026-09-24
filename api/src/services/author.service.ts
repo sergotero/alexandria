@@ -2,25 +2,25 @@ import createHttpError from "http-errors";
 import * as AuthorRepository from "../repositories/author.repository.js";
 import type { Author, AuthorDTO } from "@shared/types";
 
-export async function findOrCreate(data: AuthorDTO | Author): Promise<Author> {
-  
-  const name = data.name!;
-  const lastname1 = data.lastname1 === undefined ? null : data.lastname1!;
-  const lastname2 = data.lastname2 === undefined ? null : data.lastname2!;
-  const lastname3 = data.lastname3 === undefined ? null : data.lastname3!;
+export async function create(data: AuthorDTO): Promise<Author | never> {
+
+  const name = data.name;
+  const lastname1 = (data.lastname1 === undefined || data.lastname1 === "")? null : data.lastname1;
+  const lastname2 = (data.lastname2 === undefined || data.lastname2 === "")? null : data.lastname2;
+  const lastname3 = (data.lastname3 === undefined || data.lastname3 === "")? null : data.lastname3;
   const alias = `${name} ${lastname1 ?? ""} ${lastname2 ?? ""} ${lastname3 ?? ""}`.trim();
   
   const author: AuthorDTO = {
-    name: name!,
-    lastname1: lastname1,
-    lastname2: lastname2,
-    lastname3: lastname3,
+    name,
+    lastname1,
+    lastname2,
+    lastname3,
   }
   
   const existing = await AuthorRepository.findByAlias(alias);
 
   if (existing.length !== 0) {
-    return existing[0] as Author;
+    throw createHttpError(400, "El autor ya existe en la base de datos");
   }
 
   const result = await AuthorRepository.create(author);
@@ -29,14 +29,11 @@ export async function findOrCreate(data: AuthorDTO | Author): Promise<Author> {
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  const newAuthor = await detail(result.insertId);
-  
-  return newAuthor;
+  return await detail(result.insertId);
 }
 
 export async function list(): Promise<Author[]> {
-  const authors = await AuthorRepository.findAll();
-  return authors;
+  return await AuthorRepository.findAll();
 }
 
 export async function detail(id: number): Promise<Author> {
@@ -70,9 +67,7 @@ export async function update(id: number, data: AuthorDTO): Promise<Author | neve
     throw createHttpError(400, "Se ha producido un error");
   }
 
-  const updatedAuthor = await detail(id);
-
-  return updatedAuthor;
+  return await detail(id);
 };
 
 export async function destroy(id: number): Promise<true | never> {

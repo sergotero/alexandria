@@ -26,6 +26,8 @@ http.interceptors.response.use(
   }
 );
 
+export const create = async (data: AuthorDTO): Promise<APIResponse<Author>> => await http.post(`/author`, data);
+
 export const list = async (): Promise<APIResponse<Author[]>> => await http.get(`/author`);
 
 export const update = async(id: string, data: AuthorDTO): Promise<APIResponse<Author>> => await http.patch(`/author/${id}`, data);

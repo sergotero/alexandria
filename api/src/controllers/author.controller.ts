@@ -13,7 +13,7 @@ export async function create(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El nombre debe ser un string");
   }
 
-  const author = await AuthorService.findOrCreate(req.body);
+  const author = await AuthorService.create(req.body);
   const response: APIResponse<Author> = {
     success: true,
     data: author

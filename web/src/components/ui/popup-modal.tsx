@@ -10,8 +10,7 @@ type PopUpModalProp = {
 };
 
 function PopUpModal({ id, text, icon, warning, children }: PopUpModalProp){
-  console.log("Aviso: ", warning);
-  
+
   return(
     <>
       <button 

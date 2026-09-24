@@ -56,7 +56,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
       <fieldset>
         <legend className="text-white">&nbsp;Nueva serie&nbsp;</legend>
         <div className="input-group">
-          <label htmlFor="name" className="text-white">Nombre</label>
+          <label htmlFor="name" className="text-white">Nombre*</label>
           <input 
             {...register("name", {
               required: true
@@ -67,7 +67,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
         </div>
 
         <div className="input-group">
-          <label htmlFor="volumes" className="text-white">Volumes</label>
+          <label htmlFor="volumes" className="text-white">Volumes*</label>
           <input 
             {...register("volumes", {
               required: true,
@@ -79,7 +79,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
         </div>
 
         <div className="input-group">
-          <label htmlFor="status" className="text-white">Status</label>
+          <label htmlFor="status" className="text-white">Estatus*</label>
           <select
             {...register("status", {
               required: true
@@ -95,6 +95,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
         <button type="submit" className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
           Crear
         </button>
+        <p className="inline ms-15 text-white text-center text-xs">Los campos marcados con * son obligatorios</p>
       </fieldset>
     </form>
   )

@@ -17,6 +17,7 @@ import PopUpModal from "../components/ui/popup-modal.tsx";
 import { isApiError } from "../services/utils.services.tsx";
 import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
 import CreateFullbookForm from "../components/forms/create-forms/create-fullbook-form.tsx";
+import CreateAuthorForm from "../components/forms/create-forms/create-author-form.tsx";
 
 function HomePage() {
   const [ queryParams, setQueryParams ] = useSearchParams();
@@ -219,6 +220,17 @@ function HomePage() {
             </button>
           </div>
           <div className="grid grid-flow-row grid-cols-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
+            <PopUpModal
+              id={"add-author"}
+              text={"Autor"}
+              icon={<FontAwesomeIcon icon="plus"/>}
+              warning={warning}
+              >
+                <CreateAuthorForm 
+                  warning={warning} 
+                  setWarning={setWarning}
+                />
+            </PopUpModal>
             <PopUpModal
               id={"add-series"}
               text={"Serie"}
