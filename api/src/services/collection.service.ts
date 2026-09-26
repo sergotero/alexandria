@@ -43,14 +43,29 @@ export async function update(id: number, data: CollectionDTO): Promise<Collectio
       colorCode: data.colorCode
     };
   }
-
   const result = await CollectionRepository.findByIdAndUpdate(id, newCollection);
-
+  
   if (result.affectedRows === 0) {
     throw createHttpError(400, "Se ha producido un error durante la actualización");
   }
-
+  
   return await detail(id);
+}
+
+export async function updateAll(data: Collection[]): Promise<Collection[] | never> {
+
+  const groupedData: (string|number)[][] = [];
+  
+  for (let i = 0; i < data.length; i++) {
+    const collection = data[i] as Collection;
+    const col: (string|number)[] = [];
+    col.push(capitalize(collection.name)!, collection.colorCode, collection.id);
+    groupedData.push(col);
+  }
+  
+  await CollectionRepository.findByIdAndUpdateAll(groupedData);
+
+  return await list();
 }
 
 export async function destroy(id: number): Promise<true | never> {

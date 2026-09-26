@@ -62,17 +62,44 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 export async function update(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
   const newId = Number(id);
-
+  
   if (newId === undefined) {
     throw createHttpError(400, "El el ID de la colección es un parámetro obligatorio");
   } else if (typeof newId !== 'number') {
     throw createHttpError(400, "El el ID de la colección no es válido");
   }
-
+  
   const collection = await CollectionService.update(newId, req.body);
   const response: APIResponse<Collection> = {
     success: true,
     data: collection
+  };
+  res.status(200).json(response);
+}
+
+export async function updateAll(req: Request, res: Response): Promise<void | never> {
+  const data = req.body;
+  
+  for (let i = 0; i < data.length; i++) {
+    const collection = data[i];
+
+    if(collection.id === undefined) {
+      throw createHttpError(400, "Todas las colecciones deben tener un identificador");
+    }
+    
+    if (collection.name === undefined || collection.name === "") {
+      throw createHttpError(400, "Todas las colecciones deben tener un nombre");
+    }
+    
+    if (collection.name === undefined || !/^\#{1}[a-fA-F0-9]{6}$/.test(collection.colorCode)) {
+      throw createHttpError(400, "Todos los colores deben tener un formato hexadecimal");
+    }
+  }
+  
+  const collections = await CollectionService.updateAll(data);
+  const response: APIResponse<Collection[]> = {
+    success: true,
+    data: collections
   };
   res.status(200).json(response);
 }

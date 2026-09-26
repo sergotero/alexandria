@@ -29,4 +29,4 @@ export const create = async (data: CollectionDTO): Promise<APIResponse<Collectio
 
 export const list = async (): Promise<APIResponse<Collection[]>> => await http.get("/collection");
 
-// export const update = async (fullbook: FullBook, data: Collection): Promise<APIResponse<Collection>> => await http.patch(`/collection/${fullbook.collection.id}`, data);
+export const updateAll = async (data: Collection[]): Promise<APIResponse<Collection>> => await http.patch(`/collections`, data);

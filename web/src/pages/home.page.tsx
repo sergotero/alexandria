@@ -18,6 +18,7 @@ import { isApiError } from "../services/utils.services.tsx";
 import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
 import CreateFullbookForm from "../components/forms/create-forms/create-fullbook-form.tsx";
 import CreateAuthorForm from "../components/forms/create-forms/create-author-form.tsx";
+import EditCollectionsForm from "../components/forms/edit-forms/edit-collections-form.tsx";
 
 function HomePage() {
   const [ queryParams, setQueryParams ] = useSearchParams();
@@ -265,6 +266,19 @@ function HomePage() {
                   authorList={authorList}
                   collectionList={collectionList} 
                   seriesList={seriesList}
+                />
+            </PopUpModal>
+            <PopUpModal
+              id={"mod-collections"}
+              text={" Collections"}
+              icon={<FontAwesomeIcon fontSize={14} icon="screwdriver-wrench"/>}
+              warning={warning}
+              >
+                <EditCollectionsForm
+                  collectionList={collectionList}
+                  setCollectionList={setCollectionList}
+                  warning={warning}
+                  setWarning={setWarning}
                 />
             </PopUpModal>
           </div>

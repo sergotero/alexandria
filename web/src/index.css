@@ -106,3 +106,19 @@ input[type="color"]{
   height: 4rem;
   width: 4rem;
 }
+
+/* Styles for modifiying collections */
+.input-group.mod-collections{
+  display: flex;
+  width: 100%;
+  gap: 0.25rem;
+}
+
+.input-group.mod-collections> input[type="color"] {
+  width: 40%;
+  height: 2rem;
+}
+
+.input-group.mod-collections> input{
+  width: 60%;
+}
