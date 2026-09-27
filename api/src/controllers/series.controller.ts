@@ -23,13 +23,11 @@ export async function create(req: Request, res: Response): Promise<void | never>
   
   if (status === undefined) {
     throw createHttpError(400, "El estado es un parámetro obligatorio");
-  } else if (typeof status !== "string") {
-    throw createHttpError(400, "El tipado del estado no es válido");
-  } else if(!statuses.includes(status)) {
-    throw createHttpError(400, "El estado no se encuentra definido en la base de datos");
+  } else if (typeof status !== "string" && !statuses.includes(status)) {
+    throw createHttpError(400, "El tipado del estado no es válido o el estado no se encuentra definido en la base de datos");
   }
 
-  const series = await SeriesService.findOrCreate(req.body);
+  const series = await SeriesService.findOrCreate({name, volumes, status});
   const response: APIResponse<Series> = {
     success: true,
     data: series
@@ -65,7 +63,9 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 }
 
 export async function update(req: Request, res: Response): Promise<void | never> {
+  const statuses = ["Abierta", "Cerrada", "Desconocido"];
   const { id } = req.params;
+  const {name, volumes, status } = req.body;
   const newId = Number(id);
 
   if (newId === undefined) {
@@ -74,7 +74,25 @@ export async function update(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El ID de la serie no es válido");
   }
 
-  const series = await SeriesService.update(newId, req.body);
+  if (name === undefined) {
+    throw createHttpError(400, "El nombre de la serie es un parámetro obligatorio");
+  } else if (typeof name !== 'string') {
+    throw createHttpError(400, "El tipado del nombre de la serie no es válido");
+  }
+
+  if (volumes === undefined) {
+    throw createHttpError(400, "Los volúmenes de la serie son un parámetro obligatorio");
+  } else if (typeof volumes !== 'number') {
+    throw createHttpError(400, "El tipado de los volúmenes de la serie no es válido");
+  }
+
+  if (status === undefined) {
+    throw createHttpError(400, "El estado es un parámetro obligatorio");
+  } else if (typeof status !== "string" && !statuses.includes(status)) {
+    throw createHttpError(400, "El tipado del estado no es válido o el estado no se encuentra definido en la base de datos");
+  }
+
+  const series = await SeriesService.update(newId, {id: newId, name, volumes, status});
   const response: APIResponse<Series> = {
     success: true,
     data: series

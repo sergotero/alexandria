@@ -1,29 +1,49 @@
 import type { ServerMessage } from "@shared/types";
-import { type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 
 type PopUpModalProp = {
   id: string,
   text: string,
   icon?: ReactNode,
   warning?: ServerMessage | null,
-  children: ReactNode
+  children: ReactNode,
+  color?: string,
+  title?: string,
 };
 
-function PopUpModal({ id, text, icon, warning, children }: PopUpModalProp){
+function PopUpModal({id, text, icon, warning, children, color = "#007a55", title}: PopUpModalProp) {
+  
+  const themeStyle = {
+    "--theme-color": color,
+    "--theme-color-hover": `color-mix(in srgb, ${color}, white 18%)`,
+  } as CSSProperties;
 
-  return(
+  return (
     <>
-      <button 
-        popoverTarget={`${id}`}
-        type="button" 
-        className="bg-emerald-600 hover:bg-emerald-500 hover:cursor-pointer text-white rounded-md disabled:bg-zinc-600 disabled:cursor-default m-1 ps-1 pe-2">
-          {icon && icon}{text}
+      <button
+        popoverTarget={id}
+        type="button"
+        style={themeStyle}
+        className="bg-[var(--theme-color)] hover:bg-[var(--theme-color-hover)] hover:cursor-pointer text-white rounded-md disabled:bg-zinc-600 disabled:cursor-default transition-colors duration-150"
+        title={title}
+        aria-label={title}
+      >
+        {icon && icon}
+        {text}
       </button>
-      <dialog id={`${id}`} popover="auto">
-        {warning && warning.success &&
-          <div className="success">{warning.data.message}</div>}
-        {warning && warning.success === false &&
-          <div className="error">{warning.data.message}</div>}
+
+      <dialog
+        id={id}
+        popover="auto"
+        style={themeStyle}
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] max-w-[1000px] max-h-[90vh] p-[1%] bg-[#09090b] rounded-xl border border-[var(--theme-color)] shadow-[0_0_200px_10px_var(--theme-color)] [scrollbar-width:none] backdrop:bg-black/80"
+      >
+        {warning && warning.success && (
+          <div className="success">{warning.data.message}</div>
+        )}
+        {warning && warning.success === false && (
+          <div className="error">{warning.data.message}</div>
+        )}
         {children}
       </dialog>
     </>

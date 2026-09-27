@@ -59,7 +59,7 @@ export async function updateAll(data: Collection[]): Promise<Collection[] | neve
   for (let i = 0; i < data.length; i++) {
     const collection = data[i] as Collection;
     const col: (string|number)[] = [];
-    col.push(capitalize(collection.name)!, collection.colorCode, collection.id);
+    col.push(collection.name, collection.colorCode, collection.id);
     groupedData.push(col);
   }
   

@@ -18,7 +18,9 @@ import { isApiError } from "../services/utils.services.tsx";
 import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
 import CreateFullbookForm from "../components/forms/create-forms/create-fullbook-form.tsx";
 import CreateAuthorForm from "../components/forms/create-forms/create-author-form.tsx";
-import EditCollectionsForm from "../components/forms/edit-forms/edit-collections-form.tsx";
+import EditAllCollectionsForm from "../components/forms/edit-forms/edit-all-collections-form.tsx";
+import EditAllSeriesForm from "../components/forms/edit-forms/edit-all-series-form.tsx";
+import EditAllAuthorsForm from "../components/forms/edit-forms/edit-all-authors-form.tsx";
 
 function HomePage() {
   const [ queryParams, setQueryParams ] = useSearchParams();
@@ -204,7 +206,7 @@ function HomePage() {
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
         {/* Buttons */}
         <div className="flex gap-5 align-top justify-center w-[80%]">
-          <div className="flex items-center justify-center gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
+          <div className="grid grid-flow-row grid-cols-6 gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
             <button
               className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default"
               type="button"
@@ -219,14 +221,12 @@ function HomePage() {
               disabled={list.length < 18}>
                 Siguiente<FontAwesomeIcon icon="angle-right"/>
             </button>
-          </div>
-          <div className="grid grid-flow-row grid-cols-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
             <PopUpModal
               id={"add-author"}
-              text={"Autor"}
-              icon={<FontAwesomeIcon icon="plus"/>}
+              text={" Autor"}
+              icon={<FontAwesomeIcon fontSize={14} icon="user-plus"/>}
               warning={warning}
-              >
+              title={"Añadir nuevo usuario"}>
                 <CreateAuthorForm 
                   warning={warning} 
                   setWarning={setWarning}
@@ -234,10 +234,10 @@ function HomePage() {
             </PopUpModal>
             <PopUpModal
               id={"add-series"}
-              text={"Serie"}
-              icon={<FontAwesomeIcon icon="plus"/>}
+              text={" Serie"}
+              icon={<FontAwesomeIcon fontSize={14} icon="layer-group"/>}
               warning={warning}
-              >
+              title={"Añadir nueva serie"}>
                 <CreateSeriesForm 
                   warning={warning} 
                   setWarning={setWarning}
@@ -245,10 +245,10 @@ function HomePage() {
             </PopUpModal>
             <PopUpModal
               id={"add-collection"}
-              text={"Colección"}
-              icon={<FontAwesomeIcon icon="plus"/>}
+              text={" Colección"}
+              icon={<FontAwesomeIcon fontSize={14} icon="folder-plus"/>}
               warning={warning}
-              >
+              title={"Añadir nueva colección"}>
                 <CreateCollectionForm 
                   warning={warning}
                   setWarning={setWarning}
@@ -256,10 +256,10 @@ function HomePage() {
             </PopUpModal>
             <PopUpModal
               id={"add-fullbook"}
-              text={"Libro"}
-              icon={<FontAwesomeIcon icon="plus"/>}
+              text={" Libro"}
+              icon={<FontAwesomeIcon fontSize={14} icon="book"/>}
               warning={warning}
-              >
+              title={"Añadir nuevo libro"}>
                 <CreateFullbookForm
                   warning={warning}
                   setWarning={setWarning}
@@ -268,13 +268,44 @@ function HomePage() {
                   seriesList={seriesList}
                 />
             </PopUpModal>
+          </div>
+          <div className="grid grid-flow-row grid-cols-3 gap-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
+            <PopUpModal
+              id={"mod-authors"}
+              text={" Autores"}
+              icon={<FontAwesomeIcon fontSize={14} icon="user-pen"/>}
+              warning={warning}
+              color={"#432dd7"}
+              title={"Modificar autores"}>
+                <EditAllAuthorsForm
+                  authorList={authorList}
+                  setAuthorList={setAuthorList}
+                  warning={warning}
+                  setWarning={setWarning}
+                />
+            </PopUpModal>
+            <PopUpModal
+              id={"mod-series"}
+              text={" Series"}
+              icon={<FontAwesomeIcon fontSize={14} icon="pen-to-square"/>}
+              warning={warning}
+              color={"#432dd7"}
+              title={"Modificar series"}>
+                <EditAllSeriesForm
+                  seriesList={seriesList}
+                  setSeriesList={setSeriesList}
+                  warning={warning}
+                  setWarning={setWarning}
+                />
+            </PopUpModal>
             <PopUpModal
               id={"mod-collections"}
-              text={" Collections"}
-              icon={<FontAwesomeIcon fontSize={14} icon="screwdriver-wrench"/>}
+              text={" Colecciones"}
+              icon={<FontAwesomeIcon fontSize={14} icon="folder-open"/>}
               warning={warning}
-              >
-                <EditCollectionsForm
+              color={"#432dd7"}
+              title={"Modificar colecciones"}>
+                <EditAllCollectionsForm
                   collectionList={collectionList}
                   setCollectionList={setCollectionList}
                   warning={warning}

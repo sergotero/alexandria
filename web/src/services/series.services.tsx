@@ -28,3 +28,7 @@ http.interceptors.response.use(
 export const create = async(data: SeriesDTO): Promise<APIResponse<Series>> => await http.post("/series", data);
 
 export const list = async (): Promise<APIResponse<SeriesList[]>> => await http.get("/series");
+
+export const detail = async(id: number): Promise<APIResponse<SeriesList>> => await http.get(`/series/${id}`);
+
+export const update = async(id: number, data: SeriesList): Promise<APIResponse<Series>> => await http.patch(`/series/${id}`, data);

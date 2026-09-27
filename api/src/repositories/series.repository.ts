@@ -7,15 +7,15 @@ export async function create(series: SeriesDTO): Promise<SQLResponse>{
 }
 
 export async function findAll(): Promise<SeriesList[]>{
-  return await query("SELECT * FROM series ORDER BY name");
+  return await query("SELECT id, name, total_vol AS volumes, status FROM series ORDER BY name");
 }
 
 export async function findById(id: number): Promise<Series[]>{
-  return await query("SELECT * FROM series WHERE id = ?", [id]);
+  return await query("SELECT id, name, total_vol AS volumes, status FROM series WHERE id = ?", [id]);
 }
 
 export async function findByName(name: string): Promise<Series[]>{
-  return await query("SELECT * FROM series WHERE name = ?", [name]);
+  return await query("SELECT id, name, total_vol AS volumes, status FROM series WHERE name = ?", [name]);
 }
 
 export async function findByIdAndUpdate(id: number, series: SeriesDTO){

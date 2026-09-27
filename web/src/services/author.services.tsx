@@ -30,4 +30,6 @@ export const create = async (data: AuthorDTO): Promise<APIResponse<Author>> => a
 
 export const list = async (): Promise<APIResponse<Author[]>> => await http.get(`/author`);
 
-export const update = async(id: string, data: AuthorDTO): Promise<APIResponse<Author>> => await http.patch(`/author/${id}`, data);
+export const update = async(id: number, data: Author): Promise<APIResponse<Author>> => await http.patch(`/author/${id}`, data);
+
+export const detail = async(id: number): Promise<APIResponse<Author>> => await http.get(`/author/${id}`);

@@ -10,7 +10,7 @@ type EditCollectionsFormProps = {
   setWarning: (data: ServerMessage | null) => void
 }
 
-function EditCollectionsForm({ collectionList, setCollectionList, warning, setWarning }: EditCollectionsFormProps){
+function EditAllCollectionsForm({ collectionList, setCollectionList, warning, setWarning }: EditCollectionsFormProps){
 
   "use no memory";
   
@@ -87,11 +87,11 @@ function EditCollectionsForm({ collectionList, setCollectionList, warning, setWa
         })}
       </fieldset>
       <button type="submit" className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
-        Modificar
+        Actualizar
       </button>
       {/* <p className="inline ms-15 text-white text-center text-xs">Los campos marcados con * son obligatorios</p> */}
     </form>
   );
 }
 
-export default EditCollectionsForm;
+export default EditAllCollectionsForm;

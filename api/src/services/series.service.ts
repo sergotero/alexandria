@@ -2,7 +2,6 @@ import createHttpError from "http-errors";
 import * as SeriesRepository from "./../repositories/series.repository.js";
 import type { Series, SeriesDTO, SeriesList } from "@shared/types";
 
-
 export async function findOrCreate(data: Series | SeriesDTO): Promise<Series | never> {
 
   const series: SeriesDTO = {
@@ -38,21 +37,13 @@ export async function detail(id: number): Promise<Series> {
   return series[0] as Series;
 }
 
-export async function update(id: number, data: Series): Promise<Series | never> {
+export async function update(id: number, data: SeriesList): Promise<Series | never> {
   
-  let series: SeriesDTO;
-  
-  if (data.name === null || data.status === null) {
-    series = {
-    volumes: Number(data.volumes),
-  };
-  } else {
-    series = {
-      name: data.name,
+  const series: SeriesDTO = {
+      name: data.name!,
       volumes: Number(data.volumes),
       status: data.status
     };
-  }
 
   const result = await SeriesRepository.findByIdAndUpdate(id, series);
 

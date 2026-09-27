@@ -59,32 +59,6 @@ input[type="file"]{
   aspect-ratio: 1600 / 2215;
 }
 
-dialog{
-  background-color: #09090b;
-  max-height: 90vh;
-  scrollbar-width: none;
-  width: 500px;
-  max-width: 1000px;
-  padding: 1%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 0.75rem;
-  border: 1px solid;
-  border-color: #007a55;
-  box-shadow: 0 0 200px 10px #007a55;
-}
-
-dialog fieldset{
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 0.8rem;
-  background-color: #27272a;
-}
-
-dialog::backdrop{
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
 .error, .success{
   border-radius: 10px;
   padding: 0.5rem;

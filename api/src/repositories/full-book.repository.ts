@@ -23,7 +23,10 @@ export async function findAll(limit: number, offset: number): Promise<FullBook[]
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -31,6 +34,7 @@ export async function findAll(limit: number, offset: number): Promise<FullBook[]
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     ORDER BY author_alias,
       series_name,
       indexVolume,
@@ -62,7 +66,10 @@ export async function findById(id: number): Promise<any[]> {
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -70,6 +77,7 @@ export async function findById(id: number): Promise<any[]> {
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     WHERE booksauthors.book_id = ?
     ORDER BY author_alias,
       series_name,
@@ -103,7 +111,10 @@ export async function findByTitle(title: string, limit: number, offset: number):
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -111,6 +122,7 @@ export async function findByTitle(title: string, limit: number, offset: number):
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     WHERE books.title LIKE ?
     ORDER BY author_alias,
       series_name,
@@ -144,7 +156,10 @@ export async function findByAuthor(alias: string, limit: number, offset: number)
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -152,6 +167,7 @@ export async function findByAuthor(alias: string, limit: number, offset: number)
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     WHERE authors.alias LIKE ?
     ORDER BY author_alias,
       series_name,
@@ -185,7 +201,10 @@ export async function findByCollection(name: string, limit: number, offset: numb
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -193,6 +212,7 @@ export async function findByCollection(name: string, limit: number, offset: numb
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     WHERE collections.name LIKE ?
     ORDER BY author_alias,
       series_name,
@@ -226,7 +246,10 @@ export async function findBySeries(name: string, limit: number, offset: number):
       series.total_vol AS volumes,
       series.status AS status,
       collections.name AS collection_name,
-      collections.color_code AS color_code
+      collections.color_code AS color_code,
+      readbooks.reading_date AS fecha_lectura,
+      readbooks.score AS score,
+      readbooks.comments AS comments
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -234,6 +257,7 @@ export async function findBySeries(name: string, limit: number, offset: number):
       LEFT JOIN series ON series.id = booksseries.series_id
       LEFT JOIN bookscollections ON bookscollections.book_id = books.id
       LEFT JOIN collections ON collections.id = bookscollections.collection_id
+      LEFT JOIN readbooks ON readbooks.book_id = books.id AND readbooks.author_id = authors.id
     WHERE series.name LIKE ?
     ORDER BY author_alias,
       series_name,
