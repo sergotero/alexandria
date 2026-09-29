@@ -1,10 +1,10 @@
 import createHttpError from "http-errors";
 import * as ReadBookRepository from "./../repositories/read-book.repository.js";
-import type { ReadBook, ReadBookDTO } from "@shared/types";
+import type { ExtendedReview, ExtendedReviewDTO } from "@shared/types";
 
-export async function create(data: any): Promise<ReadBook | never> {
+export async function create(data: ExtendedReviewDTO): Promise<ExtendedReview | never> {
 
-  const readBook: ReadBookDTO = {
+  const readBook: ExtendedReviewDTO = {
     bookId: data.bookId,
     authorId: data.authorId,
     readingDate: data.readingDate,
@@ -12,7 +12,7 @@ export async function create(data: any): Promise<ReadBook | never> {
     comments: data.comments,
     completed: data.completed
   }
-
+  //Falta find
   const result = await ReadBookRepository.create(readBook);
 
   if (result.affectedRows === 0) {
@@ -22,10 +22,10 @@ export async function create(data: any): Promise<ReadBook | never> {
   return await detail(result.insertId);
 }
 
-export async function list(): Promise<ReadBook[]> {
+export async function list(): Promise<ExtendedReview[]> {
   const result = await ReadBookRepository.list();
   const readBooks = result.map((book: any) => {
-    const readBook: ReadBook = {
+    const readBook: ExtendedReview = {
       id: Number(book.id),
       bookId: Number(book.bookId),
       authorId: Number(book.authorId),
@@ -41,9 +41,10 @@ export async function list(): Promise<ReadBook[]> {
   return readBooks;
 }
 
-export async function detail(bookId: number): Promise<ReadBook> {
+export async function detail(bookId: number): Promise<ExtendedReview> {
   const book = await ReadBookRepository.detail(bookId);
-  const readBook: ReadBook = {
+
+  const readBook: ExtendedReview = {
     id: Number(book[0]!.id),
     bookId: Number(book[0]!.bookId),
     authorId: Number(book[0]!.authorId),
@@ -57,8 +58,8 @@ export async function detail(bookId: number): Promise<ReadBook> {
   return readBook;
 }
 
-export async function update(id: number, data: ReadBook): Promise<ReadBook | never> {
-    const bookData: ReadBookDTO = {
+export async function update(id: number, data: ExtendedReviewDTO): Promise<ExtendedReview | never> {
+    const bookData: ExtendedReviewDTO = {
     bookId: data.bookId,
     authorId: data.authorId,
     readingDate: data.readingDate,

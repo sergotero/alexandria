@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Author, Collection, FullBook, SeriesList, ServerMessage } from "@shared/types";
+import type { Author, Collection, FullBook, SeriesList, ServerMessage, SimpleReview } from "@shared/types";
 import { useSearchParams } from "react-router";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
@@ -14,7 +14,7 @@ import SearchBar from "../components/ui/search-bar.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateSeriesForm from "../components/forms/create-forms/create-series-form.tsx";
 import PopUpModal from "../components/ui/popup-modal.tsx";
-import { isApiError } from "../services/utils.services.tsx";
+import { isApiError, dateFormatter } from "../services/utils.services.tsx";
 import CreateCollectionForm from "../components/forms/create-forms/create-collection-form.tsx";
 import CreateFullbookForm from "../components/forms/create-forms/create-fullbook-form.tsx";
 import CreateAuthorForm from "../components/forms/create-forms/create-author-form.tsx";
@@ -33,10 +33,11 @@ function HomePage() {
   const [ warning, setWarning ] = useState<ServerMessage | null>(null);
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
+  // const [ review, setReview ] = useState<SimpleReview | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
-  const [ activeTab, setActiveTab ] = useState<"details" | "edition" | "opinion">("details");
+  const [ activeTab, setActiveTab ] = useState<"details" | "edition" | "review">("details");
 
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
@@ -257,7 +258,7 @@ function HomePage() {
             <PopUpModal
               id={"add-fullbook"}
               text={" Libro"}
-              icon={<FontAwesomeIcon fontSize={14} icon="book"/>}
+              icon={<FontAwesomeIcon fontSize={14} icon="book-medical"/>}
               warning={warning}
               title={"Añadir nuevo libro"}>
                 <CreateFullbookForm
@@ -342,9 +343,9 @@ function HomePage() {
                     Actualizar
                   </button>
                   <button
-                    className={`${activeTab === "opinion" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                    className={`${activeTab === "review" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                     type="button"
-                    onClick={() => (setActiveTab("opinion"))}>
+                    onClick={() => (setActiveTab("review"))}>
                     Reseña
                   </button>
                 </div>
@@ -362,6 +363,33 @@ function HomePage() {
                       collectionList={collectionList}
                       seriesList={seriesList}
                     />
+                  )}
+                  {activeTab === "review" && !details?.review?.id && (
+                    <div className="flex flex-col gap-5">
+                      <h1 className="font-extrabold text-3xl text-center">Este libro todavía no tiene una reseña.</h1>
+                      <button
+                        className="bg-emerald-600 hover:bg-emerald-500 hover:cursor-pointer text-white min-w-24 rounded-md ps-2 pe-2 disabled:bg-zinc-600 disabled:cursor-default self-center"
+                        type="button">
+                          Añadir reseña
+                      </button>
+                    </div>
+                  )}
+                  {activeTab === "review" && details?.review?.id && (
+                    <div>
+                      <div className="flex">
+                        <div className="w-[70%]">
+                          <p>Fecha: {dateFormatter(details.review.readingDate!)}</p>
+                          <p>Completado: {details.review.completed ? "Sí" : "No"}</p>
+                        </div>
+                        <div className="flex flex-col justify-center items-center w-[30%] min-h-[120px] bg-zinc-900 rounded-2xl">
+                          <p className="italic text-sm -mt-3">Puntuación</p>
+                          <h1 className="text-7xl text-center">{details.review.score}</h1>
+                        </div>
+                      </div>
+                        <div className="p-2">
+                          <p className="italic text-justify">{details.review.comments}</p>
+                        </div>
+                    </div>
                   )}
                 </div>
               </>

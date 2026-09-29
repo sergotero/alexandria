@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import type { Author, BookBase, BookBaseDTO, Collection, FullBook, FullBookDTO, Series } from "@shared/types";
+import type { Author, BookBase, BookBaseDTO, Collection, FullBook, FullBookDTO, Series, SimpleReview } from "@shared/types";
 import * as FullBookRepository from "../repositories/full-book.repository.js";
 import * as BookBaseService from "./../services/book-base.service.js";
 import * as AuthorService from "./author.service.js";
@@ -102,11 +102,19 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
       name: book.collection_name,
       colorCode: book.color_code
     }
+    const review: SimpleReview = {
+      id: book.review_id,
+      readingDate: book.fecha_lectura,
+      score: book.score,
+      comments: book.comments,
+      completed: book.completed
+    }
     const fullBook: FullBook = {
       bookBase,
       author,
       series,
-      collection
+      collection,
+      review
     }
 
     return fullBook;
@@ -150,11 +158,19 @@ export async function detail(id: number): Promise<FullBook> {
       colorCode: book[0].color_code
     }
 
+    const review: SimpleReview = {
+      id: book[0].review_id,
+      readingDate: book[0].fecha_lectura,
+      score: book[0].score,
+      comments: book[0].comments,
+      completed: book[0].completed
+    }
     const fullBook: FullBook = {
       bookBase,
       author,
       series,
-      collection
+      collection,
+      review
     }
 
   return fullBook;

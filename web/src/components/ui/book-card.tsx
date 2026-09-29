@@ -6,24 +6,32 @@ function BookCard({ bookBase, author, collection }: FullBook) {
       <div className="w-[30%]">
         <img
           className="covers object-fill rounded-md"
-          src={bookBase.cover ? bookBase.cover : "https://res.cloudinary.com/da8iuexu4/image/upload/v1783292999/404-cover_y3yscb.png"}
+          src={
+            bookBase.cover ? 
+            bookBase.cover : 
+            "https://res.cloudinary.com/da8iuexu4/image/upload/v1783292999/404-cover_y3yscb.png"
+          }
           alt={bookBase.title}
         />
       </div>
       <div className="w-[70%] flex flex-col">
-        <h6 
-          className={`font-bold text-sm`}>
-            {bookBase.title.length >= 50 ? bookBase.title.slice(0, 50) + "..." : bookBase.title}
+        <h6 className={`font-bold text-sm`}>
+            {
+              bookBase.title.length >= 50 ?
+              bookBase.title.slice(0, 50) + "..." :
+              bookBase.title
+            }
         </h6>
-        <p 
-          className={`font-light text-sm italic`}>
+        <p className={`font-light text-sm italic`}>
             {author.alias}
         </p>
-        <span 
-          className={`block self-end mt-auto min-w-25 text-center p-1 m-1 rounded-md text-sm`}
-          style={{ backgroundColor: collection.colorCode }}>
-            {collection.name}
-          </span>
+        <div className="flex mt-auto">
+          <div 
+            className={`ms-auto mt-auto min-w-[50%] max-w-[70%] text-center p-1 rounded-md text-sm`}
+            style={{ backgroundColor: collection.colorCode }}>
+              {collection.name}
+            </div>
+        </div>
       </div>
     </div>
   );

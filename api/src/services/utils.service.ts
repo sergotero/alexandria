@@ -1,4 +1,4 @@
-import type { Author, BookBase, Collection, FullBook, Series } from '@shared/types';
+import type { Author, BookBase, Collection, FullBook, Series, SimpleReview } from '@shared/types';
 import bcrypt from "bcryptjs";
 import type { SqlError } from 'mariadb';
 
@@ -57,11 +57,20 @@ export function fullBookGenerator(book: any): FullBook{
     colorCode: book.color_code
   }
 
+  const review: SimpleReview = {
+    id: book.review_id,
+    readingDate: book.fecha_lectura,
+    score: book.score,
+    comments: book.comments,
+    completed: book.completed
+  }
+
   return {
     bookBase,
     author,
     series,
-    collection
+    collection,
+    review
   } as FullBook;
 }
 

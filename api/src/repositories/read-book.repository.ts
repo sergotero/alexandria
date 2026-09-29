@@ -1,12 +1,12 @@
-import type { ReadBook, ReadBookDTO, SQLResponse, SQLValue } from "@shared/types";
+import type { ExtendedReview, ExtendedReviewDTO, SQLResponse, SQLValue } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
-export async function create(readBook: ReadBookDTO): Promise<SQLResponse>{
+export async function create(readBook: ExtendedReviewDTO): Promise<SQLResponse>{
   
-  return await query(`INSERT INTO readbooks (book_id, author_id, reading_date, score, comments, completed) VALUES (?, ?, ?, ?, ?, ?)`, [readBook.bookId, readBook.authorId, readBook.readingDate, readBook.score, readBook.comments ?? null, readBook.completed]);
+  return await query(`INSERT INTO readbooks (book_id, author_id, reading_date, score, comments, completed) VALUES (?, ?, ?, ?, ?, ?)`, [readBook.bookId, readBook.authorId, readBook.readingDate, readBook.score, readBook.comments, readBook.completed]);
 }
-export async function list(): Promise<ReadBook[]>{
+export async function list(): Promise<ExtendedReview[]>{
   return await query(`
     SELECT 
       readbooks.id AS id,
@@ -27,7 +27,7 @@ export async function list(): Promise<ReadBook[]>{
       books.title
   `);
 }
-export async function detail(id: number): Promise<ReadBook[]> {
+export async function detail(id: number): Promise<ExtendedReview[]> {
   return await query(`
     SELECT 
       readbooks.id AS id,
@@ -50,7 +50,7 @@ export async function detail(id: number): Promise<ReadBook[]> {
   `, [id]);
 }
 
-export async function update(id: number, data: ReadBookDTO) {
+export async function update(id: number, data: ExtendedReviewDTO) {
   const fields: string[] = [];
   const values: SQLValue[] = [];
 

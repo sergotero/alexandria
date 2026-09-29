@@ -24,9 +24,11 @@ export async function findAll(limit: number, offset: number): Promise<FullBook[]
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -67,9 +69,11 @@ export async function findById(id: number): Promise<any[]> {
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -112,9 +116,11 @@ export async function findByTitle(title: string, limit: number, offset: number):
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -157,9 +163,11 @@ export async function findByAuthor(alias: string, limit: number, offset: number)
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -202,9 +210,11 @@ export async function findByCollection(name: string, limit: number, offset: numb
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
@@ -247,9 +257,11 @@ export async function findBySeries(name: string, limit: number, offset: number):
       series.status AS status,
       collections.name AS collection_name,
       collections.color_code AS color_code,
+      readbooks.id AS review_id,
       readbooks.reading_date AS fecha_lectura,
       readbooks.score AS score,
-      readbooks.comments AS comments
+      readbooks.comments AS comments,
+      readbooks.completed AS completed
     FROM authors
       LEFT JOIN booksauthors ON authors.id = booksauthors.author_id
       LEFT JOIN books ON booksauthors.book_id = books.id
