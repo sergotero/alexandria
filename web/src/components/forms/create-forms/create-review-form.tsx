@@ -3,14 +3,16 @@ import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { dateFormatter, isApiError } from "../../../services/utils.services";
 import * as ReadBookServices from "./../../../services/readbook.services.js";
+import * as FullBookServices from "./../../../services/fullbook.services.js";
 
 type CreateReviewFormProps = {
-  fullbook: FullBook,
+  details: FullBook,
+  setDetails: (data: FullBook) => void,
   warning: ServerMessage | null,
   setWarning: (data: ServerMessage | null) => void
 }
 
-function CreateReviewForm({ fullbook, warning, setWarning }: CreateReviewFormProps) {
+function CreateReviewForm({ details, setDetails, warning, setWarning }: CreateReviewFormProps) {
   
   "use no memo";
   
@@ -18,9 +20,12 @@ function CreateReviewForm({ fullbook, warning, setWarning }: CreateReviewFormPro
   const maxDate = new Date();
 
   const submit: SubmitHandler<ExtendedReviewDTO> = async (data: ExtendedReviewDTO) => {
-    console.log("Data: ", data);
     try {
       await ReadBookServices.create(data);
+      const response = await FullBookServices.detail(data.bookId);
+      if (response.success) {
+        setDetails(response.data);
+      }
       reset();
       setWarning({
         success: true,
@@ -67,7 +72,7 @@ function CreateReviewForm({ fullbook, warning, setWarning }: CreateReviewFormPro
             type="number"
             id="bookId"
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            value={fullbook.bookBase.id}
+            value={details.bookBase.id}
             hidden
             readOnly
           />
@@ -81,7 +86,7 @@ function CreateReviewForm({ fullbook, warning, setWarning }: CreateReviewFormPro
             type="number"
             id="authorId"
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
-            value={fullbook.author.id}
+            value={details.author.id}
             hidden
             readOnly
           />

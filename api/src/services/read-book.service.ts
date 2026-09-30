@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import * as ReadBookRepository from "./../repositories/read-book.repository.js";
-import type { ExtendedReview, ExtendedReviewDTO } from "@shared/types";
+import type { ExtendedReview, ExtendedReviewDTO, SimpleReview } from "@shared/types";
 
 export async function create(data: ExtendedReviewDTO): Promise<ExtendedReview | never> {
 
@@ -58,14 +58,14 @@ export async function detail(bookId: number): Promise<ExtendedReview> {
   return readBook;
 }
 
-export async function update(id: number, data: ExtendedReviewDTO): Promise<ExtendedReview | never> {
-    const bookData: ExtendedReviewDTO = {
-    bookId: data.bookId,
-    authorId: data.authorId,
-    readingDate: data.readingDate,
-    score: data.score,
-    comments: data.comments,
-    completed: data.completed
+export async function update(id: number, data: SimpleReview): Promise<ExtendedReview | never> {
+
+  const bookData: SimpleReview = {
+    id: data.id!,
+    readingDate: data.readingDate!,
+    score: data.score!,
+    comments: data.comments!,
+    completed: data.completed!
   }
   const readBook = await ReadBookRepository.update(id, bookData);
   

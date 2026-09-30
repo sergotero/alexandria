@@ -1,24 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { FullBook, ServerMessage } from "@shared/types";
-import { useState } from "react";
+import type { FullBook, ServerMessage, SimpleReview } from "@shared/types";
+import { useEffect, useState } from "react";
 import EditReviewForm from "../forms/edit-forms/edit-review-form";
 import { dateFormatter } from "../../services/utils.services";
 import CreateReviewForm from "../forms/create-forms/create-review-form";
 
 type ReviewProps = {
   details: FullBook,
+  setDetails: (data: FullBook) => void,
   warning: ServerMessage | null,
   setWarning: (data: ServerMessage | null) => void
 };
 
-function Review({ details, warning, setWarning }: ReviewProps){
+function Review({ details, setDetails, warning, setWarning }: ReviewProps){
 
   const [ showCreateForm, setShowCreateForm ] = useState<boolean>(false);
   const [ showUpdateForm, setShowUpdateForm ] = useState<boolean>(false);
 
-  if (details.review.id !== null) {
+  if (details.review !== null && details.review.id !== null) {
     return (
       <>
+        {warning && warning.success && (
+          <div className="success">{warning.data.message}</div>
+        )}
+        {warning && warning.success === false && (
+          <div className="error">{warning.data.message}</div>
+        )}
         <div className="flex justify-between">
           <div className="p-2 w-[70%]">
             <div className="">
@@ -47,7 +54,8 @@ function Review({ details, warning, setWarning }: ReviewProps){
         </div>
         {showUpdateForm && (
           <EditReviewForm 
-            review={details.review} 
+            details={details} 
+            setDetails={setDetails}
             warning={warning} 
             setWarning={setWarning}
           />
@@ -68,7 +76,8 @@ function Review({ details, warning, setWarning }: ReviewProps){
         </div>
         {showCreateForm && (
           <CreateReviewForm 
-            fullbook={details}
+            details={details}
+            setDetails={setDetails}
             warning={warning} 
             setWarning={setWarning}
           />

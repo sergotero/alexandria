@@ -21,7 +21,7 @@ export async function create(req: Request, res: Response): Promise<void> {
 
   if (readingDate === undefined) {
     throw createHttpError(400, "La fecha es un parámetro obligatorio");
-  } else if(!(readingDate instanceof Date)) {
+  } else if(typeof readingDate !== "string") {
     throw createHttpError(400, "El formato de la fecha no es válido");
   }
 
@@ -43,7 +43,9 @@ export async function create(req: Request, res: Response): Promise<void> {
     throw createHttpError(400, "El formato del checkbox no es válido");
   }
 
-  const readBook = await ReadBookService.create({bookId, authorId, readingDate, score, comments, completed});
+  const date = new Date(readingDate);
+
+  const readBook = await ReadBookService.create({bookId, authorId, readingDate: date, score, comments, completed});
   const response: APIResponse<ExtendedReview> = {
     success: true,
     data: readBook
@@ -80,7 +82,7 @@ export async function detail(req: Request, res: Response): Promise<void | never>
 
 export async function update(req: Request, res: Response): Promise<void | never> {
   const { id } = req.params;
-  const { bookId, authorId, readingDate, score, comments, completed  } = req.body;
+  const { readingDate, score, comments, completed  } = req.body;
 
   const newId = Number(id);
 
@@ -90,21 +92,9 @@ export async function update(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El tipado del ID no es válido");
   }
 
-  if (bookId === undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if(typeof bookId !== "number") {
-    throw createHttpError(400, "El tipado del ID no es válido");
-  }
-
-  if (authorId === undefined) {
-    throw createHttpError(400, "El ID es un parámetro obligatorio");
-  } else if(typeof authorId !== "number") {
-    throw createHttpError(400, "El tipado del ID no es válido");
-  }
-
   if (readingDate === undefined) {
     throw createHttpError(400, "La fecha es un parámetro obligatorio");
-  } else if(!(readingDate instanceof Date)) {
+  } else if(typeof readingDate !== "string") {
     throw createHttpError(400, "El formato de la fecha no es válido");
   }
 
@@ -126,7 +116,9 @@ export async function update(req: Request, res: Response): Promise<void | never>
     throw createHttpError(400, "El formato del checkbox no es válido");
   }
 
-  const readBook = await ReadBookService.update(newId, {bookId, authorId, readingDate, score, comments, completed});
+  const date = new Date(readingDate);
+
+  const readBook = await ReadBookService.update(newId, { id: newId, readingDate: date, score, comments, completed});
   const response: APIResponse<ExtendedReview> = {
     success: true,
     data: readBook

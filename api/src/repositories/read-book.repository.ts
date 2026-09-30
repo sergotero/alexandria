@@ -1,4 +1,4 @@
-import type { ExtendedReview, ExtendedReviewDTO, SQLResponse, SQLValue } from "@shared/types";
+import type { ExtendedReview, ExtendedReviewDTO, SimpleReview, SQLResponse, SQLValue } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 
 
@@ -50,18 +50,15 @@ export async function detail(id: number): Promise<ExtendedReview[]> {
   `, [id]);
 }
 
-export async function update(id: number, data: ExtendedReviewDTO) {
+export async function update(id: number, data: SimpleReview) {
   const fields: string[] = [];
   const values: SQLValue[] = [];
 
-  if (data.bookId) {
-    fields.push("book_id = ?");
-    values.push(data.bookId);
+  if (data.id) {
+    fields.push("id = ?");
+    values.push(data.id);
   }
-  if (data.authorId) {
-    fields.push("author_id = ?");
-    values.push(data.authorId);
-  }
+
   if (data.readingDate) {
     fields.push("reading_date = ?");
     values.push(data.readingDate);
@@ -74,13 +71,13 @@ export async function update(id: number, data: ExtendedReviewDTO) {
     fields.push("comments = ?");
     values.push(data.comments);
   }
-  if (data.completed) {
+  if (data.completed !== undefined || data.completed !== null) {
     fields.push("completed = ?");
     values.push(data.completed);
   }
 
   values.push(id);
-
+  
   return await query(`UPDATE readbooks SET ${fields.join(", ")} WHERE id = ?`, values);
 }
 

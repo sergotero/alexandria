@@ -104,10 +104,10 @@ export async function list(page: number, limit: number): Promise<FullBook[]> {
     }
     const review: SimpleReview = {
       id: book.review_id,
-      readingDate: book.fecha_lectura,
+      readingDate: new Date(book.fecha_lectura),
       score: book.score,
       comments: book.comments,
-      completed: book.completed
+      completed: (book.completed == 0)? false: true
     }
     const fullBook: FullBook = {
       bookBase,
@@ -160,10 +160,10 @@ export async function detail(id: number): Promise<FullBook> {
 
     const review: SimpleReview = {
       id: book[0].review_id,
-      readingDate: book[0].fecha_lectura,
+      readingDate: new Date(book[0].fecha_lectura),
       score: book[0].score,
       comments: book[0].comments,
-      completed: book[0].completed
+      completed: (book[0].completed == 0)? false: true
     }
     const fullBook: FullBook = {
       bookBase,

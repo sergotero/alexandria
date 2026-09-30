@@ -367,7 +367,8 @@ function HomePage() {
                   )}
                   {activeTab === "review" && (
                     <Review 
-                      details={details} 
+                      details={details}
+                      setDetails={setDetails}
                       warning={warning} 
                       setWarning={setWarning}
                     />

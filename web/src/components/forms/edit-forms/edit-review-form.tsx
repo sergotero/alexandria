@@ -1,35 +1,40 @@
-import type { ServerMessage, SimpleReview } from "@shared/types";
+import type { FullBook, ServerMessage, SimpleReview } from "@shared/types";
 import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { dateFormatter, isApiError } from "../../../services/utils.services";
 import * as ReadBookServices from "./../../../services/readbook.services.js";
+import * as FullBookServices from "./../../../services/fullbook.services.js";
 
 type EditReviewFormProp = {
-  review: SimpleReview,
+  details: FullBook,
+  setDetails: (data: FullBook) => void,
   warning: ServerMessage | null,
   setWarning: (data: ServerMessage | null) => void
 }
 
-function EditReviewForm({ review, warning, setWarning }: EditReviewFormProp) {
+function EditReviewForm({ details, setDetails, warning, setWarning }: EditReviewFormProp) {
   
   "use no memo";
   
   const { register, reset, handleSubmit } = useForm<SimpleReview>({
-    defaultValues: review
+    defaultValues: details.review
   });
   
   const maxDate = new Date();
 
   const submit: SubmitHandler<SimpleReview> = async (data: SimpleReview) => {
-    console.log("Data: ", data);
     try {
-      await ReadBookServices.update(review.id!, data);
+      await ReadBookServices.update(details.review.id!, data);
+      const response = await FullBookServices.detail(details.bookBase.id!);
+      if (response.success) {
+        setDetails(response.data);
+      }
       reset({
-        id: review.id,
-        score: review.score,
-        readingDate: dateFormatter(review.readingDate, true) as unknown as Date,
-        comments: review.comments,
-        completed: review.completed
+        id: details.review.id,
+        score: details.review.score,
+        readingDate: dateFormatter(details.review.readingDate, true) as unknown as Date,
+        comments: details.review.comments,
+        completed: details.review.completed as boolean
       });
       setWarning({
         success: true,
@@ -49,7 +54,6 @@ function EditReviewForm({ review, warning, setWarning }: EditReviewFormProp) {
         });
       }
     }
-    }
   }
 
   useEffect(() => {
@@ -63,6 +67,16 @@ function EditReviewForm({ review, warning, setWarning }: EditReviewFormProp) {
       clearTimeout(warningTimeout);
     }
   }, [warning]);
+
+  useEffect(() => {
+    reset({
+        id: details.review.id,
+        score: details.review.score,
+        readingDate: dateFormatter(details.review.readingDate, true) as unknown as Date,
+        comments: details.review.comments,
+        completed: details.review.completed
+      })
+  }, [details.review]);
 
   return (
     <form method="POST" onSubmit={handleSubmit(submit)}>
@@ -78,6 +92,7 @@ function EditReviewForm({ review, warning, setWarning }: EditReviewFormProp) {
             id="ReviewId"
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             hidden
+            readOnly
           />
         </div>
         <div className="input-group">
@@ -104,7 +119,7 @@ function EditReviewForm({ review, warning, setWarning }: EditReviewFormProp) {
             step={0.01}
             min={0}
             max={10}
-            id="ReviewId"
+            id="score"
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
           />
         </div>
