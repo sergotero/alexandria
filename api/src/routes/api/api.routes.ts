@@ -64,7 +64,7 @@ router.get("/fullbook/:id", FullBookController.detail);
 router.patch("/fullbook/:id", FullBookController.update);
 
 //READ-BOOK
-router.get("/readook", ReadBookController.list);
+router.get("/readbook", ReadBookController.list);
 router.post("/readbook", ReadBookController.create);
 router.get("/readbook/:id", ReadBookController.detail);
 router.patch("/readbook/:id", ReadBookController.update);

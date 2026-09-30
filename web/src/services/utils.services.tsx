@@ -10,11 +10,19 @@ export function isApiError(error: unknown): error is ApiError {
   );
 }
 
-export function dateFormatter(data: Date): string {
-  const date = new Date(data);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+export function dateFormatter(date?: Date | string | null, universal: boolean = false): string {
+  if (!date) {
+    return "";
+  } 
+  const newDate = new Date(date);
+  if (isNaN(newDate.getTime())) {
+    return "";
+  }
   
-  return `${day}/${month}/${year}`;
-}
+  //El locale "en-CA" (inglés de Canadá) es el único estándar regional extendido que formatea las fechas oficialmente siguiendo la norma ISO 8601 (YYYY-MM-DD)
+  if (universal) {
+    return newDate.toLocaleDateString("en-CA"); // 'YYYY-MM-DD' format
+  } else {
+    return newDate.toLocaleDateString("es-ES"); // Formato 'DD-MM-YYYY'
+  }
+};
