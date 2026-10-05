@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { FullBook, ServerMessage, SimpleReview } from "@shared/types";
-import { useEffect, useState } from "react";
+import type { FullBook, ServerMessage } from "@shared/types";
+import { useState } from "react";
 import EditReviewForm from "../forms/edit-forms/edit-review-form";
 import { dateFormatter } from "../../services/utils.services";
 import CreateReviewForm from "../forms/create-forms/create-review-form";

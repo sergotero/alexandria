@@ -34,7 +34,6 @@ function HomePage() {
   const [ warning, setWarning ] = useState<ServerMessage | null>(null);
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
-  // const [ review, setReview ] = useState<SimpleReview | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
@@ -209,20 +208,6 @@ function HomePage() {
         {/* Buttons */}
         <div className="flex gap-5 align-top justify-center w-[80%]">
           <div className="grid grid-flow-row grid-cols-6 gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
-            <button
-              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default"
-              type="button"
-              onClick={() => setQueryParams({ type, search: searchTerm, page: (page - 1).toString() })}
-              disabled={+page <= 0}>
-                <FontAwesomeIcon icon="angle-left"/>Anterior
-            </button>
-            <button
-              className="bg-yellow-600 hover:bg-yellow-500 hover:cursor-pointer text-white min-w-24 rounded-md disabled:bg-zinc-600 disabled:cursor-default ps-2"
-              type="button"
-              onClick={() => setQueryParams({ type, search: searchTerm, page: (page + 1).toString() })}
-              disabled={list.length < 18}>
-                Siguiente<FontAwesomeIcon icon="angle-right"/>
-            </button>
             <PopUpModal
               id={"add-author"}
               text={" Autor"}
@@ -277,6 +262,7 @@ function HomePage() {
               text={" Autores"}
               icon={<FontAwesomeIcon fontSize={14} icon="user-pen"/>}
               warning={warning}
+              backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar autores"}>
                 <EditAllAuthorsForm
@@ -291,6 +277,7 @@ function HomePage() {
               text={" Series"}
               icon={<FontAwesomeIcon fontSize={14} icon="pen-to-square"/>}
               warning={warning}
+              backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar series"}>
                 <EditAllSeriesForm
@@ -305,6 +292,7 @@ function HomePage() {
               text={" Colecciones"}
               icon={<FontAwesomeIcon fontSize={14} icon="folder-open"/>}
               warning={warning}
+              backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar colecciones"}>
                 <EditAllCollectionsForm
@@ -316,7 +304,25 @@ function HomePage() {
             </PopUpModal>
           </div>
         </div>
-        <div className="flex gap-5 align-top justify-center w-[80%]">
+        <div className="relative flex gap-5 align-top justify-center w-[80%]">
+          <div className="absolute top-0 left-0 w-[70%]">
+            <div className="relative z-10 w-[100%] h-[100%]">
+              <button
+                className="absolute top-105 -left-4 bg-zinc-600 hover:bg-zinc-500 opacity-40 hover:opacity-100 hover:cursor-pointer text-white min-h-24 rounded-full pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300"
+                type="button"
+                onClick={() => setQueryParams({ type, search: searchTerm, page: (page - 1).toString() })}
+                disabled={+page <= 0}>
+                  <FontAwesomeIcon icon="angle-left"/>
+              </button>
+              <button
+                className="absolute top-105 right-0 bg-zinc-600 hover:bg-zinc-500 opacity-40 hover:opacity-100 hover:cursor-pointer text-white min-h-24 rounded-full pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300"
+                type="button"
+                onClick={() => setQueryParams({ type, search: searchTerm, page: (page + 1).toString() })}
+                disabled={list.length < 18}>
+                  <FontAwesomeIcon icon="angle-right"/>
+              </button>
+            </div>
+          </div>
           {/* BookCards */}
           <section className="grid grid-cols-3 grid-rows-6 gap-3 p-3 w-[70%] overflow-y-scroll scrollbar-none bg-zinc-800 rounded-xl ">
             <BookCardsGenerator fullBooks={list} handleDetails={handleDetails} />
