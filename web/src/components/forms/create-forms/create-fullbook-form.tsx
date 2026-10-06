@@ -1,22 +1,22 @@
-import type { Author, Collection, FullBookDTO, SeriesList, ServerMessage } from "@shared/types";
+import type { Author, Collection, FullBookDTO, SeriesList } from "@shared/types";
 import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as FullBookServices from "./../../../services/fullbook.services.js";
 import { isApiError } from "../../../services/utils.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type CreateFullbookFromProps = {
-  warning: ServerMessage | null,
-  setWarning: (newWarning: ServerMessage | null) => void,
   authorList: Author[],
   collectionList: Collection[],
   seriesList: SeriesList[]
 }
 
-function CreateFullbookForm({ authorList, collectionList, seriesList, warning, setWarning }: CreateFullbookFromProps){
+function CreateFullbookForm({ authorList, collectionList, seriesList}: CreateFullbookFromProps){
   
   "use no memory";
 
   const { register, handleSubmit, reset } = useForm<FullBookDTO>();
+const { warning, setWarning, update, setUpdate } = useWarningContext();
 
   const submit: SubmitHandler<FullBookDTO> = async(data: FullBookDTO) => {
     try {
@@ -28,6 +28,7 @@ function CreateFullbookForm({ authorList, collectionList, seriesList, warning, s
           statusCode: 200
         }
       });
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -220,7 +221,7 @@ function CreateFullbookForm({ authorList, collectionList, seriesList, warning, s
       <button
         type="submit"
         className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
-          Actualizar
+          Crear
       </button>
       <p className="inline ms-30 text-white text-center text-xs">Los campos marcados con * son obligatorios</p>
     </form>

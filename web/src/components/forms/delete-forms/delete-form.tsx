@@ -1,4 +1,4 @@
-import type { FullBook, ServerMessage } from "@shared/types";
+import type { FullBook } from "@shared/types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as BasebookServices from "./../../../services/basebook.services.js";
 import * as BooksAuthorsServices from "./../../../services/booksauthors.services.js";
@@ -7,34 +7,39 @@ import * as BooksCollectionsServices from "./../../../services/bookscollections.
 import * as ReadbookServices from "./../../../services/readbook.services.js";
 import { isApiError } from "../../../services/utils.services";
 import { useEffect } from "react";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type DeleteFormProps = {
   fullbook: FullBook,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void,
+  setDetails: (data: FullBook | null) => void
 };
 
-function DeleteForm({ fullbook, warning, setWarning }: DeleteFormProps){
+function DeleteForm({ fullbook, setDetails }: DeleteFormProps){
   
   "use no memo";
 
   const { handleSubmit, register } = useForm<any>();
+  const { warning, setWarning, update, setUpdate } = useWarningContext();
   
   const submit: SubmitHandler<any> = async(data: any) => {
-    console.log(data);
     try {
       if (data.bookId !== undefined && data.bookId !== null) {
 
-        // await BooksAuthorsServices.destroy({bookId: data.bookId, authorId: data.authorId});
+        await BooksAuthorsServices.destroy({bookId: data.bookId, authorId: data.authorId});
+
         if (!isNaN(data.seriesId) && data.seriesId !== undefined && data.seriesId !== null) {
-          // await BooksSeriesServices.destroy({bookId: data.bookId, seriesId: data.seriesId});
+          await BooksSeriesServices.destroy({bookId: data.bookId, seriesId: data.seriesId});
         }
-        // await BooksCollectionsServices.destroy({bookId: data.bookId, collectionId: data.collectionId});
+
+        await BooksCollectionsServices.destroy({bookId: data.bookId, collectionId: data.collectionId});
+
         if (!isNaN(data.reviewId) && data.reviewId !== undefined && data.reviewId !== null) {
-          // await BasebookServices.destroy(data.bookId);
+          await ReadbookServices.destroy(data.reviewId);
         }
+
+        await BasebookServices.destroy(data.bookId);
       }
-      
+
       setWarning({
         success: true,
         data: {
@@ -43,6 +48,8 @@ function DeleteForm({ fullbook, warning, setWarning }: DeleteFormProps){
         }
       });
       const dialog = document.getElementById(`delete-warning${fullbook.bookBase.id}`) as HTMLDialogElement;
+      setDetails(null);
+      setUpdate(!update);
       dialog.hidePopover();
     } catch (error: unknown) {
       if(isApiError(error)){

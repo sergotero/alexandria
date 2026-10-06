@@ -1,15 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { FullBook, ServerMessage } from "@shared/types";
+import type { FullBook } from "@shared/types";
 import PopUpModal from "./popup-modal";
 import DeleteForm from "../forms/delete-forms/delete-form";
 
 type BookCardProp = {
   fullbook: FullBook,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void,
+  setDetails: (data: FullBook | null) => void,
 };
 
-function BookCard({fullbook, warning, setWarning}: BookCardProp) {
+function BookCard({fullbook, setDetails}: BookCardProp) {
   const { bookBase, author, collection } = fullbook;
   return(
     <div className="flex gap-2">
@@ -42,8 +41,7 @@ function BookCard({fullbook, warning, setWarning}: BookCardProp) {
           >
             <DeleteForm 
               fullbook={fullbook}
-              warning={warning}
-              setWarning={setWarning}
+              setDetails={setDetails}
             />
           </PopUpModal>
         </div>

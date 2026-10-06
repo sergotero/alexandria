@@ -7,12 +7,10 @@ import CreateReviewForm from "../forms/create-forms/create-review-form";
 
 type ReviewProps = {
   details: FullBook,
-  setDetails: (data: FullBook) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
+  setDetails: (data: FullBook) => void
 };
 
-function Review({ details, setDetails, warning, setWarning }: ReviewProps){
+function Review({ details, setDetails }: ReviewProps){
 
   const [ showCreateForm, setShowCreateForm ] = useState<boolean>(false);
   const [ showUpdateForm, setShowUpdateForm ] = useState<boolean>(false);
@@ -20,12 +18,6 @@ function Review({ details, setDetails, warning, setWarning }: ReviewProps){
   if (details.review !== null && details.review.id !== null) {
     return (
       <>
-        {warning && warning.success && (
-          <div className="success">{warning.data.message}</div>
-        )}
-        {warning && warning.success === false && (
-          <div className="error">{warning.data.message}</div>
-        )}
         <div className="flex justify-between">
           <div className="p-2 w-[70%]">
             <div className="">
@@ -56,8 +48,6 @@ function Review({ details, setDetails, warning, setWarning }: ReviewProps){
           <EditReviewForm 
             details={details} 
             setDetails={setDetails}
-            warning={warning} 
-            setWarning={setWarning}
           />
         )}
       </>
@@ -65,21 +55,21 @@ function Review({ details, setDetails, warning, setWarning }: ReviewProps){
   } else {
     return (
       <>
-        <div className="flex flex-col gap-5">
-          <h1 className="font-extrabold text-3xl text-center">Este libro todavía no tiene una reseña.</h1>
-          <button
-            className="bg-emerald-600 hover:bg-emerald-500 hover:cursor-pointer text-white min-w-24 rounded-md ps-2 pe-2 disabled:bg-zinc-600 disabled:cursor-default self-center"
-            type="button"
-            onClick={() => setShowCreateForm(!showCreateForm)}>
-              Añadir reseña
-          </button>
-        </div>
+        {!showCreateForm && (
+          <div className="flex flex-col gap-5">
+            <h1 className="font-extrabold text-3xl text-center">Este libro todavía no tiene una reseña.</h1>
+            <button
+              className="bg-emerald-600 hover:bg-emerald-500 hover:cursor-pointer text-white min-w-24 rounded-md ps-2 pe-2 disabled:bg-zinc-600 disabled:cursor-default self-center"
+              type="button"
+              onClick={() => setShowCreateForm(!showCreateForm)}>
+                Añadir reseña
+            </button>
+          </div>
+        )}
         {showCreateForm && (
           <CreateReviewForm 
             details={details}
             setDetails={setDetails}
-            warning={warning} 
-            setWarning={setWarning}
           />
         )}
       </>

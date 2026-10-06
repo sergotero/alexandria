@@ -1,22 +1,22 @@
-import type { ExtendedReviewDTO, FullBook, ServerMessage } from "@shared/types";
+import type { ExtendedReviewDTO, FullBook } from "@shared/types";
 import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { dateFormatter, isApiError } from "../../../services/utils.services";
 import * as ReadBookServices from "./../../../services/readbook.services.js";
 import * as FullBookServices from "./../../../services/fullbook.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type CreateReviewFormProps = {
   details: FullBook,
   setDetails: (data: FullBook) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
 }
 
-function CreateReviewForm({ details, setDetails, warning, setWarning }: CreateReviewFormProps) {
+function CreateReviewForm({ details, setDetails }: CreateReviewFormProps) {
   
   "use no memo";
   
   const { register, reset, handleSubmit } = useForm<ExtendedReviewDTO>();
+  const { warning, setWarning, update, setUpdate } = useWarningContext();
   const maxDate = new Date();
 
   const submit: SubmitHandler<ExtendedReviewDTO> = async (data: ExtendedReviewDTO) => {
@@ -26,7 +26,6 @@ function CreateReviewForm({ details, setDetails, warning, setWarning }: CreateRe
       if (response.success) {
         setDetails(response.data);
       }
-      reset();
       setWarning({
         success: true,
         data: {
@@ -34,6 +33,8 @@ function CreateReviewForm({ details, setDetails, warning, setWarning }: CreateRe
           statusCode: 200
         }
       });
+      reset();
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -143,7 +144,7 @@ function CreateReviewForm({ details, setDetails, warning, setWarning }: CreateRe
         <button 
           type="submit" 
           className="btn bg-emerald-600 hover:bg-emerald-700 hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 rounded">
-            Actualizar
+            Añadir
         </button>
       </fieldset>
     </form>

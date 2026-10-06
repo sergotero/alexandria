@@ -1,22 +1,22 @@
-import type { Author, AuthorDTO, ServerMessage } from "@shared/types";
+import type { Author } from "@shared/types";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as AuthorServices from "../../../services/author.services.js";
 import { isApiError } from "../../../services/utils.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type EditAllAuthorsFormProps = {
   authorList: Author[],
   setAuthorList: (data: Author[]) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
 };
 
-function EditAllAuthorsForm({ authorList, setAuthorList, warning, setWarning }: EditAllAuthorsFormProps){
+function EditAllAuthorsForm({ authorList, setAuthorList }: EditAllAuthorsFormProps){
 
   "use no memo";
 
   const { register, reset, handleSubmit } = useForm<Author>();
   const [ selectedAuthor, setSelectedAuthor ] = useState<Author | null>(null);
+  const { warning, setWarning } = useWarningContext();
   
     useEffect(() => {
       reset({

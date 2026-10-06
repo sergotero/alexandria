@@ -1,19 +1,16 @@
-import type { AuthorDTO, ServerMessage } from "@shared/types";
+import type { AuthorDTO } from "@shared/types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as AuthorServices from "./../../../services/author.services.js";
 import { isApiError } from "../../../services/utils.services";
 import { useEffect } from "react";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
-type CreateAuthorFormProps = {
-  warning: ServerMessage | null,
-  setWarning: (error: ServerMessage | null) => void
-}
-
-function CreateAuthorForm({ warning, setWarning }: CreateAuthorFormProps) {
+function CreateAuthorForm() {
   
   "use no memo";
   
     const{ register, handleSubmit, reset } = useForm<AuthorDTO>();
+const { warning, setWarning, update, setUpdate } = useWarningContext();
   
     const submit: SubmitHandler<AuthorDTO> = async (data: AuthorDTO) => {
       try {
@@ -25,6 +22,7 @@ function CreateAuthorForm({ warning, setWarning }: CreateAuthorFormProps) {
             statusCode: 200
           }
         });
+        setUpdate(!update);
       } catch (error: unknown) {
         if(isApiError(error)){
           setWarning({

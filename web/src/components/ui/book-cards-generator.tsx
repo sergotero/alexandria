@@ -1,15 +1,14 @@
-import type { FullBook, ServerMessage } from "@shared/types";
+import type { FullBook } from "@shared/types";
 import BookCard from "./book-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type BookCardsGeneratorProps = {
   fullBooks: FullBook[],
   handleDetails: (fullBook: FullBook) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
+  setDetails: (data: FullBook | null) => void
 };
 
-function BookCardsGenerator({ fullBooks, handleDetails, warning, setWarning }: BookCardsGeneratorProps) {
+function BookCardsGenerator({ fullBooks, handleDetails, setDetails }: BookCardsGeneratorProps) {
 
   return(
     <>
@@ -21,8 +20,7 @@ function BookCardsGenerator({ fullBooks, handleDetails, warning, setWarning }: B
           onClick={() => handleDetails(book)}>
             <BookCard 
               fullbook={book} 
-              warning={warning} 
-              setWarning={setWarning} 
+              setDetails={setDetails}
             />
           {book.review.id !== null && (
             <div className="absolute -top-1 left-0">

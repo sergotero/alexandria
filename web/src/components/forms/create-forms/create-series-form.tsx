@@ -1,19 +1,17 @@
-import type { SeriesDTO, ServerMessage } from "@shared/types";
+import type { SeriesDTO } from "@shared/types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as SeriesServices from "./../../../services/series.services.js";
 import { isApiError } from "../../../services/utils.services.js";
 import { useEffect } from "react";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
-type CreateSeriesFormProp = {
-  warning: ServerMessage | null,
-  setWarning: (newWarning: ServerMessage | null) => void
-};
 
-function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
+function CreateSeriesForm(){
   
   "use no memo";
 
   const{ register, handleSubmit, reset } = useForm<SeriesDTO>();
+  const { warning, setWarning, update, setUpdate } = useWarningContext();
 
   const submit: SubmitHandler<SeriesDTO> = async (data: SeriesDTO) => {
     try {
@@ -25,6 +23,7 @@ function CreateSeriesForm({ warning, setWarning }: CreateSeriesFormProp){
           statusCode: 200
         }
       });
+      setUpdate(!update)
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({

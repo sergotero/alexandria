@@ -4,21 +4,21 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { dateFormatter, isApiError } from "../../../services/utils.services";
 import * as ReadBookServices from "./../../../services/readbook.services.js";
 import * as FullBookServices from "./../../../services/fullbook.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type EditReviewFormProp = {
   details: FullBook,
   setDetails: (data: FullBook) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
 }
 
-function EditReviewForm({ details, setDetails, warning, setWarning }: EditReviewFormProp) {
+function EditReviewForm({ details, setDetails }: EditReviewFormProp) {
   
   "use no memo";
   
   const { register, reset, handleSubmit } = useForm<SimpleReview>({
     defaultValues: details.review
   });
+  const { warning, setWarning } = useWarningContext();
   
   const maxDate = new Date();
 

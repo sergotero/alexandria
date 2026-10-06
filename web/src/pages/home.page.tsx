@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Author, Collection, FullBook, SeriesList, ServerMessage } from "@shared/types";
+import type { Author, Collection, FullBook, SeriesList } from "@shared/types";
 import { useSearchParams } from "react-router";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
@@ -22,6 +22,10 @@ import EditAllCollectionsForm from "../components/forms/edit-forms/edit-all-coll
 import EditAllSeriesForm from "../components/forms/edit-forms/edit-all-series-form.tsx";
 import EditAllAuthorsForm from "../components/forms/edit-forms/edit-all-authors-form.tsx";
 import Review from "../components/ui/review.tsx";
+import useWarningContext from "../components/hooks/useWarningContext.tsx";
+import DeleteCollectionForm from "../components/forms/delete-forms/delete-collection-form.tsx";
+import DeleteAuthorForm from "../components/forms/delete-forms/delete-author-form.tsx";
+import DeleteSeriesForm from "../components/forms/delete-forms/delete-series-form.tsx";
 
 function HomePage() {
   const [ queryParams, setQueryParams ] = useSearchParams();
@@ -31,13 +35,15 @@ function HomePage() {
   const searchTerm = queryParams.get("search") || "";
 
   const [ searchValue, setSearchValue ] = useState<string>("");
-  const [ warning, setWarning ] = useState<ServerMessage | null>(null);
+  const { warning, setWarning, update } = useWarningContext();
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
   const [ authorList, setAuthorList ] = useState<Author[]>([]);
   const [ seriesList, setSeriesList ] = useState<SeriesList[]>([]);
   const [ activeTab, setActiveTab ] = useState<"details" | "edition" | "review">("details");
+
+
 
   const handleDetails = (fullBook: FullBook) => {
     setDetails(fullBook);
@@ -144,7 +150,7 @@ function HomePage() {
       setWarning({
         success: true,
         data: {
-          message: "Los listados se han cargado de manera exitosa",
+          message: "Los listados se han cargado de manera exitosa.",
           statusCode: 200
         }
         });
@@ -175,7 +181,7 @@ function HomePage() {
         });
       }
     }
-  }, [page, searchTerm]);
+  }, [page, searchTerm, update]);
 
   useEffect(() => {
     let warningTimeout: number;
@@ -205,109 +211,119 @@ function HomePage() {
         </search>
       </Header>
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
-        {/* Buttons */}
+        {warning && warning.success && (
+          <div className="success w-[80%]">{warning.data.message}</div>
+        )}
+        {warning && warning.success === false && (
+          <div className="error">{warning.data.message}</div>
+        )}
         <div className="flex gap-5 align-top justify-center w-[80%]">
           <div className="grid grid-flow-row grid-cols-7 gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
+            {/* Create buttons */}
             <PopUpModal
               id={"add-author"}
               text={" Autor"}
               icon={<FontAwesomeIcon fontSize={14} icon="user-plus"/>}
-              warning={warning}
               title={"Añadir nuevo usuario"}>
-                <CreateAuthorForm 
-                  warning={warning} 
-                  setWarning={setWarning}
-                />
+                <CreateAuthorForm />
             </PopUpModal>
             <PopUpModal
               id={"add-series"}
               text={" Serie"}
               icon={<FontAwesomeIcon fontSize={14} icon="layer-group"/>}
-              warning={warning}
               title={"Añadir nueva serie"}>
-                <CreateSeriesForm 
-                  warning={warning} 
-                  setWarning={setWarning}
-                />
+                <CreateSeriesForm/>
             </PopUpModal>
             <PopUpModal
               id={"add-collection"}
               text={" Colección"}
               icon={<FontAwesomeIcon fontSize={14} icon="folder-plus"/>}
-              warning={warning}
               title={"Añadir nueva colección"}>
-                <CreateCollectionForm 
-                  warning={warning}
-                  setWarning={setWarning}
-                />
+                <CreateCollectionForm />
             </PopUpModal>
             <PopUpModal
               id={"add-fullbook"}
               text={" Libro"}
               icon={<FontAwesomeIcon fontSize={14} icon="book-medical"/>}
-              warning={warning}
               title={"Añadir nuevo libro"}>
                 <CreateFullbookForm
-                  warning={warning}
-                  setWarning={setWarning}
                   authorList={authorList}
                   collectionList={collectionList} 
                   seriesList={seriesList}
                 />
             </PopUpModal>
+            {/* Modify buttons */}
             <PopUpModal
               id={"mod-authors"}
               text={" Autores"}
               icon={<FontAwesomeIcon fontSize={14} icon="user-pen"/>}
-              warning={warning}
               backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar autores"}>
                 <EditAllAuthorsForm
                   authorList={authorList}
                   setAuthorList={setAuthorList}
-                  warning={warning}
-                  setWarning={setWarning}
                 />
             </PopUpModal>
             <PopUpModal
               id={"mod-series"}
               text={" Series"}
               icon={<FontAwesomeIcon fontSize={14} icon="pen-to-square"/>}
-              warning={warning}
               backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar series"}>
                 <EditAllSeriesForm
                   seriesList={seriesList}
                   setSeriesList={setSeriesList}
-                  warning={warning}
-                  setWarning={setWarning}
                 />
             </PopUpModal>
             <PopUpModal
               id={"mod-collections"}
               text={" Colecciones"}
               icon={<FontAwesomeIcon fontSize={14} icon="folder-open"/>}
-              warning={warning}
               backgroundColor={"#432dd7"}
               color={"#432dd7"}
               title={"Modificar colecciones"}>
                 <EditAllCollectionsForm
                   collectionList={collectionList}
                   setCollectionList={setCollectionList}
-                  warning={warning}
-                  setWarning={setWarning}
                 />
             </PopUpModal>
           </div>
           <div className="grid grid-flow-row grid-cols-3 gap-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
-            {/*Botones de eliminar*/}
+            {/*Delete Buttons*/}
+            <PopUpModal
+              id={"del-authors"}
+              text={" Autores"}
+              icon={<FontAwesomeIcon fontSize={14} icon="trash-can"/>}
+              backgroundColor={"#9f0712"}
+              color={"#9f0712"}
+              title={"Eliminar autores"}>
+                <DeleteAuthorForm authorList={authorList} />
+            </PopUpModal>
+            <PopUpModal
+              id={"del-series"}
+              text={" Series"}
+              icon={<FontAwesomeIcon fontSize={14} icon="trash-can"/>}
+              backgroundColor={"#9f0712"}
+              color={"#9f0712"}
+              title={"Eliminar series"}>
+                <DeleteSeriesForm seriesList={seriesList} />
+            </PopUpModal>
+            <PopUpModal
+              id={"del-collections"}
+              text={" Colecciones"}
+              icon={<FontAwesomeIcon fontSize={14} icon="trash-can"/>}
+              backgroundColor={"#9f0712"}
+              color={"#9f0712"}
+              title={"Eliminar colecciones"}>
+                <DeleteCollectionForm collectionList={collectionList} />
+            </PopUpModal>
           </div>
         </div>
         <div className="relative flex gap-5 align-top justify-center w-[80%]">
           <div className="absolute top-0 left-0 w-[70%]">
-            <div className="relative z-10 w-[100%] h-[100%]">
+            <div className="relative z-10 w-full h-full">
               <button
                 className="absolute top-105 -left-4 bg-zinc-600 hover:bg-zinc-500 opacity-40 hover:opacity-100 hover:cursor-pointer text-white min-h-24 rounded-full pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300"
                 type="button"
@@ -329,41 +345,40 @@ function HomePage() {
             <BookCardsGenerator 
               fullBooks={list} 
               handleDetails={handleDetails} 
-              warning={warning}
-              setWarning={setWarning}
+              setDetails={setDetails}
             />
           </section>
           {/* Details & More */}
           <section className="w-[30%] bg-zinc-800 text-white p-3 rounded-xl">
             {/* TABS */}
             {details === null ? (
-              <div className="flex items-center justify-center h-[100vh] flex-wrap border border-zinc-400 border-dashed rounded">
+              <div className="flex items-center justify-center h-screen flex-wrap border border-zinc-400 border-dashed rounded">
                 <h1 className="font-extrabold text-3xl text-center">No hay ningún libro seleccionado</h1>
               </div>
             ) : (
               <>
                 <div className={style.tabs}>
                   <button
-                    className={`${activeTab === "details" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                    className={`${activeTab === "details" ? "bg-zinc-600" : "bg-zinc-800 border-s border-t border-e border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                     type="button"
                     onClick={() => (setActiveTab("details"))}>
                     Detalles
                   </button>
                   <button
-                    className={`${activeTab === "edition" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                    className={`${activeTab === "edition" ? "bg-zinc-600" : "bg-zinc-800 border-s border-t border-e border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                     type="button"
                     onClick={() => (setActiveTab("edition"))}>
                     Actualizar
                   </button>
                   <button
-                    className={`${activeTab === "review" ? "bg-zinc-600" : "bg-zinc-800 border-s-1 border-t-1 border-e-1 border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
+                    className={`${activeTab === "review" ? "bg-zinc-600" : "bg-zinc-800 border-s border-t border-e border-zinc-600"} hover:cursor-pointer text-white min-w-24 disabled:bg-zinc-600 disabled:cursor-default rounded-tr-md rounded-tl-md`}
                     type="button"
                     onClick={() => (setActiveTab("review"))}>
                     Reseña
                   </button>
                 </div>
                     {/* Content */}
-                <div className={`tabs-content bg-zinc-600 p-5 h-[100dvh] rounded-bl-md rounded-br-md rounded-tr-md overflow-y-scroll scrollbar-none`}>
+                <div className={`tabs-content bg-zinc-600 p-5 h-dvh rounded-bl-md rounded-br-md rounded-tr-md overflow-y-scroll scrollbar-none`}>
                   {activeTab === "details" && (
                     <BookDetails book={details} />
                   )}
@@ -381,8 +396,6 @@ function HomePage() {
                     <Review 
                       details={details}
                       setDetails={setDetails}
-                      warning={warning} 
-                      setWarning={setWarning}
                     />
                   )}
                 </div>

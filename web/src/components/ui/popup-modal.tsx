@@ -1,11 +1,10 @@
-import type { ServerMessage } from "@shared/types";
 import { type CSSProperties, type ReactNode } from "react";
+import useWarningContext from "../hooks/useWarningContext";
 
 type PopUpModalProp = {
   id: string,
   text: string | ReactNode,
   icon?: ReactNode,
-  warning?: ServerMessage | null,
   children: ReactNode,
   color?: string,
   backgroundColor?: string,
@@ -13,13 +12,14 @@ type PopUpModalProp = {
   className?: string
 };
 
-function PopUpModal({id, text, icon, warning, children, color = "#007a55", backgroundColor = "#007a55", title, className}: PopUpModalProp) {
+function PopUpModal({id, text, icon, children, color = "#007a55", backgroundColor = "#007a55", title, className}: PopUpModalProp) {
   
   const themeStyle = {
     "--theme-color": color,
     "--theme-color-hover": `color-mix(in srgb, ${color}, white 18%)`,
     "--shadow-color": backgroundColor ?? "none"
   } as CSSProperties;
+  const { warning, setWarning, update, setUpdate } = useWarningContext();
   
   return (
     <>

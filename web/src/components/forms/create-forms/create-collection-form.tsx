@@ -1,19 +1,16 @@
-import type { CollectionDTO, ServerMessage } from "@shared/types";
+import type { CollectionDTO } from "@shared/types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as CollectionServices from "../../../services/collection.services.js";
 import { isApiError } from "../../../services/utils.services.js";
 import { useEffect } from "react";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
-type CreateCollectionFormProp = {
-  warning: ServerMessage | null,
-  setWarning: (newWarning: ServerMessage | null) => void
-};
-
-function CreateCollectionForm({ warning, setWarning }: CreateCollectionFormProp){
+function CreateCollectionForm(){
   
   "use no memo";
 
   const{ register, handleSubmit, reset } = useForm<CollectionDTO>();
+  const { warning, setWarning, update, setUpdate } = useWarningContext();
 
   const submit: SubmitHandler<CollectionDTO> = async (data: CollectionDTO) => {
     try {
@@ -25,6 +22,7 @@ function CreateCollectionForm({ warning, setWarning }: CreateCollectionFormProp)
           statusCode: 200
         }
       });
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({

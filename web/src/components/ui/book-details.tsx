@@ -26,20 +26,28 @@ function BookDetails({ book }: BookDetails) {
               <table className="table-fixed">
                 <tbody>
                   <tr>
+                    <td>Formato</td>
+                    <td>{book.bookBase.format ?? " --- "}</td>
+                  </tr>
+                  <tr>
+                    <td>Idioma</td>
+                    <td>{book.bookBase.language ?? " --- "}</td>
+                  </tr>
+                  <tr>
                     <td>Serie</td>
-                    <td>{book.series?.name ?? " - "}</td>
+                    <td>{book.series?.name ?? " --- "}</td>
                   </tr>
                   <tr>
                     <td>Volúmenes</td>
-                    <td>{book.series?.volumes ?? " - "}</td>
+                    <td>{book.series?.volumes ?? " --- "}</td>
                   </tr>
                   <tr>
-                    <td>#</td>
-                    <td>{book.bookBase.indexVolume ?? " - "}</td>
+                    <td>Número</td>
+                    <td>{book.bookBase.indexVolume ?? " --- "}</td>
                   </tr>
                   <tr>
                     <td>Colección</td>
-                    <td>{book.collection.name ?? " - "}</td>
+                    <td>{book.collection.name ?? " --- "}</td>
                   </tr>
                 </tbody>
               </table>

@@ -1,18 +1,18 @@
-import type { Collection, ServerMessage } from "@shared/types";
+import type { Collection } from "@shared/types";
 import * as CollectionService from "./../../../services/collection.services.js";
 import { useEffect } from "react";
 import { isApiError } from "../../../services/utils.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type EditCollectionsFormProps = {
   collectionList: Collection[],
-  setCollectionList: (data: Collection[]) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
+  setCollectionList: (data: Collection[]) => void
 }
 
-function EditAllCollectionsForm({ collectionList, setCollectionList, warning, setWarning }: EditCollectionsFormProps){
+function EditAllCollectionsForm({ collectionList, setCollectionList }: EditCollectionsFormProps){
 
   "use no memory";
+  const { warning, setWarning } = useWarningContext();
   
   const submit = async(event: React.SubmitEvent) => {
     event.preventDefault();

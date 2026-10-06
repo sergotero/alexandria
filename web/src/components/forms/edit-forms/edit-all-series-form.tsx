@@ -1,22 +1,22 @@
-import type { SeriesList, ServerMessage } from "@shared/types";
+import type { SeriesList } from "@shared/types";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as SeriesServices from "./../../../services/series.services.js";
 import { isApiError } from "../../../services/utils.services.js";
+import useWarningContext from "../../hooks/useWarningContext.js";
 
 type EditAllSeriesFormProps = {
   seriesList: SeriesList[],
   setSeriesList: (data: SeriesList[]) => void,
-  warning: ServerMessage | null,
-  setWarning: (data: ServerMessage | null) => void
 };
 
-function EditAllSeriesForm({ seriesList, setSeriesList, warning, setWarning }: EditAllSeriesFormProps){
+function EditAllSeriesForm({ seriesList, setSeriesList }: EditAllSeriesFormProps){
 
   "use no memo";
 
   const { register, reset, handleSubmit } = useForm<SeriesList>();
   const [ selectedSeries, setSelectedSeries ] = useState<SeriesList | null>(null);
+  const { warning, setWarning } = useWarningContext();
   
     useEffect(() => {
       reset({
