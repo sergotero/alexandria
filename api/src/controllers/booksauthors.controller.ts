@@ -62,13 +62,13 @@ export async function destroy(req: Request, res: Response): Promise<void | never
   if (newBookId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
   } else if (typeof newBookId !== "number") {
-    throw createHttpError(400, "El ID debe ser un string");
+    throw createHttpError(400, "El tipado del ID es incorrecto");
   }
 
   if (newAuthorId === undefined) {
     throw createHttpError(400, "El ID es un parámetro obligatorio");
   } else if (typeof newAuthorId !== "number") {
-    throw createHttpError(400, "El ID debe ser un string");
+    throw createHttpError(400, "El tipado del ID es incorrecto");
   }
 
   const result = await BooksAuthorsService.destroy(newBookId, newAuthorId);

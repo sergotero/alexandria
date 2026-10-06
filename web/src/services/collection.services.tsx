@@ -30,3 +30,5 @@ export const create = async (data: CollectionDTO): Promise<APIResponse<Collectio
 export const list = async (): Promise<APIResponse<Collection[]>> => await http.get("/collection");
 
 export const updateAll = async (data: Collection[]): Promise<APIResponse<Collection>> => await http.patch(`/collections`, data);
+
+export const destroy = async(id: number): Promise<APIResponse<Collection>> => http.delete(`/collection/${id}`);

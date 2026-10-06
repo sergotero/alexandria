@@ -28,3 +28,5 @@ http.interceptors.response.use(
 export const create = async(data: ExtendedReviewDTO): Promise<APIResponse<ExtendedReviewDTO>> => await http.post(`/readbook`, data);
 
 export const update = async(id: number, data: SimpleReview): Promise<APIResponse<ExtendedReviewDTO>> => await http.patch(`/readbook/${id}`, data);
+
+export const destroy = async(id: number): Promise<APIResponse<SimpleReview>> => http.delete(`/readbook/${id}`);

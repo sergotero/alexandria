@@ -28,3 +28,4 @@ http.interceptors.response.use(
 
 export const update = async(bookId: string, authorId: string, data: BooksAuthorsDTO): Promise<APIResponse<BooksAuthors>> => await http.patch('/booksauthors',{bookId, authorId, data});
 
+export const destroy = async(data: BooksAuthorsDTO): Promise<APIResponse<BooksAuthors>> => await http.delete('/booksauthors', {data});

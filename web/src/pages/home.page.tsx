@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router";
 import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
-import EditAllForm from "../components/forms/edit-all-form.tsx";
+import EditAllForm from "../components/forms/edit-forms/edit-all-form.tsx";
 import * as FullBookService from "./../services/fullbook.services.tsx";
 import * as CollectionServices from "./../services/collection.services.tsx";
 import * as SeriesServices from "./../services/series.services.tsx";
@@ -207,7 +207,7 @@ function HomePage() {
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
         {/* Buttons */}
         <div className="flex gap-5 align-top justify-center w-[80%]">
-          <div className="grid grid-flow-row grid-cols-6 gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
+          <div className="grid grid-flow-row grid-cols-7 gap-3 w-[70%] bg-zinc-800 p-2 rounded-xl">
             <PopUpModal
               id={"add-author"}
               text={" Autor"}
@@ -255,8 +255,6 @@ function HomePage() {
                   seriesList={seriesList}
                 />
             </PopUpModal>
-          </div>
-          <div className="grid grid-flow-row grid-cols-3 gap-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
             <PopUpModal
               id={"mod-authors"}
               text={" Autores"}
@@ -303,6 +301,9 @@ function HomePage() {
                 />
             </PopUpModal>
           </div>
+          <div className="grid grid-flow-row grid-cols-3 gap-3 w-[30%] bg-zinc-800 p-2 rounded-xl">
+            {/*Botones de eliminar*/}
+          </div>
         </div>
         <div className="relative flex gap-5 align-top justify-center w-[80%]">
           <div className="absolute top-0 left-0 w-[70%]">
@@ -325,7 +326,12 @@ function HomePage() {
           </div>
           {/* BookCards */}
           <section className="grid grid-cols-3 grid-rows-6 gap-3 p-3 w-[70%] overflow-y-scroll scrollbar-none bg-zinc-800 rounded-xl ">
-            <BookCardsGenerator fullBooks={list} handleDetails={handleDetails} />
+            <BookCardsGenerator 
+              fullBooks={list} 
+              handleDetails={handleDetails} 
+              warning={warning}
+              setWarning={setWarning}
+            />
           </section>
           {/* Details & More */}
           <section className="w-[30%] bg-zinc-800 text-white p-3 rounded-xl">

@@ -32,3 +32,5 @@ export const list = async (): Promise<APIResponse<SeriesList[]>> => await http.g
 export const detail = async(id: number): Promise<APIResponse<SeriesList>> => await http.get(`/series/${id}`);
 
 export const update = async(id: number, data: SeriesList): Promise<APIResponse<Series>> => await http.patch(`/series/${id}`, data);
+
+export const destroy = async(id: number): Promise<APIResponse<Series>> => http.delete(`/series/${id}`);

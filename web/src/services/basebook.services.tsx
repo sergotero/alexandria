@@ -27,3 +27,5 @@ http.interceptors.response.use(
 );
 
 export const update = async (id: number, data: FormData): Promise<APIResponse<BookBase>> => await http.patch(`/bookbase/${id}`, data);
+
+export const destroy = async(id: number): Promise<APIResponse<BookBase>> => http.delete(`/bookbase/${id}`);

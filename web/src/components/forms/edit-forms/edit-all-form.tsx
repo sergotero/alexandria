@@ -1,8 +1,8 @@
 import type { Author, Collection, FullBook, SeriesList } from "@shared/types";
-import EditAuthorForm from "./edit-forms/edit-author-form.tsx";
-import EditBookBaseForm from "./edit-forms/edit-bookbase-form.tsx";
-import EditSeriesForm from "./edit-forms/edit-series-form.tsx";
-import EditCollectionForm from "./edit-forms/edit-collection-form";
+import EditAuthorForm from "./edit-author-form.tsx";
+import EditBookBaseForm from "./edit-bookbase-form.tsx";
+import EditSeriesForm from "./edit-series-form.tsx";
+import EditCollectionForm from "./edit-collection-form.tsx";
 
 type EditAllFormProps = {
   fullbook: FullBook,

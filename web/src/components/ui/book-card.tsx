@@ -1,8 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { FullBook } from "@shared/types";
+import type { FullBook, ServerMessage } from "@shared/types";
 import PopUpModal from "./popup-modal";
+import DeleteForm from "../forms/delete-forms/delete-form";
 
-function BookCard({ bookBase, author, collection }: FullBook) {
+type BookCardProp = {
+  fullbook: FullBook,
+  warning: ServerMessage | null,
+  setWarning: (data: ServerMessage | null) => void,
+};
+
+function BookCard({fullbook, warning, setWarning}: BookCardProp) {
+  const { bookBase, author, collection } = fullbook;
   return(
     <div className="flex gap-2">
       <div className="w-[30%]">
@@ -26,19 +34,17 @@ function BookCard({ bookBase, author, collection }: FullBook) {
               }
           </h6>
           <PopUpModal 
-            id={"delete-warning"}
+            id={`delete-warning${bookBase.id}`}
             text={<FontAwesomeIcon icon={"xmark"} />}
             color={"none"}
             backgroundColor={"#c50a2a"}
             className={"flex ms-auto p-1"}
           >
-            <div>
-                <p className="text-white text-center">¿Está seguro de que desea eliminar el libro?</p>
-                <div className="flex justify-center gap-3 mt-4">
-                  <button className="bg-red-800 hover:bg-red-600 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300">Borrar</button>
-                  <button className="bg-zinc-600 hover:bg-zinc-400 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300">Cerrar</button>
-                </div>
-              </div>
+            <DeleteForm 
+              fullbook={fullbook}
+              warning={warning}
+              setWarning={setWarning}
+            />
           </PopUpModal>
         </div>
         <p className={`font-light text-sm italic`}>

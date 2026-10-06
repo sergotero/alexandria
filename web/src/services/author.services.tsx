@@ -33,3 +33,5 @@ export const list = async (): Promise<APIResponse<Author[]>> => await http.get(`
 export const update = async(id: number, data: Author): Promise<APIResponse<Author>> => await http.patch(`/author/${id}`, data);
 
 export const detail = async(id: number): Promise<APIResponse<Author>> => await http.get(`/author/${id}`);
+
+export const destroy = async(id: number): Promise<APIResponse<Author>> => http.delete(`/author/${id}`);
