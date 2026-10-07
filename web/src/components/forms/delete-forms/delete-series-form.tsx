@@ -13,24 +13,24 @@ function DeleteSeriesForm({ seriesList }: DeleteSeriesFormProps) {
   "use no memo";
 
   const { handleSubmit, register } = useForm<any>();
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning, setWarning, update, setUpdate, fetch, setFetch } = useWarningContext();
   
-  const submit: SubmitHandler<number> = async(data: number) => {
-    console.log("data: ", data);
-    
+  const submit: SubmitHandler<{seriesId: number}> = async(data: {seriesId: number}) => {
     try {
-    //   if (data.bookId !== undefined && data.bookId !== null) {
-    //     await CollectionServices.destroy(data.authorId);
-    //   }
-    //   setWarning({
-    //     success: true,
-    //     data: {
-    //       message: "El libro se ha eliminado con éxito",
-    //       statusCode: 200
-    //     }
-    //   });
-      const dialog = document.getElementById(`del-collections`) as HTMLDialogElement;
+      if (data.seriesId !== undefined && data.seriesId !== null && data.seriesId !== 0) {
+        await SeriesServices.destroy(data.seriesId);
+      }
+      setWarning({
+        success: true,
+        data: {
+          message: "La serie se ha eliminado con éxito.",
+          statusCode: 200
+        }
+      });
+      const dialog = document.getElementById(`del-series`) as HTMLDialogElement;
       dialog.hidePopover();
+      setFetch(!fetch);
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -87,7 +87,7 @@ function DeleteSeriesForm({ seriesList }: DeleteSeriesFormProps) {
           className="bg-zinc-600 hover:bg-zinc-400 hover:cursor-pointer text-white min-w-24 rounded-md pe-2 disabled:bg-zinc-600 disabled:cursor-default ps-2 transition-opacity duration-300"
           onClick={(event: React.MouseEvent) => {
             event.preventDefault();
-            const dialog = document.getElementById(`del-collections`) as HTMLDialogElement;
+            const dialog = document.getElementById(`del-series`) as HTMLDialogElement;
             dialog.hidePopover();
           }}>
             Cerrar

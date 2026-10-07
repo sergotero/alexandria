@@ -13,24 +13,24 @@ function DeleteAuthorForm({ authorList }: DeleteAuthorFormProps) {
   "use no memo";
 
   const { handleSubmit, register } = useForm<any>();
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning, setWarning, update, setUpdate, fetch, setFetch } = useWarningContext();
   
-  const submit: SubmitHandler<number> = async(data: number) => {
-    console.log("data: ", data);
-    
+  const submit: SubmitHandler<{authorId: number}> = async(data: {authorId: number}) => {
     try {
-    //   if (data.bookId !== undefined && data.bookId !== null) {
-    //     await AuthorServices.destroy(data.authorId);
-    //   }
-    //   setWarning({
-    //     success: true,
-    //     data: {
-    //       message: "El libro se ha eliminado con éxito",
-    //       statusCode: 200
-    //     }
-    //   });
+      if (data.authorId !== undefined && data.authorId !== null && data.authorId !== 0) {
+        await AuthorServices.destroy(data.authorId);
+      }
+      setWarning({
+        success: true,
+        data: {
+          message: "El autor se ha eliminado con éxito.",
+          statusCode: 200
+        }
+      });
       const dialog = document.getElementById(`del-authors`) as HTMLDialogElement;
       dialog.hidePopover();
+      setFetch(!fetch);
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -76,7 +76,7 @@ function DeleteAuthorForm({ authorList }: DeleteAuthorFormProps) {
         <b>¿Está seguro de que desea eliminar el autor?</b> <br />
       </p>
       <p className="text-white text-center">
-        Una vez que los cambios se lleven a cabo, los datos que hayan sido borrados no se podrán recuperar.
+        Al hacerlo, también se eliminarán de la base de datos todos los libros que tenga vinculados. Una vez que los cambios se lleven a cabo, los datos que hayan sido borrados no se podrán recuperar.
       </p>
       <div className="flex justify-center gap-3 mt-4">
         <button 

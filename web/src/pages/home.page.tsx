@@ -35,7 +35,7 @@ function HomePage() {
   const searchTerm = queryParams.get("search") || "";
 
   const [ searchValue, setSearchValue ] = useState<string>("");
-  const { warning, setWarning, update } = useWarningContext();
+  const { warning, setWarning, update, fetch } = useWarningContext();
   const [ list, setList ] = useState<FullBook[]>([]);
   const [ details, setDetails ] = useState<FullBook | null>(null);
   const [ collectionList, setCollectionList ] = useState<Collection[]>([]);
@@ -147,13 +147,13 @@ function HomePage() {
       fetchCollections();
       fetchSeries();
       fetchAuthors();
-      setWarning({
-        success: true,
-        data: {
-          message: "Los listados se han cargado de manera exitosa.",
-          statusCode: 200
-        }
-        });
+      // setWarning({
+      //   success: true,
+      //   data: {
+      //     message: "Los listados se han cargado de manera exitosa.",
+      //     statusCode: 200
+      //   }
+      // });
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -165,7 +165,7 @@ function HomePage() {
         });
       }
     }
-  }, []);
+  }, [fetch]);
 
   useEffect(() => {
     try {

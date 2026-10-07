@@ -27,7 +27,7 @@ function BookCard({fullbook, setDetails}: BookCardProp) {
         <div className="flex">
           <h6 className={`font-bold text-sm`}>
               {
-                bookBase.title.length >= 50 ?
+                bookBase.title?.length >= 50 ?
                 bookBase.title.slice(0, 50) + "..." :
                 bookBase.title
               }

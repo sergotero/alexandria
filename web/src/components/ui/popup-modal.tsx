@@ -19,7 +19,7 @@ function PopUpModal({id, text, icon, children, color = "#007a55", backgroundColo
     "--theme-color-hover": `color-mix(in srgb, ${color}, white 18%)`,
     "--shadow-color": backgroundColor ?? "none"
   } as CSSProperties;
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning } = useWarningContext();
   
   return (
     <>

@@ -13,24 +13,24 @@ function DeleteCollectionForm({ collectionList }: DeleteCollectionFormProps) {
   "use no memo";
 
   const { handleSubmit, register } = useForm<any>();
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning, setWarning, update, setUpdate, fetch, setFetch } = useWarningContext();
   
-  const submit: SubmitHandler<number> = async(data: number) => {
-    console.log("data: ", data);
-    
+  const submit: SubmitHandler<{collectionId: number}> = async(data: {collectionId: number}) => {
     try {
-    //   if (data.bookId !== undefined && data.bookId !== null) {
-    //     await CollectionServices.destroy(data.authorId);
-    //   }
-    //   setWarning({
-    //     success: true,
-    //     data: {
-    //       message: "El libro se ha eliminado con éxito",
-    //       statusCode: 200
-    //     }
-    //   });
+      if (data.collectionId !== undefined && data.collectionId !== null && data.collectionId !== 0) {
+        await CollectionServices.destroy(data.collectionId);
+      }
+      setWarning({
+        success: true,
+        data: {
+          message: "La colección se ha eliminado con éxito.",
+          statusCode: 200
+        }
+      });
       const dialog = document.getElementById(`del-collections`) as HTMLDialogElement;
       dialog.hidePopover();
+      setFetch(!fetch);
+      setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({

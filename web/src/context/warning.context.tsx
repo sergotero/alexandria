@@ -6,7 +6,9 @@ type WarningContextType = {
   warning: ServerMessage | null,
   setWarning: React.Dispatch<React.SetStateAction<ServerMessage | null>>,
   update: boolean,
-  setUpdate: React.Dispatch<React.SetStateAction<boolean>>
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
+  fetch: boolean,
+  setFetch: React.Dispatch<React.SetStateAction<boolean>>
 };
 // Context creation
 export const WarningContext = createContext<WarningContextType | null>(null);
@@ -20,8 +22,10 @@ type WarningContextProps = {
 function WarningContextProvider({ children }: WarningContextProps) {
   const [ warning, setWarning ] = useState<ServerMessage | null>(null);
   const [ update, setUpdate ] = useState<boolean>(false);
+  const [ fetch, setFetch ] = useState<boolean>(false);
+
   return (
-    <WarningContext.Provider value={{warning, setWarning, update, setUpdate}}>
+    <WarningContext.Provider value={{warning, setWarning, update, setUpdate, fetch, setFetch}}>
       {children}
     </WarningContext.Provider>
   );

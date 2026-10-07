@@ -14,26 +14,34 @@ type DeleteFormProps = {
   setDetails: (data: FullBook | null) => void
 };
 
+type DeleteFormDTO = {
+  bookId: number,
+  authorId: number,
+  seriesId?: number,
+  collectionId: number,
+  reviewId?: number
+};
+
 function DeleteForm({ fullbook, setDetails }: DeleteFormProps){
   
   "use no memo";
 
-  const { handleSubmit, register } = useForm<any>();
+  const { handleSubmit, register } = useForm<DeleteFormDTO>();
   const { warning, setWarning, update, setUpdate } = useWarningContext();
   
-  const submit: SubmitHandler<any> = async(data: any) => {
+  const submit: SubmitHandler<DeleteFormDTO> = async(data: DeleteFormDTO) => {
     try {
       if (data.bookId !== undefined && data.bookId !== null) {
 
         await BooksAuthorsServices.destroy({bookId: data.bookId, authorId: data.authorId});
 
-        if (!isNaN(data.seriesId) && data.seriesId !== undefined && data.seriesId !== null) {
+        if (data.seriesId !== undefined && data.seriesId !== null && !isNaN(data.seriesId)) {
           await BooksSeriesServices.destroy({bookId: data.bookId, seriesId: data.seriesId});
         }
 
         await BooksCollectionsServices.destroy({bookId: data.bookId, collectionId: data.collectionId});
 
-        if (!isNaN(data.reviewId) && data.reviewId !== undefined && data.reviewId !== null) {
+        if (data.reviewId !== undefined && data.reviewId !== null && !isNaN(data.reviewId)) {
           await ReadbookServices.destroy(data.reviewId);
         }
 
