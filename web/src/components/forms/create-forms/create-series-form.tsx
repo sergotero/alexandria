@@ -11,7 +11,7 @@ function CreateSeriesForm(){
   "use no memo";
 
   const{ register, handleSubmit, reset } = useForm<SeriesDTO>();
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning, setWarning, update, setUpdate, fetch, setFetch } = useWarningContext();
 
   const submit: SubmitHandler<SeriesDTO> = async (data: SeriesDTO) => {
     try {
@@ -23,6 +23,7 @@ function CreateSeriesForm(){
           statusCode: 200
         }
       });
+      setFetch(!fetch);
       setUpdate(!update)
     } catch (error: unknown) {
       if(isApiError(error)){

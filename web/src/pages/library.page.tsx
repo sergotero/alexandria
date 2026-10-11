@@ -5,11 +5,11 @@ import BookCardsGenerator from "../components/ui/book-cards-generator.tsx";
 import BookDetails from "../components/ui/book-details.tsx";
 import Header from "../components/ui/header.tsx";
 import EditAllForm from "../components/forms/edit-forms/edit-all-form.tsx";
-import * as FullBookService from "./../services/fullbook.services.tsx";
-import * as CollectionServices from "./../services/collection.services.tsx";
-import * as SeriesServices from "./../services/series.services.tsx";
-import * as AuthorServices from "./../services/author.services.tsx";
-import style from "./home.page.module.css";
+import * as FullBookService from "../services/fullbook.services.tsx";
+import * as CollectionServices from "../services/collection.services.tsx";
+import * as SeriesServices from "../services/series.services.tsx";
+import * as AuthorServices from "../services/author.services.tsx";
+import style from "./library.page.module.css";
 import SearchBar from "../components/ui/search-bar.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateSeriesForm from "../components/forms/create-forms/create-series-form.tsx";
@@ -27,7 +27,7 @@ import DeleteCollectionForm from "../components/forms/delete-forms/delete-collec
 import DeleteAuthorForm from "../components/forms/delete-forms/delete-author-form.tsx";
 import DeleteSeriesForm from "../components/forms/delete-forms/delete-series-form.tsx";
 
-function HomePage() {
+function Library() {
   const [ queryParams, setQueryParams ] = useSearchParams();
   
   const type = queryParams.get("type") || "title";
@@ -147,13 +147,6 @@ function HomePage() {
       fetchCollections();
       fetchSeries();
       fetchAuthors();
-      // setWarning({
-      //   success: true,
-      //   data: {
-      //     message: "Los listados se han cargado de manera exitosa.",
-      //     statusCode: 200
-      //   }
-      // });
     } catch (error: unknown) {
       if(isApiError(error)){
         setWarning({
@@ -408,4 +401,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Library;

@@ -2,7 +2,7 @@ import type { Author, BookBase, Collection, FullBook, Series, SimpleReview } fro
 import bcrypt from "bcryptjs";
 import type { SqlError } from 'mariadb';
 
-export function capitalize(word: string | null): string | null {
+export function capitalize(word: string | null | undefined): string | null {
   if (word === null || word === undefined) {
     return null;
   } else {

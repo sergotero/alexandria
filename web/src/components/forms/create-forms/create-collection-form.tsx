@@ -10,7 +10,7 @@ function CreateCollectionForm(){
   "use no memo";
 
   const{ register, handleSubmit, reset } = useForm<CollectionDTO>();
-  const { warning, setWarning, update, setUpdate } = useWarningContext();
+  const { warning, setWarning, update, setUpdate, fetch, setFetch } = useWarningContext();
 
   const submit: SubmitHandler<CollectionDTO> = async (data: CollectionDTO) => {
     try {
@@ -22,6 +22,7 @@ function CreateCollectionForm(){
           statusCode: 200
         }
       });
+      setFetch(!fetch);
       setUpdate(!update);
     } catch (error: unknown) {
       if(isApiError(error)){
