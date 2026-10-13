@@ -3,7 +3,7 @@ import { query } from "../config/db-query.config.js";
 
 export async function create(data: UserDTO): Promise<SQLResponse>{
   const { name, lastname1, lastname2, email, password, role } = data;
-  return await query(`INSERT INTO users (name, lastname1, lastname2, email, password, role)VALUES (?, ?, ?, ?, ?, ?)`, [name, lastname1!, lastname2!, email, password, role]);
+  return await query(`INSERT INTO users (name, lastname1, lastname2, email, password, role)VALUES (?, ?, ?, ?, ?, ?)`, [name!, lastname1!, lastname2!, email, password, role!]);
 }
 
 export async function findAll(): Promise<User[]>{

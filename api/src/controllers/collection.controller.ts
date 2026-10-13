@@ -79,9 +79,10 @@ export async function update(req: Request, res: Response): Promise<void | never>
 
 export async function updateAll(req: Request, res: Response): Promise<void | never> {
   const data = req.body;
+  let newData: Collection[] = [];
   
   for (let i = 0; i < data.length; i++) {
-    const collection = data[i];
+    const collection = data[i] as Collection;
 
     if(collection.id === undefined) {
       throw createHttpError(400, "Todas las colecciones deben tener un identificador");
@@ -94,9 +95,10 @@ export async function updateAll(req: Request, res: Response): Promise<void | nev
     if (collection.name === undefined || !/^\#{1}[a-fA-F0-9]{6}$/.test(collection.colorCode)) {
       throw createHttpError(400, "Todos los colores deben tener un formato hexadecimal");
     }
+    newData.push(collection);
   }
   
-  const collections = await CollectionService.updateAll(data);
+  const collections = await CollectionService.updateAll(newData);
   const response: APIResponse<Collection[]> = {
     success: true,
     data: collections

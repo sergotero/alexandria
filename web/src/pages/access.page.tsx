@@ -1,4 +1,5 @@
 import LoginForm from "../components/forms/access-forms/login-form";
+import RegisterForm from "../components/forms/access-forms/register-form";
 import Header from "../components/ui/header";
 
 function AccessPage(){
@@ -11,6 +12,7 @@ function AccessPage(){
       </Header>
       <main className="flex flex-col justify-top min-h-[90vh] items-center gap-5 p-5 bg-zinc-950">
         <LoginForm />
+        <RegisterForm />
       </main>
     </>
   );

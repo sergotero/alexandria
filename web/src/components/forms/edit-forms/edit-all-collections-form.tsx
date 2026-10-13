@@ -26,7 +26,8 @@ function EditAllCollectionsForm({ collectionList, setCollectionList }: EditColle
       const inputColor = node.children[2] as HTMLInputElement;
       data.push({id: +inputNumber.value, name: inputText.value, colorCode: inputColor.value});
     }
-
+    console.log(data);
+    
     try {
       await CollectionService.updateAll(data);
       setCollectionList(data);

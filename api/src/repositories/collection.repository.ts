@@ -1,7 +1,6 @@
 import type { Collection, CollectionDTO, SQLResponse, SQLValue } from "@shared/types";
 import { query } from "../config/db-query.config.js";
 import { batch } from "../config/db-batch.config.js";
-import type { UpsertResult } from "mariadb";
 
 export async function create(data: CollectionDTO): Promise<SQLResponse> {
   return await query("INSERT INTO collections (name, color_code) VALUES (?, ?)", [data.name, data.colorCode!]);

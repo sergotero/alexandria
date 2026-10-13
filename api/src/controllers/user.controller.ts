@@ -5,7 +5,7 @@ import type { APIResponse, User } from '@shared/types';
 
 
 export async function create(req: Request, res: Response): Promise<void> {
-  const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
 
   if (name === undefined) {
     throw createHttpError(400, "El nombre es un parámetro obligatorio");
@@ -23,12 +23,6 @@ export async function create(req: Request, res: Response): Promise<void> {
     throw createHttpError(400, "El password es un parámetro obligatorio");
   } else if (typeof password !== "string") {
     throw createHttpError(400, "El password debe ser un string");
-  }
-
-  if (role === undefined) {
-    throw createHttpError(400, "El rol es un parámetro obligatorio");
-  } else if (typeof role !== "string") {
-    throw createHttpError(400, "El rol debe ser un string");
   }
 
   const user = await UserService.create(req.body);
@@ -105,7 +99,27 @@ export async function destroy(req: Request, res: Response): Promise<void> {
 }
 
 export async function login(req: Request, res: Response) {
+  const { email, password } = req.body;
 
+  if (email === undefined) {
+    throw createHttpError(400, "El email es un parámetro obligatorio");
+  } else if (typeof email !== "string") {
+    throw createHttpError(400, "El email debe ser un string");
+  }
+
+  if (password === undefined) {
+    throw createHttpError(400, "El password es un parámetro obligatorio");
+  } else if (typeof password !== "string") {
+    throw createHttpError(400, "El password debe ser un string");
+  }
+
+
+  const user = await UserService.login(email, password);
+  const response: APIResponse<Omit<User, "password">> = {
+    success: true,
+    data: user
+  };
+  res.status(200).json(response);
 }
 
 export async function logout(req: Request, res: Response) {

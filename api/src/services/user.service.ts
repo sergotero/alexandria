@@ -1,10 +1,11 @@
 import createHttpError from "http-errors";
 import * as UserRepository from "./../repositories/user.repository.js";
-import { capitalize, encryptPassword } from "./utils.service.js";
+import { capitalize, checkPassword, encryptPassword } from "./utils.service.js";
 import type { User, UserDTO } from "@shared/types";
 
 export async function create(data: UserDTO): Promise<Omit<User, "password"> | never> {
-  const { email, password } = data;
+  const roles = ["Admin", "User"];
+  const { email, password, role } = data;
 
   if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/.test(email)) {
     throw createHttpError(400, "El email no tiene un formato válido");
@@ -12,6 +13,10 @@ export async function create(data: UserDTO): Promise<Omit<User, "password"> | ne
 
   if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,15}$/.test(password)) {
     throw createHttpError(400, "La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo y debe tener entre 5 y 15 caracteres");
+  }
+
+  if (role !== undefined && !roles.includes(role)) {
+    throw createHttpError(400, "El rol no está definido en la base de datos");
   }
 
   const existing = await UserRepository.findByEmail(data.email);
@@ -26,7 +31,7 @@ export async function create(data: UserDTO): Promise<Omit<User, "password"> | ne
     lastname2: capitalize(data?.lastname2!)!,
     email,
     password: hashedPass,
-    role: data.role
+    role: role ?? "User"
   }
 
   const result = await UserRepository.create(user);
@@ -100,12 +105,21 @@ export async function destroy(id: number) : Promise<true | never>{
   return true;
 }
 
-export async function register(){
-  
-}
+export async function login(email: string, password: string): Promise<Omit<User, "password"> | never > {
+  const user = await UserRepository.findByEmail(email);
 
-export async function login() {
-
+  if (Array.isArray(user) && user[0]) {
+    const exists = await checkPassword(password, user[0].password);
+    
+    if (exists) {
+      const userWithoutPass: Omit<User, "password"> = user[0];
+      return userWithoutPass;
+    } else {
+      throw createHttpError(401, "El email y/o la contraseña no son correctos");
+    }
+  } else {
+    throw createHttpError(500, "Se ha producido un error en la base de datos");
+  }
 }
 
 export async function logout() {

@@ -1,11 +1,20 @@
 import type { UserDTO } from "@shared/types";
-import { useForm, type SubmitHandler } from "react-hook-form"
+import { useForm, type SubmitHandler } from "react-hook-form";
+import * as UserService from "./../../../services/user.services.js";
+import { useNavigate } from "react-router";
 
 function LoginForm(){
   const  { register, handleSubmit, reset } = useForm<UserDTO>();
+  const navigate = useNavigate();
+
   const submit: SubmitHandler<UserDTO> = async(data: UserDTO) => {
     console.log(data);
-    
+    const user = await UserService.login({email: data.email, password: data.password});
+    if (user) {
+      //Falta añadir user al contexto.
+      navigate("/library");
+      reset();
+    }
   }
 
   return(
@@ -16,7 +25,11 @@ function LoginForm(){
           <label htmlFor="email" className="text-white">Email*</label>
           <input 
             {...register("email", {
-              required: true
+              required: true,
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-z]{2,6}$/,
+                message: "El email no tiene un formato válido"
+              }
             })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             type="email"
@@ -26,7 +39,11 @@ function LoginForm(){
           <label htmlFor="password" className="text-white">Contraseña*</label>
           <input 
             {...register("password", {
-              required: true
+              required: true,
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,15}$/,
+                message:"La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo y debe tener entre 5 y 15 caracteres"
+              }
             })}
             className="bg-white mb-4 rounded-md p-0.5 ms-1 text-black"
             type="password"

@@ -38,9 +38,9 @@ router.delete("/series/:id", SeriesController.destroy);
 router.get("/collection", CollectionController.list);
 router.post("/collection", CollectionController.create);
 router.get("/collection/:id", CollectionController.detail);
-router.patch("/collection/:id", CollectionController.update);
+router.patch("/collection/all", CollectionController.updateAll);
+// router.patch("/collection/:id", CollectionController.update);
 router.delete("/collection/:id", CollectionController.destroy);
-router.patch("/collections", CollectionController.updateAll);
 
 //BOOKSAUTHORS
 router.post("/booksauthors", BooksAuthorsController.create);
